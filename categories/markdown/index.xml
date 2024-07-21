@@ -1,12 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
-    <title>zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/</link>
-    <description>zyz的技术博客</description>
+    <title>Markdown - 分类 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/categories/markdown/</link>
+    <description>Markdown - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</lastBuildDate>
-      <atom:link href="https://YouZhiZheng.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/markdown/" rel="self" type="application/rss+xml" /><item>
   <title>MarkdownLearningNote</title>
   <link>https://YouZhiZheng.github.io/posts/d43ba28/</link>
   <pubDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</pubDate>
@@ -22,14 +20,6 @@
 斜体格式：*倾斜的内容* 或 _倾斜的内容_ 也可以选择需要加粗的内容后使用快捷键Ctrl + I
 删除线格式：~~倾斜的内容~~
 组合使用1 2 3 4 _**加粗和斜体**_ ~~**删除线和加粗**~~ ~~_删除线和斜体_~~ ~~_**加粗，斜体和删除线**_~~ 引用格式：&gt; + 空格 + 引用的内容]]></description>
-</item>
-<item>
-  <title>我的第一篇文章</title>
-  <link>https://YouZhiZheng.github.io/posts/583bc6c/</link>
-  <pubDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/583bc6c/</guid>
-  <description><![CDATA[<p>博客（英语：Blog）是一种在线日记型式的个人网站，借由张帖子章、图片或视频来记录生活、抒发情感或分享信息。博客上的文章通常根据张贴时间，以倒序方式由新到旧排列。</p>]]></description>
 </item>
 </channel>
 </rss>

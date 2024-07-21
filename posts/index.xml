@@ -4,7 +4,24 @@
     <link>https://YouZhiZheng.github.io/posts/</link>
     <description>所有文章 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+  <title>MarkdownLearningNote</title>
+  <link>https://YouZhiZheng.github.io/posts/d43ba28/</link>
+  <pubDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/d43ba28/</guid>
+  <description><![CDATA[代码行内代码格式：ˋ代码内容ˋ
+块内代码格式：
+1 2 3 ˋˋˋmarkdown Sample text here ... ˋˋˋ 标题格式：
+1 2 3 4 # 一级标题 ## 二级标题 ... ###### 六级标题 水平线格式：
+1 2 3 4 水平线有三种实现方式: ___:三个连续的下划线 ---:三个连续的破折号 ***:三个连续的星号 换行分行格式：两个空格 + 回车 或 使用&lt;br&gt;
+分段格式：两个回车
+强调粗体格式：**加粗的内容** 也可以选择需要加粗的内容后使用快捷键Ctrl + B
+斜体格式：*倾斜的内容* 或 _倾斜的内容_ 也可以选择需要加粗的内容后使用快捷键Ctrl + I
+删除线格式：~~倾斜的内容~~
+组合使用1 2 3 4 _**加粗和斜体**_ ~~**删除线和加粗**~~ ~~_删除线和斜体_~~ ~~_**加粗，斜体和删除线**_~~ 引用格式：&gt; + 空格 + 引用的内容]]></description>
+</item>
+<item>
   <title>我的第一篇文章</title>
   <link>https://YouZhiZheng.github.io/posts/583bc6c/</link>
   <pubDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</pubDate>
