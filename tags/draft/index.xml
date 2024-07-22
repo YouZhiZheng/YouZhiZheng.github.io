@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Draft - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/draft/</link>
+    <link>http://localhost:1313/tags/draft/</link>
     <description>Draft - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/draft/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/draft/" rel="self" type="application/rss+xml" /><item>
   <title>我的第一篇文章</title>
-  <link>https://YouZhiZheng.github.io/posts/583bc6c/</link>
+  <link>http://localhost:1313/posts/583bc6c/</link>
   <pubDate>Mon, 15 Jul 2024 10:27:26 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/583bc6c/</guid>
+  <guid>http://localhost:1313/posts/583bc6c/</guid>
   <description><![CDATA[<p>博客（英语：Blog）是一种在线日记型式的个人网站，借由张帖子章、图片或视频来记录生活、抒发情感或分享信息。博客上的文章通常根据张贴时间，以倒序方式由新到旧排列。</p>]]></description>
 </item>
 </channel>
