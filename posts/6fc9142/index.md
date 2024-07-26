@@ -2,7 +2,7 @@
 
 **题目描述([力扣](https://leetcode.cn/problems/partition-list/)):**  
 
-![图1](/algorithm_note_1_imgs/picture1.png)
+![图1](/PostsImgs/algorithm_note_1_imgs/picture1.png)
 
 **思路:** 创造两个指针，分别指向大于x的链表和小于x的链表，然后依次遍历初始链表的每个节点进行判断将其添加到对应的新链表中，最后将两个链接进行连接后返回。
 

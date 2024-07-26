@@ -20,7 +20,7 @@
 
 Git的**工作机制**如下图所示:  
 
-![图1](/GitLearningNote_imgs/picture1.png)  
+![图1](/PostsImgs/GitLearningNote_imgs/picture1.png)  
 - **工作区**：开发人员在本地存放项目文件（代码）的地方
 - **暂存区**：是一个缓冲区域，用于临时存放即将提交到本地库的修改，开发者通过 **`git add`** 命令将工作区中的修改**添加到**暂存区，**只有添加到暂存区的文件该会被提交到本地库中去**
 - **本地库**：存放项目完整历史记录和版本信息的地方，开发者通过 **`git commit`** 命令将暂存区的内容**提交到**本地库，**使用该命令后暂存区就会清空**
@@ -35,7 +35,7 @@ Git的**工作机制**如下图所示:
 由于本人是Ubuntu下使用Git的，所以这里的步骤会写的详细点。  
 1. 输入命令 `sudo apt-get install git`进行安装，输入 `git version` 检查是否安装成功
 2. 输入命令 `ssh -T git@github.com` 检查是否可以连接到GitHub，如果看到  
-![图2](/GitLearningNote_imgs/picture2.png)  
+![图2](/PostsImgs/GitLearningNote_imgs/picture2.png)  
 则说明能够连接。
 3. 安装SSH keys（一定要在 **`~/.ssh`** 目录下操作）
 ```bash
