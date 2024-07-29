@@ -83,10 +83,64 @@ ssh-keygen -t rsa -C &#34;你的github邮箱&#34;
 **注：** 当你克隆一个远程仓库时，本地仓库通常**只会创建一个默认的主分支**（一般为 **`master`** 分支，也有可能是 **`main`** 分支），其他分支会以远程分支的形式存在于本地仓库中。
 
 ### 记录每次更新到仓库
+Git仓库下的每一个文件只有两种状态：**已跟踪** 或 **未跟踪**。已跟踪指的是已经被纳入版本控制的文件，即是Git已经知道的文件。
+
+可用 `git status` 命令查看哪些文件处于什么状态，如果在克隆仓库后立即使用此命令，会看到类似的输出:
+```bash
+On branch master
+Your branch is up-to-date with &#39;origin/master&#39;.
+nothing to commit, working directory clean
+```
+这说明当前所在分支为 master，所有已跟踪的文件在上次提交后都未被修改，且当前目录下没有出现未跟踪的文件。如果此时在当前项目下创建一个新的 **README** 文件，再次使用 `git status` 命令，会看到以下输出:
+```bash
+On branch master
+Your branch is up-to-date with &#39;origin/master&#39;.
+Untracked files:
+  (use &#34;git add &lt;file&gt;...&#34; to include in what will be committed)
+  README
+nothing added to commit but untracked files present (use &#34;git add&#34; to
+track)
+```
+在输出中可以看到存在未跟踪的文件 README，想要跟踪此文件则使用命令 `git add README` ，再次输入`git status` 命令，会发现 README 文件已被跟踪，并处于暂存状态:
+```bash
+On branch master
+Your branch is up-to-date with &#39;origin/master&#39;.
+Changes to be committed:
+  (use &#34;git restore --staged &lt;file&gt;...&#34; to unstage)
+  new file: README
+```
+也可使用命令 `git add .` 将**当前目录下的所有文件以及子目录下的所有文件**添加到暂存区，即命令`git add` 的作用是将文件存添加到暂存区（已跟踪的文件发生变化也需要使用此命令将其最新版本添加到暂存区），暂存区存放的文件是你执行`git add` 命令时的文件版本。
+
+**注意:** 如果你不想某些文件(如日志文件，编译过程中的临时文件)被追踪且也不希望被Git提醒，则可以创建一个名为`.gitignore`的txt文件，列出要忽略的文件的模式。例如：
+```bash
+# 忽略所有的 .a 文件
+*.a
+
+# 但跟踪所有的 lib.a，即便你在前面忽略了 .a 文件
+!lib.a
+
+# 只忽略当前目录下的 TODO 文件，而不忽略 subdir/TODO
+/TODO
+
+# 忽略任何目录下名为 build 的文件夹
+build/
+
+# 忽略 doc/notes.txt，但不忽略 doc/server/arch.txt
+doc/*.txt
+
+# 忽略 doc/ 目录及其所有子目录下的 .pdf 文件
+doc/**/*.pdf
+```
+GitHub有一个十分详细的针对数十种项目及语言的 `.gitignore` 文件列表，点击[此处](https://github.com/github/gitignore)即可查看。
+***
+
+当要被追踪的文件和修改后的文件都已经添加到暂存区时，就可使用命令`git commit -m &#34;CommitInfo&#34;` 或 `git commit` 将暂存区的文件提交到本地库。  
+两者的区别是前者直接在命令行书写简单的提交信息，后者会启动文本编辑器来书写复杂的提交信息，写好**提交说明信息**是非常重要的，可以帮助团队成员更好地理解和维护代码。
+
+### 撤销修改
 ### 比较差异
 ### 文件重命名
 ### 查看提交历史
-### 撤销修改
 ### 删除文件
 
 ## Git分支

@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2024-07-25T21:27:01+08:00">
-  <meta itemprop="dateModified" content="2024-07-25T21:54:32+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2024-07-29T21:01:40+08:00">
+  <meta itemprop="dateModified" content="2024-07-29T21:01:40+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -136,6 +136,19 @@
   </div><main class="container"><div class="page home posts"><div class="home-profile"><div class="home-avatar"><a href="/archives/" title="归档"><img loading="lazy" src="profilePicture.png" alt="zyz" data-title="zyz" width="96" height="96" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></div><h1 class="home-title"></h1><p class="home-subtitle"><span class="d-none">人生如逆旅，我亦是行人</span><span class="typeit"><template>人生如逆旅，我亦是行人</template></span></p><div class="links"><a href="https://github.com/YouZhiZheng" title="GitHub"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-github-alt fa-fw" aria-hidden="true"></i>
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/bd6092d/">322. 零钱兑换</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-29 21:01:40'>发布于 <time datetime="2024-07-29">2024-07-29</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="post-category" title="分类 - 算法笔记"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法笔记</a></span></div><div class="content">题目描述(力扣):
+什么是最优子结构
+最优子结构指的是，问题的最优解包含子问题的最优解。反过来说就是，可以通过子问题的最优解，推导出问题的最优解。要符合「最优子结构」，子问题间必须互相独立。
+比如说，假设你考试，每门科目的成绩都是互相独立的。你的原问题是考出最高的总成绩，那么你的子问题就是要把语文考到最高，数学考到最高…… 为了每门课考到最高，你要把每门课相应的选择题分数拿到最高，填空题分数拿到最高…… 当然，最终就是你每门课都是满分，这就是最高的总成绩。
+得到了正确的结果：最高的总成绩就是总分。因为这个过程符合最优子结构，「每门科目考到最高」这些子问题是互相独立，互不干扰的。
+但是，如果加一个条件：你的语文成绩和数学成绩会互相制约，不能同时达到满分，数学分数高，语文分数就会降低，反之亦然。
+这样的话，显然你能考到的最高总成绩就达不到总分了，按刚才那个思路就会得到错误的结果。因为「每门科目考到最高」的子问题并不独立，语文数学成绩户互相影响，无法同时最优，所以最优子结构被破坏。
+思路: 题目说明了每种硬币数量无限，所以该问题具有最优子结构，可以用动态规划来解决。确定好用动态规划来解决后，先确定dp数组的意义，这里dp[i]存储的值就是总金额为i的最优解。接下来最重要的事情就是找到状态转移方程，dp[0] = 0，当amount大于0时，我们只需遍历给出的coins数组找到 dp[amount - coin_value] + 1 中的最小值即可(避免越界，需要先判断coin_value是否小于amount)，加一是因为要加上一个面值为coin_value的硬币。
+代码:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 class Solution { public: int coinChange(vector&lt;int&gt;&amp; coins, int amount) { vector&lt;int&gt; dp(amount + 1, INT_MAX - 1); //初始化dp数组，初始值为INT_MAX - 1是因为后面有dp[i - value] + 1操作，需要避免整形溢出 dp[0] = 0; //已知的最优解 for(int i = 1; i &lt;= amount; i++) { for(int value : coins) //遍历每种硬币 { if(i - value &lt; 0) continue; //进行判断是为了避免越界 dp[i] = min(dp[i], dp[i - value] + 1); //找到总金额为 i 时的最优解 } } return dp[amount] == (INT_MAX - 1) ?</div><div class="post-footer">
+    <a href="/posts/bd6092d/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/' class="post-tag">动态规划</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/b92556f/">543. 二叉树的直径</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-25 21:27:01'>发布于 <time datetime="2024-07-25">2024-07-25</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="post-category" title="分类 - 算法笔记"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法笔记</a></span></div><div class="content">题目描述(力扣):
 思路: 首先理解二叉树的直径指的是二叉树中任意两个节点之间的路径长度的最大值(最长直径不一定经过根节点)。想要找到二叉树的直径，就需要遍历每个节点，依次计算每个节点的左右子树深度之和，其中的最大值就是二叉树的直径。因为二叉树的直径大多数情况下就是根节点下的左右子树深度之和，但存在直径不经过根节点的情况，所以需要遍历每个节点，计算以该节点为根的二叉树的直径，然后取计算结果中的最大值。根据前面的分析，我们需要计算左右子树深度之和，这就需要左右子树的信息，所以选择后序遍历。

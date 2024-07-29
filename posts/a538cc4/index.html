@@ -11,8 +11,8 @@
   <meta itemprop="name" content="Git学习笔记">
   <meta itemprop="description" content="Git的基础知识">
   <meta itemprop="datePublished" content="2024-07-21T14:26:16+08:00">
-  <meta itemprop="dateModified" content="2024-07-25T21:54:32+08:00">
-  <meta itemprop="wordCount" content="248">
+  <meta itemprop="dateModified" content="2024-07-26T09:42:18+08:00">
+  <meta itemprop="wordCount" content="435">
   <meta itemprop="keywords" content="Git"><meta property="og:url" content="http://localhost:1313/posts/a538cc4/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="Git学习笔记">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-07-21T14:26:16+08:00">
-    <meta property="article:modified_time" content="2024-07-25T21:54:32+08:00">
+    <meta property="article:modified_time" content="2024-07-26T09:42:18+08:00">
     <meta property="article:tag" content="Git">
 
   <meta name="twitter:card" content="summary">
@@ -41,8 +41,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "http:\/\/localhost:1313\/posts\/a538cc4\/"
-    },"genre": "posts","keywords": "Git","wordcount":  248 ,
-    "url": "http:\/\/localhost:1313\/posts\/a538cc4\/","datePublished": "2024-07-21T14:26:16+08:00","dateModified": "2024-07-25T21:54:32+08:00","publisher": {
+    },"genre": "posts","keywords": "Git","wordcount":  435 ,
+    "url": "http:\/\/localhost:1313\/posts\/a538cc4\/","datePublished": "2024-07-21T14:26:16+08:00","dateModified": "2024-07-26T09:42:18+08:00","publisher": {
       "@type": "Organization",
       "name": "","logo": "http:\/\/localhost:1313\/favicon.ico"},"author": {
         "@type": "Person",
@@ -151,7 +151,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Git学习笔记</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/git/" class="post-category" title="分类 - Git"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Git</a></span></div><div class="post-meta-line"><span title="发布于 2024-07-21 14:26:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-07-21">2024-07-21</time></span>&nbsp;<span title="更新于 2024-07-25 21:54:32"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-07-25">2024-07-25</time></span>&nbsp;<span title="248 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/git/" class="post-category" title="分类 - Git"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Git</a></span></div><div class="post-meta-line"><span title="发布于 2024-07-21 14:26:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-07-21">2024-07-21</time></span>&nbsp;<span title="更新于 2024-07-26 09:42:18"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-07-26">2024-07-26</time></span>&nbsp;<span title="435 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -170,10 +170,10 @@
       <ul>
         <li><a href="#获取git仓库">获取Git仓库</a></li>
         <li><a href="#记录每次更新到仓库">记录每次更新到仓库</a></li>
+        <li><a href="#撤销修改">撤销修改</a></li>
         <li><a href="#比较差异">比较差异</a></li>
         <li><a href="#文件重命名">文件重命名</a></li>
         <li><a href="#查看提交历史">查看提交历史</a></li>
-        <li><a href="#撤销修改">撤销修改</a></li>
         <li><a href="#删除文件">删除文件</a></li>
       </ul>
     </li>
@@ -344,6 +344,104 @@
   <a href="#%e8%ae%b0%e5%bd%95%e6%af%8f%e6%ac%a1%e6%9b%b4%e6%96%b0%e5%88%b0%e4%bb%93%e5%ba%93" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
+</h3><p>Git仓库下的每一个文件只有两种状态：<strong>已跟踪</strong> 或 <strong>未跟踪</strong>。已跟踪指的是已经被纳入版本控制的文件，即是Git已经知道的文件。</p>
+<p>可用 <code>git status</code> 命令查看哪些文件处于什么状态，如果在克隆仓库后立即使用此命令，会看到类似的输出:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Your branch is up-to-date with <span class="s1">&#39;origin/master&#39;</span>.
+</span></span><span class="line"><span class="cl">nothing to commit, working directory clean</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这说明当前所在分支为 master，所有已跟踪的文件在上次提交后都未被修改，且当前目录下没有出现未跟踪的文件。如果此时在当前项目下创建一个新的 <strong>README</strong> 文件，再次使用 <code>git status</code> 命令，会看到以下输出:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Your branch is up-to-date with <span class="s1">&#39;origin/master&#39;</span>.
+</span></span><span class="line"><span class="cl">Untracked files:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to include in what will be committed<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  README
+</span></span><span class="line"><span class="cl">nothing added to commit but untracked files present <span class="o">(</span>use <span class="s2">&#34;git add&#34;</span> to
+</span></span><span class="line"><span class="cl">track<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在输出中可以看到存在未跟踪的文件 README，想要跟踪此文件则使用命令 <code>git add README</code> ，再次输入<code>git status</code> 命令，会发现 README 文件已被跟踪，并处于暂存状态:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Your branch is up-to-date with <span class="s1">&#39;origin/master&#39;</span>.
+</span></span><span class="line"><span class="cl">Changes to be committed:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  new file: README</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也可使用命令 <code>git add .</code> 将<strong>当前目录下的所有文件以及子目录下的所有文件</strong>添加到暂存区，即命令<code>git add</code> 的作用是将文件存添加到暂存区（已跟踪的文件发生变化也需要使用此命令将其最新版本添加到暂存区），暂存区存放的文件是你执行<code>git add</code> 命令时的文件版本。</p>
+<p><strong>注意:</strong> 如果你不想某些文件(如日志文件，编译过程中的临时文件)被追踪且也不希望被Git提醒，则可以创建一个名为<code>.gitignore</code>的txt文件，列出要忽略的文件的模式。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 忽略所有的 .a 文件</span>
+</span></span><span class="line"><span class="cl">*.a
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 但跟踪所有的 lib.a，即便你在前面忽略了 .a 文件</span>
+</span></span><span class="line"><span class="cl">!lib.a
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 只忽略当前目录下的 TODO 文件，而不忽略 subdir/TODO</span>
+</span></span><span class="line"><span class="cl">/TODO
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 忽略任何目录下名为 build 的文件夹</span>
+</span></span><span class="line"><span class="cl">build/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 忽略 doc/notes.txt，但不忽略 doc/server/arch.txt</span>
+</span></span><span class="line"><span class="cl">doc/*.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 忽略 doc/ 目录及其所有子目录下的 .pdf 文件</span>
+</span></span><span class="line"><span class="cl">doc/**/*.pdf</span></span></code></pre></td></tr></table>
+</div>
+</div><p>GitHub有一个十分详细的针对数十种项目及语言的 <code>.gitignore</code> 文件列表，点击<a href="https://github.com/github/gitignore"target="_blank" rel="external nofollow noopener noreferrer">此处</a>即可查看。</p>
+<hr>
+<p>当要被追踪的文件和修改后的文件都已经添加到暂存区时，就可使用命令<code>git commit -m &quot;CommitInfo&quot;</code> 或 <code>git commit</code> 将暂存区的文件提交到本地库。<br>
+两者的区别是前者直接在命令行书写简单的提交信息，后者会启动文本编辑器来书写复杂的提交信息，写好<strong>提交说明信息</strong>是非常重要的，可以帮助团队成员更好地理解和维护代码。</p>
+<h3 id="撤销修改" class="heading-element"><span>撤销修改</span>
+  <a href="#%e6%92%a4%e9%94%80%e4%bf%ae%e6%94%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
 </h3><h3 id="比较差异" class="heading-element"><span>比较差异</span>
   <a href="#%e6%af%94%e8%be%83%e5%b7%ae%e5%bc%82" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -354,10 +452,6 @@
   </a>
 </h3><h3 id="查看提交历史" class="heading-element"><span>查看提交历史</span>
   <a href="#%e6%9f%a5%e7%9c%8b%e6%8f%90%e4%ba%a4%e5%8e%86%e5%8f%b2" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><h3 id="撤销修改" class="heading-element"><span>撤销修改</span>
-  <a href="#%e6%92%a4%e9%94%80%e4%bf%ae%e6%94%b9" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><h3 id="删除文件" class="heading-element"><span>删除文件</span>
@@ -422,7 +516,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2024-07-25 21:54:32">更新于 2024-07-25&nbsp;</span>
+        <span title="更新于 2024-07-26 09:42:18">更新于 2024-07-26&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"></div>
         <div class="post-info-share">
