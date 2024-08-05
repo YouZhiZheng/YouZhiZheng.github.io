@@ -1,10 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
-    <title>Git - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/git/</link>
-    <description>Git - 标签 | zyz的技术博客</description>
+    <title>笔记 - 标签 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+    <description>笔记 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/git/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
   <title>Git学习笔记</title>
   <link>https://YouZhiZheng.github.io/posts/a538cc4/</link>
   <pubDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</pubDate>

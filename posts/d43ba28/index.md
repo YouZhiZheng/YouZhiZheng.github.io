@@ -117,7 +117,7 @@ _**加粗和斜体**_
 ```markdown
 &lt;https://assemble.io&gt;
 &lt;contact@revolunet.com&gt;
-[Assemble](https://assemble.io) 推荐是方式进行链接
+[Assemble](https://assemble.io) 推荐此方式进行链接
 ```
 效果：
 

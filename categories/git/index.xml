@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Git - 分类 - zyz的技术博客</title>
-    <link>http://localhost:1313/categories/git/</link>
+    <link>https://YouZhiZheng.github.io/categories/git/</link>
     <description>Git - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/git/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/git/" rel="self" type="application/rss+xml" /><item>
   <title>Git学习笔记</title>
-  <link>http://localhost:1313/posts/a538cc4/</link>
+  <link>https://YouZhiZheng.github.io/posts/a538cc4/</link>
   <pubDate>Sun, 21 Jul 2024 14:26:16 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/a538cc4/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/a538cc4/</guid>
   <description><![CDATA[Git概述Git 是一款分布式的代码版本控制工具，Linux 之父 Linus 嫌弃当时主流的中心式的版本控制工具太难用还要花钱，就自己花两周时间开发出了 Git 的主体程序，一个月后就开始用Git来维护 Linux 的版本（给大佬跪了）。
 常见的版本控制工具有：分布式版本控制工具和集中式版本控制工具
 分布式版本控制工具：
