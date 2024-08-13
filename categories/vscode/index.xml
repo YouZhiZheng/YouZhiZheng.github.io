@@ -1,0 +1,33 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>VsCode - 分类 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/categories/vscode/</link>
+    <description>VsCode - 分类 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 12 Aug 2024 10:30:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/vscode/" rel="self" type="application/rss+xml" /><item>
+  <title>VsCode推荐插件</title>
+  <link>https://YouZhiZheng.github.io/posts/c0ef113/</link>
+  <pubDate>Mon, 12 Aug 2024 10:30:17 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/c0ef113/</guid>
+  <description><![CDATA[Better C++ Syntax该插件主要作用是提供 C++ 语法高亮
+Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
+该插件常用快捷键为：
+添加书签：Ctrl+Alt+K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl+Alt+J 切换书签：Ctrl+Alt+Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl+Alt+L 跳转到上一书签：Shift+Ctrl+Alt+L C/C++该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
+CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
+CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
+cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
+Code Runner该插件的主要作用是运行选定的代码片段。
+该插件常用快捷键为：
+运行选定代码 Ctrl+Alt+N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl+Alt+M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
+Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
+Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
+GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
+PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
+GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
+PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
+Include Autocomplete该插件的主要作用是提供编写 C++ #include 语句时自动补全功能
+Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件]]></description>
+</item>
+</channel>
+</rss>

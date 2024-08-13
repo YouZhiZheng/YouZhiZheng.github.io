@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>VsCode推荐插件 - zyz的技术博客</title><meta name="author" content="zyz">
+<meta name="author-link" content="https://github.com/YouZhiZheng">
+<meta name="description" content="Better C&#43;&#43; Syntax该插件主要作用是提供 C&#43;&#43; 语法高亮
+Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
+该插件常用快捷键为：
+添加书签：Ctrl&#43;Alt&#43;K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl&#43;Alt&#43;J 切换书签：Ctrl&#43;Alt&#43;Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl&#43;Alt&#43;L 跳转到上一书签：Shift&#43;Ctrl&#43;Alt&#43;L C/C&#43;&#43;该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
+CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
+CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
+cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
+Code Runner该插件的主要作用是运行选定的代码片段。
+该插件常用快捷键为：
+运行选定代码 Ctrl&#43;Alt&#43;N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl&#43;Alt&#43;M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
+Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
+Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
+GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
+PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
+GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
+PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
+Include Autocomplete该插件的主要作用是提供编写 C&#43;&#43; #include 语句时自动补全功能
+Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件" /><meta name="keywords" content='vscode插件' />
+  <meta itemprop="name" content="VsCode推荐插件">
+  <meta itemprop="description" content="Better C&#43;&#43; Syntax该插件主要作用是提供 C&#43;&#43; 语法高亮
+Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
+该插件常用快捷键为：
+添加书签：Ctrl&#43;Alt&#43;K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl&#43;Alt&#43;J 切换书签：Ctrl&#43;Alt&#43;Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl&#43;Alt&#43;L 跳转到上一书签：Shift&#43;Ctrl&#43;Alt&#43;L C/C&#43;&#43;该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
+CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
+CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
+cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
+Code Runner该插件的主要作用是运行选定的代码片段。
+该插件常用快捷键为：
+运行选定代码 Ctrl&#43;Alt&#43;N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl&#43;Alt&#43;M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
+Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
+Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
+GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
+PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
+GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
+PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
+Include Autocomplete该插件的主要作用是提供编写 C&#43;&#43; #include 语句时自动补全功能
+Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件">
+  <meta itemprop="datePublished" content="2024-08-12T10:30:17+08:00">
+  <meta itemprop="dateModified" content="2024-08-12T10:30:17+08:00">
+  <meta itemprop="wordCount" content="272">
+  <meta itemprop="keywords" content="Vscode插件"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/c0ef113/">
+  <meta property="og:site_name" content="zyz的技术博客">
+  <meta property="og:title" content="VsCode推荐插件">
+  <meta property="og:description" content="Better C&#43;&#43; Syntax该插件主要作用是提供 C&#43;&#43; 语法高亮
+Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
+该插件常用快捷键为：
+添加书签：Ctrl&#43;Alt&#43;K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl&#43;Alt&#43;J 切换书签：Ctrl&#43;Alt&#43;Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl&#43;Alt&#43;L 跳转到上一书签：Shift&#43;Ctrl&#43;Alt&#43;L C/C&#43;&#43;该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
+CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
+CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
+cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
+Code Runner该插件的主要作用是运行选定的代码片段。
+该插件常用快捷键为：
+运行选定代码 Ctrl&#43;Alt&#43;N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl&#43;Alt&#43;M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
+Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
+Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
+GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
+PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
+GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
+PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
+Include Autocomplete该插件的主要作用是提供编写 C&#43;&#43; #include 语句时自动补全功能
+Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-12T10:30:17+08:00">
+    <meta property="article:modified_time" content="2024-08-12T10:30:17+08:00">
+    <meta property="article:tag" content="Vscode插件">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="VsCode推荐插件">
+  <meta name="twitter:description" content="Better C&#43;&#43; Syntax该插件主要作用是提供 C&#43;&#43; 语法高亮
+Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
+该插件常用快捷键为：
+添加书签：Ctrl&#43;Alt&#43;K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl&#43;Alt&#43;J 切换书签：Ctrl&#43;Alt&#43;Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl&#43;Alt&#43;L 跳转到上一书签：Shift&#43;Ctrl&#43;Alt&#43;L C/C&#43;&#43;该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
+CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
+CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
+cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
+Code Runner该插件的主要作用是运行选定的代码片段。
+该插件常用快捷键为：
+运行选定代码 Ctrl&#43;Alt&#43;N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl&#43;Alt&#43;M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
+Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
+Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
+GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
+PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
+GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
+PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
+Include Autocomplete该插件的主要作用是提供编写 C&#43;&#43; #include 语句时自动补全功能
+Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/c0ef113/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/3b24a9e/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "VsCode推荐插件",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/c0ef113\/"
+    },"genre": "posts","keywords": "vscode插件","wordcount":  272 ,
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/c0ef113\/","datePublished": "2024-08-12T10:30:17+08:00","dateModified": "2024-08-12T10:30:17+08:00","publisher": {
+      "@type": "Organization",
+      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
+        "@type": "Person",
+        "name": "zyz"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>VsCode推荐插件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vscode/" class="post-category" title="分类 - VsCode"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> VsCode</a></span></div><div class="post-meta-line"><span title="发布于 2024-08-12 10:30:17"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-08-12">2024-08-12</time></span>&nbsp;<span title="272 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#better-c-syntax">Better C++ Syntax</a></li>
+    <li><a href="#bookmarks">Bookmarks</a></li>
+    <li><a href="#cc">C/C++</a></li>
+    <li><a href="#cmake">CMake</a></li>
+    <li><a href="#cmake-tools">CMake Tools</a></li>
+    <li><a href="#cmake-format">cmake-format</a></li>
+    <li><a href="#code-runner">Code Runner</a></li>
+    <li><a href="#diff">Diff</a></li>
+    <li><a href="#error-lens">Error Lens</a></li>
+    <li><a href="#gitlens">GitLens</a></li>
+    <li><a href="#github-copilot">GitHub Copilot</a></li>
+    <li><a href="#include-autocomplete">Include Autocomplete</a></li>
+    <li><a href="#markdown-all-in-one-和-markdown-preview-enhanced">Markdown All in One 和 Markdown Preview Enhanced</a></li>
+    <li><a href="#svg-viewer">SVG Viewer</a></li>
+    <li><a href="#todo-tree">Todo Tree</a></li>
+    <li><a href="#doxygen-documentation-generator">Doxygen Documentation Generator</a></li>
+    <li><a href="#remote-ssh">Remote-SSH</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="better-c-syntax" class="heading-element"><span>Better C++ Syntax</span>
+  <a href="#better-c-syntax" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件主要作用是提供 C++ 语法高亮</p>
+</blockquote>
+<h2 id="bookmarks" class="heading-element"><span>Bookmarks</span>
+  <a href="#bookmarks" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。</p>
+</blockquote>
+<p>该插件常用快捷键为：</p>
+<ol>
+<li>添加书签：<code>Ctrl+Alt+K</code></li>
+<li>删除书签：将光标放在带有书签的行上，然后使用 <code>Ctrl+Alt+J</code></li>
+<li>切换书签：<code>Ctrl+Alt+Q</code>可以在书签之间切换，如果当前行有书签，则会删除它。</li>
+<li>跳转到下一书签：<code>Ctrl+Alt+L</code></li>
+<li>跳转到上一书签：<code>Shift+Ctrl+Alt+L</code></li>
+</ol>
+<h2 id="cc" class="heading-element"><span>C/C++</span>
+  <a href="#cc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。</p>
+</blockquote>
+<h2 id="cmake" class="heading-element"><span>CMake</span>
+  <a href="#cmake" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件主要作用是CMake语法高亮、CMake代码自动补全。</p>
+</blockquote>
+<h2 id="cmake-tools" class="heading-element"><span>CMake Tools</span>
+  <a href="#cmake-tools" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。</p>
+</blockquote>
+<h2 id="cmake-format" class="heading-element"><span>cmake-format</span>
+  <a href="#cmake-format" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。</p>
+</blockquote>
+<h2 id="code-runner" class="heading-element"><span>Code Runner</span>
+  <a href="#code-runner" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是运行选定的代码片段。</p>
+</blockquote>
+<p>该插件常用快捷键为：</p>
+<ol>
+<li>运行选定代码 <code>Ctrl+Alt+N</code> 或 直接点击右上角的三角形 或 点击右键菜单中的 <code>Run Code</code></li>
+<li>停止正在运行的代码 <code>Ctrl+Alt+M</code> 或 点击右键菜单中的 <code> Stop Run Code</code></li>
+</ol>
+<p>插件详细说明<a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner"target="_blank" rel="external nofollow noopener noreferrer">地址</a></p>
+<h2 id="diff" class="heading-element"><span>Diff</span>
+  <a href="#diff" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。</p>
+</blockquote>
+<h2 id="error-lens" class="heading-element"><span>Error Lens</span>
+  <a href="#error-lens" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。</p>
+</blockquote>
+<h2 id="gitlens" class="heading-element"><span>GitLens</span>
+  <a href="#gitlens" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看<a href="https://www.bilibili.com/video/BV1AS4y1V7PG/?spm_id_from=333.337.search-card.all.click&amp;vd_source=744dd2bfd43a3b6a0d6a04beeeb1f108"target="_blank" rel="external nofollow noopener noreferrer">此视频</a>了解。</p>
+</blockquote>
+<p><strong>PS:</strong> 建议能够熟练使用Git命令后再使用此插件，Git的学习可看<a href="https://zyzhi.top/posts/a538cc4/"target="_blank" rel="external nofollow noopener noreferrer">此教程</a>。</p>
+<h2 id="github-copilot" class="heading-element"><span>GitHub Copilot</span>
+  <a href="#github-copilot" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看<a href="https://blog.csdn.net/Hyl_Aa/article/details/131520129"target="_blank" rel="external nofollow noopener noreferrer">此文章</a>。</p>
+</blockquote>
+<p><strong>PS:</strong> 该插件需要进行GitHub学生认证才能免费使用，可参考<a href="https://mdnice.com/writing/9e9fe24b16234c28a460aa45b99655ae"target="_blank" rel="external nofollow noopener noreferrer">此教程</a>。</p>
+<h2 id="include-autocomplete" class="heading-element"><span>Include Autocomplete</span>
+  <a href="#include-autocomplete" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是提供编写 C++ <code>#include</code> 语句时自动补全功能</p>
+</blockquote>
+<h2 id="markdown-all-in-one-和-markdown-preview-enhanced" class="heading-element"><span>Markdown All in One 和 Markdown Preview Enhanced</span>
+  <a href="#markdown-all-in-one-%e5%92%8c-markdown-preview-enhanced" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>这两个插件都是用于帮助编写Markdown文件</p>
+</blockquote>
+<h2 id="svg-viewer" class="heading-element"><span>SVG Viewer</span>
+  <a href="#svg-viewer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是在VsCode中编辑和预览 SVG 文件</p>
+</blockquote>
+<h2 id="todo-tree" class="heading-element"><span>Todo Tree</span>
+  <a href="#todo-tree" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是用于展示工作区中所有的待办事项，点击对应事项后可以跳转到对应位置</p>
+</blockquote>
+<p>主要有以下几种注释格式：<br>
+<a class="lightgallery" href="/PostsImgs/VscodeRecomPlugin_imgs/picture1.png?size=large" data-thumbnail="/PostsImgs/VscodeRecomPlugin_imgs/picture1.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/VscodeRecomPlugin_imgs/picture1.png" alt="图1" srcset="/PostsImgs/VscodeRecomPlugin_imgs/picture1.png?size=small, /PostsImgs/VscodeRecomPlugin_imgs/picture1.png?size=medium 1.5x, /PostsImgs/VscodeRecomPlugin_imgs/picture1.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>该插件的配置代码如下，直接粘贴进 <strong><code>setting.json</code></strong> 文件中即可。使用 <code>Ctrl + ,</code> 命令，再点击右上角的打开设置，即可打开 <strong><code>setting.json</code></strong> 文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.tree.showScanModeButton&#34;</span><span class="err">:</span> <span class="kc">false</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.filtering.excludeGlobs&#34;</span><span class="err">:</span> <span class="p">[</span><span class="s2">&#34;**/node_modules&#34;</span><span class="p">,</span> <span class="s2">&#34;*.xml&#34;</span><span class="p">,</span> <span class="s2">&#34;*.XML&#34;</span><span class="p">]</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.filtering.ignoreGitSubmodules&#34;</span><span class="err">:</span> <span class="kc">true</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todohighlight.keywords&#34;</span><span class="err">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.tree.showCountsInTree&#34;</span><span class="err">:</span> <span class="kc">true</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todohighlight.keywordsPattern&#34;</span><span class="err">:</span> <span class="s2">&#34;TODO:|FIXME:|NOTE:|\\(([^)]+)\\)&#34;</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todohighlight.defaultStyle&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todohighlight.isEnable&#34;</span><span class="err">:</span> <span class="kc">false</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.highlights.customHighlight&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;BUG&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;bug&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#F56C6C&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;FIXME&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;flame&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#FF9800&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;TODO&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#FFEB38&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;NOTE&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;note&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#67C23A&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;INFO&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;info&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#909399&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;TAG&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;tag&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#409EFF&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;HACK&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;versions&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#E040FB&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;XXX&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;icon&#34;</span><span class="p">:</span> <span class="s2">&#34;unverified&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;foreground&#34;</span><span class="p">:</span> <span class="s2">&#34;#E91E63&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;line&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.general.tags&#34;</span><span class="err">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;BUG&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;HACK&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;FIXME&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;TODO&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;INFO&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;NOTE&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;TAG&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;XXX&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;todo-tree.general.statusBar&#34;</span><span class="err">:</span> <span class="s2">&#34;total&#34;</span><span class="err">,</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="doxygen-documentation-generator" class="heading-element"><span>Doxygen Documentation Generator</span>
+  <a href="#doxygen-documentation-generator" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是生成Doxygen能够读取的注释风格，配合<a href="https://blog.17lai.site/posts/1acb0edb/"target="_blank" rel="external nofollow noopener noreferrer">Doxygen</a>软件使用，可自动生成代码的说明文档。</p>
+</blockquote>
+<p>默认使用方法为：在要生成注释的位置输入 <code>/**</code>后直接回车即可。</p>
+<p><strong>PS:</strong> 一般使用默认格式即可，如果要修改生成注释风格模板可直接在设置(<code>Ctrl + ,</code>即可打开)➡扩展➡Doxygen Documentation Generator 里自行调式</p>
+<h2 id="remote-ssh" class="heading-element"><span>Remote-SSH</span>
+  <a href="#remote-ssh" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>该插件的主要作用是允许通过 SSH 连接到远程服务器，并在 VSCode 环境中无缝地进行远程开发。</p>
+</blockquote>
+<p>相关学习资料：</p>
+<ol>
+<li><a href="https://www.cnblogs.com/qiuhlee/p/17729647.html"target="_blank" rel="external nofollow noopener noreferrer">Remote-SSH的使用</a></li>
+<li><a href="https://blog.csdn.net/sdnuwjw/article/details/109786245"target="_blank" rel="external nofollow noopener noreferrer">Ubuntu下安装ssh服务</a></li>
+<li><a href="https://www.bilibili.com/video/BV1s44y1G7E2/?spm_id_from=333.337.search-card.all.click&amp;vd_source=744dd2bfd43a3b6a0d6a04beeeb1f108"target="_blank" rel="external nofollow noopener noreferrer">Remote-SSH的使用(视频)</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-08-12 10:30:17">更新于 2024-08-12&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/vscode%E6%8F%92%E4%BB%B6/" class="post-tag" title="标签 - Vscode插件">Vscode插件</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/3b24a9e/" class="post-nav-item" rel="prev" title="IEDA点工具运行前环境变量设置"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>IEDA点工具运行前环境变量设置</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
+      </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
+            <span class="license footer-divider">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0
+              </a>
+            </span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2024-08-12T10:30:17+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"VsCode推荐插件"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>
