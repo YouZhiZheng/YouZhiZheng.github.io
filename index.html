@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2024-08-12T10:30:17+08:00">
-  <meta itemprop="dateModified" content="2024-08-12T10:30:17+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2024-08-15T10:57:39+08:00">
+  <meta itemprop="dateModified" content="2024-08-15T10:57:39+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -136,6 +136,26 @@
   </div><main class="container"><div class="page home posts"><div class="home-profile"><div class="home-avatar"><a href="/archives/" title="归档"><img loading="lazy" src="profilePicture.png" alt="zyz" data-title="zyz" width="96" height="96" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></div><h1 class="home-title"></h1><p class="home-subtitle"><span class="d-none">人生如逆旅，我亦是行人</span><span class="typeit"><template>人生如逆旅，我亦是行人</template></span></p><div class="links"><a href="https://github.com/YouZhiZheng" title="GitHub"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-github-alt fa-fw" aria-hidden="true"></i>
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/3d623e4/">Linux学习笔记</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-15 10:57:39'>发布于 <time datetime="2024-08-15">2024-08-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="content">软件安装与更新在Linux下，一般用包管理器来安装软件，它能自动化地完成软件的安装、更新、配置和移除功能，优雅而快速。
+软件包管理器的一个重要组成部分是软件仓库。软件仓库是收藏了互联网上可用软件包（应用程序）的图书馆，里面往往包含了数万个可供下载 和安装的可用软件包。
+有了软件仓库，我们不需要手动下载大量的软件包再通过包管理器安装。只需要知道软件在软件仓库中的名称，即可让包管理器从网络中抓取到相应的软件包到本地，自动进行安装。
+但是与应用商店相比，使用包管理器安装需要预先知道所需软件在软件仓库中的对应包名，和应用商店相比无法进行模糊搜索（不过你也可以在包管理器官网上进行查找包名，再通过包管理器安装）。
+作者使用的是Ubuntu系统，Ubuntu下默认的包管理器为apt，所有后面的讲解以apt为例。
+使用包管理器系统安装搜索安装前，先在浏览器中搜索所需的软件，查找包名，再使用 apt search package_name 命令搜索软件仓库，查看对应的包名是否在软件仓库中(这步可跳过，只要知道要安装的软件包名即可)。
+安装找到要安装的软件的包名后，使用命令 apt install package_name 进行安装。
+PS： 如果提示当前用户无安装软件权限，则在命令前加上 sudo，即 sudo apt install package_name，输入此命令后会要求用户输入密码(输入的密码不会在终端显示)。
+官方软件源镜像通过 apt 安装的软件都来源于相对应的软件源，每个 Linux 发行版一般都带有官方的软件源，在官方的软件源中已经包含了丰富的软件，apt 的软件源列表在 /etc/apt/sources.list 下。
+Ubuntu 官方源位于国外，往往会有速度与延迟上的限制，可以通过修改官方源为其镜像实现更快的下载速度。镜像缓存了官方源中的软件列表，与官方源基本一致。
+修改官方源为镜像步骤
+本例以修改官方源为 USTC Mirror 为例。注意：在操作前请做好备份。
+一般情况下，/etc/apt/sources.list 下的官方源地址为 http://archive.ubuntu.com/ ，我们只需要将其替换为 http://mirrors.ustc.edu.cn 即可。
+如果你使用 Ubuntu 图形安装器安装，默认的源地址通常不是 http://archive.ubuntu.com/ ， 而是 http://&lt;country-code&gt;.archive.ubuntu.com/ubuntu/ ，如 http://cn.archive.ubuntu.com/ubuntu/，同样也将其替换为 http://mirrors.ustc.edu.cn 即可。
+可以使用如下命令：
+$ sudo sed -i 's|//.*archive.ubuntu.com|//mirrors.ustc.edu.cn|g' /etc/apt/sources.list
+当然也可以直接使用 vim、nano 等文本编辑器进行修改。</div><div class="post-footer">
+    <a href="/posts/3d623e4/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%AC%94%E8%AE%B0/' class="post-tag">笔记</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/c0ef113/">VsCode推荐插件</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-12 10:30:17'>发布于 <time datetime="2024-08-12">2024-08-12</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vscode/" class="post-category" title="分类 - VsCode"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> VsCode</a></span></div><div class="content">Better C++ Syntax该插件主要作用是提供 C++ 语法高亮
 Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
@@ -202,20 +222,15 @@ Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮
 组合使用1 2 3 4 _**加粗和斜体**_ ~~**删除线和加粗**~~ ~~_删除线和斜体_~~ ~~_**加粗，斜体和删除线**_~~ 引用格式：&gt; + 空格 + 引用的内容</div><div class="post-footer">
     <a href="/posts/d43ba28/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/markdown/' class="post-tag">Markdown</a></div></div>
 </article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/a538cc4/">Git学习笔记</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-21 14:26:16'>发布于 <time datetime="2024-07-21">2024-07-21</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/git/" class="post-category" title="分类 - Git"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Git</a></span></div><div class="content">Git概述Git 是一款分布式的代码版本控制工具，Linux 之父 Linus 嫌弃当时主流的中心式的版本控制工具太难用还要花钱，就自己花两周时间开发出了 Git 的主体程序，一个月后就开始用Git来维护 Linux 的版本（给大佬跪了）。
-常见的版本控制工具有：分布式版本控制工具和集中式版本控制工具
-分布式版本控制工具：
-工作原理： 分布式版本控制工具不依赖于单一的中央服务器，每个开发者都拥有完整的代码库的副本。开发者在本地工作副本上进行修改，并在本地进行提交、分支、合并等操作。开发者可以选择与其他开发者直接交换修改的内容，也可以将修改推送到共享的远程仓库中。 特点： 每个开发者都拥有完整的代码库的副本，可以在本地进行版本控制 具有更好的分支和合并功能，能够轻松地处理复杂的开发工作流程 典型的分布式版本控制工具有Git和Mercurial等 集中式版本控制工具：
-工作原理： 集中式版本管理工具使用单一的中央服务器来存储所有版本的代码库。开发者在本地工作副本上进行修改，然后将修改后的内容提交到中央服务器。其他开发者通过从中央服务器检出代码库来获取最新的代码，并将他们的修改提交到同一个中央服务器上。 特点： 中央服务器是唯一的源头，所有的代码修改都需要提交到中央服务器 开发者在没有网络连接的情况下无法进行版本控制操作 典型的集中式版本管理工具包括Subversion（SVN）和Perforce等 Git的工作机制如下图所示:
-工作区：开发人员在本地存放项目文件（代码）的地方 暂存区：是一个缓冲区域，用于临时存放即将提交到本地库的修改，开发者通过 git add 命令将工作区中的修改添加到暂存区，只有添加到暂存区的文件该会被提交到本地库中去 本地库：存放项目完整历史记录和版本信息的地方，开发者通过 git commit 命令将暂存区的内容提交到本地库，使用该命令后暂存区就会清空 远程库：用于存放项目的中央代码库（如GitHub），位于云端或其他服务器上。团队成员可以通过 git clone 操作从远程仓库克隆一个完整的 Git 仓库到本地。克隆操作会复制远程仓库的所有历史记录、分支、标签等信息，并在本地创建一个相同的仓库副本。通过 git push 用于将本地库推送到远程库， 通过 git pull 从远程库拉取最新的代码到本地库 Git安装Windows下安装先确定自己的电脑是64位操作系统还是32位的(按Win键，设置→系统→关于)，然后去Git官网下载对应的安装包，根据提示进行安装(详细安装过程请自行Google)。
-注意： 安装路径中不要包含中文！
-Ubuntu下安装由于本人是Ubuntu下使用Git的，所以这里的步骤会写的详细点。
-输入命令 sudo apt-get install git进行安装，输入 git version 检查是否安装成功 输入命令 ssh -T git@github.com 检查是否可以连接到GitHub，如果看到
-则说明能够连接。 安装SSH keys（一定要在 ~/.</div><div class="post-footer">
-    <a href="/posts/a538cc4/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/git/' class="post-tag">Git</a><a href='/tags/%E7%AC%94%E8%AE%B0/' class="post-tag">笔记</a></div></div>
-</article>
-</div></main><footer class="footer">
+<ul class="pagination"><li class="page-item active">
+          <span class="page-link">
+            <a href="/">1</a>
+          </span>
+        </li><li class="page-item">
+          <span class="page-link">
+            <a href="/page/2/">2</a>
+          </span>
+        </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
         </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">

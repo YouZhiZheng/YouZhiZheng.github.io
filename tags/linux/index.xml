@@ -1,0 +1,8 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Linux - 标签 - zyz的技术博客</title>
+    <link>http://localhost:1313/tags/linux/</link>
+    <description>Linux - 标签 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><atom:link href="http://localhost:1313/tags/linux/" rel="self" type="application/rss+xml" /></channel>
+</rss>
