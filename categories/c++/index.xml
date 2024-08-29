@@ -1,16 +1,23 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>C&#43;&#43; - 分类 - zyz的技术博客</title>
-    <link>http://localhost:1313/categories/c&#43;&#43;/</link>
+    <link>https://YouZhiZheng.github.io/categories/c&#43;&#43;/</link>
     <description>C&#43;&#43; - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 07 Aug 2024 20:15:22 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 07 Aug 2024 20:15:22 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
   <title>C&#43;&#43;学习笔记</title>
-  <link>http://localhost:1313/posts/3b2b064/</link>
+  <link>https://YouZhiZheng.github.io/posts/3b2b064/</link>
   <pubDate>Wed, 07 Aug 2024 20:15:22 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/3b2b064/</guid>
-  <description><![CDATA[]]></description>
+  <guid>https://YouZhiZheng.github.io/posts/3b2b064/</guid>
+  <description><![CDATA[前言由于笔者具备一定的C语言基础，所以在本文中对于C语言的语法不再会进行赘述，主要专注与C++语法。为了更好的学习C++，笔者找了一些题目来进行练习，所有题目与题解均可在此仓库找到。
+本学习笔记适用于 「具备一定C语言基础，想要使用C++来编写代码」 的读者。
+本文阅读指南：
+在看过示例代码后，一定要编写一个自己的示例代码 或 自己动手重写一遍。 标红的注意内容一定要仔细看！！！ 一定要做上面仓库中的题！！！一定要做上面仓库中的题！！！一定要做上面仓库中的题！！！ 好的命名能够提高代码的可读性，本文从类章节开始采用以下命名规范：
+局部变量名单词之间使用下划线隔开； 类的变量成员用下划线作为前缀如 _file_name; 类的函数名使用驼峰类型；如doSomething(); 类的成员存取使用 如get_file_name() set_file_name()； 类名是PASCAL风格，即首字母大写 如MyClass； 常量用k作为前缀后面是PASCAL风格如 kFileName; 全局变量用g作为前缀后面是PASCAL风格如 gFileName; 宏定义全大写，中间用下划线隔开 FILE_NAME。 从C到C++本章节主要介绍一些C++的比较重要特性，例如如何申请和释放内存空间、bool和string类型、命名空间等。这些新特性可以给我们编程提供遍历，提高开发效率。
+布尔类型(bool)在C语言中，没有&quot;真&quot;与&quot;假&quot;的数据类型，我们通常使用一个整形变量的值来表示真假，其值为 1 表示真，为 0 表示假。以下为一个例子：
+1 2 3 4 5 6 7 8 int IsOddNum(int n) //判断一个数是否是奇数 { int flag; if(n % 2 == 0) flag = 0; else flag = 1; return flag; } 然而，这种做法有几个缺点：
+可读性差： 使用整数来表示布尔值可能会让代码的可读性降低，因为读者需要记住0和非0值的含义。 存在类型安全问题： 整数可以进行算术运算，这可能导致意外的类型转换和错误。 语义不明确： 整数类型的使用没有明确表达出变量的布尔语义。 所以，C++提供了 bool 类型来表示真假，该类型的变量只有 true 和 false 两种取值。那么上面的例子则可改为：]]></description>
 </item>
 </channel>
 </rss>
