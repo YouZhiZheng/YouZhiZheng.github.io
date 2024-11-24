@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>CTS - 标签 - zyz的技术博客</title>
+    <link>http://localhost:1313/tags/cts/</link>
+    <description>CTS - 标签 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 26 Sep 2024 15:09:12 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/cts/" rel="self" type="application/rss+xml" /><item>
+  <title>时钟树简介</title>
+  <link>http://localhost:1313/posts/493200/</link>
+  <pubDate>Thu, 26 Sep 2024 15:09:12 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/493200/</guid>
+  <description><![CDATA[CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
+时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
+树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
+时钟网络建模和分析]]></description>
+</item>
+</channel>
+</rss>

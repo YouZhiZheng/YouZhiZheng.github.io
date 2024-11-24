@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>时钟树简介 - zyz的技术博客</title><meta name="author" content="zyz">
+<meta name="author-link" content="https://github.com/YouZhiZheng">
+<meta name="description" content="CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
+时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
+树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
+时钟网络建模和分析" /><meta name="keywords" content='CTS, Introduction' />
+  <meta itemprop="name" content="时钟树简介">
+  <meta itemprop="description" content="CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
+时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
+树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
+时钟网络建模和分析">
+  <meta itemprop="datePublished" content="2024-09-26T15:09:12+08:00">
+  <meta itemprop="dateModified" content="2024-09-26T15:09:12+08:00">
+  <meta itemprop="wordCount" content="35">
+  <meta itemprop="keywords" content="CTS,Introduction"><meta property="og:url" content="http://localhost:1313/posts/493200/">
+  <meta property="og:site_name" content="zyz的技术博客">
+  <meta property="og:title" content="时钟树简介">
+  <meta property="og:description" content="CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
+时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
+树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
+时钟网络建模和分析">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-26T15:09:12+08:00">
+    <meta property="article:modified_time" content="2024-09-26T15:09:12+08:00">
+    <meta property="article:tag" content="CTS">
+    <meta property="article:tag" content="Introduction">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="时钟树简介">
+  <meta name="twitter:description" content="CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
+时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
+树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
+时钟网络建模和分析">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/posts/493200/" /><link rel="prev" href="http://localhost:1313/posts/4c4fcf0/" /><link rel="next" href="http://localhost:1313/posts/9cb0f75/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "时钟树简介",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/493200\/"
+    },"genre": "posts","keywords": "CTS, Introduction","wordcount":  35 ,
+    "url": "http:\/\/localhost:1313\/posts\/493200\/","datePublished": "2024-09-26T15:09:12+08:00","dateModified": "2024-09-26T15:09:12+08:00","publisher": {
+      "@type": "Organization",
+      "name": "","logo": "http:\/\/localhost:1313\/favicon.ico"},"author": {
+        "@type": "Person",
+        "name": "zyz"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>时钟树简介</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/eda/" class="post-category" title="分类 - EDA"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> EDA</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-26 15:09:12"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-26">2024-09-26</time></span>&nbsp;<span title="35 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#cts的主要作用">CTS的主要作用</a></li>
+    <li><a href="#cts的设计约束">CTS的设计约束</a></li>
+    <li><a href="#时钟网络设计">时钟网络设计</a>
+      <ul>
+        <li><a href="#典型的时钟拓扑结构">典型的时钟拓扑结构</a></li>
+        <li><a href="#时钟网络建模和分析">时钟网络建模和分析</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="cts的主要作用" class="heading-element"><span>CTS的主要作用</span>
+  <a href="#cts%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bd%9c%e7%94%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><strong>平衡时钟信号：</strong> CTS的主要目标就是让时钟信号能够 <strong>「同时」</strong> 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。</li>
+<li><strong>减少时钟延迟：</strong> 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。</li>
+<li><strong>保证时序收敛：</strong> 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。</li>
+<li><strong>功耗优化：</strong> 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。</li>
+</ol>
+<h2 id="cts的设计约束" class="heading-element"><span>CTS的设计约束</span>
+  <a href="#cts%e7%9a%84%e8%ae%be%e8%ae%a1%e7%ba%a6%e6%9d%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>CTS的约束有很多，这里只说一些比较重要的。</p>
+<ol>
+<li><strong>时钟偏差：</strong> 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。</li>
+<li><strong>时钟延迟：</strong> 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。</li>
+<li><strong>功耗：</strong> 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。</li>
+<li><strong>保持/建立时间：</strong> 时钟信号必须满足各触发器的<a href="https://www.runoob.com/w3cnote/verilog2-setup-hold-time.html"target="_blank" rel="external nofollow noopener noreferrer">建立时间（Setup Time）和保持时间（Hold Time）</a>约束，确保数据能够正确地在触发器之间传递。</li>
+</ol>
+<h2 id="时钟网络设计" class="heading-element"><span>时钟网络设计</span>
+  <a href="#%e6%97%b6%e9%92%9f%e7%bd%91%e7%bb%9c%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="典型的时钟拓扑结构" class="heading-element"><span>典型的时钟拓扑结构</span>
+  <a href="#%e5%85%b8%e5%9e%8b%e7%9a%84%e6%97%b6%e9%92%9f%e6%8b%93%e6%89%91%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 <strong>H树</strong> 和 <strong>X树</strong>，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 <strong>对称</strong> 的方式插入时钟缓冲器。<br>
+<a class="lightgallery" href="/PostsImgs/EDA_CTS_imgs/picture1.png?size=large" data-thumbnail="/PostsImgs/EDA_CTS_imgs/picture1.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/EDA_CTS_imgs/picture1.png" alt="图1" srcset="/PostsImgs/EDA_CTS_imgs/picture1.png?size=small, /PostsImgs/EDA_CTS_imgs/picture1.png?size=medium 1.5x, /PostsImgs/EDA_CTS_imgs/picture1.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。</p>
+<h3 id="时钟网络建模和分析" class="heading-element"><span>时钟网络建模和分析</span>
+  <a href="#%e6%97%b6%e9%92%9f%e7%bd%91%e7%bb%9c%e5%bb%ba%e6%a8%a1%e5%92%8c%e5%88%86%e6%9e%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-09-26 15:09:12">更新于 2024-09-26&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/cts/" class="post-tag" title="标签 - CTS">CTS</a><a href="/tags/introduction/" class="post-tag" title="标签 - Introduction">Introduction</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/4c4fcf0/" class="post-nav-item" rel="prev" title="布局简介"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>布局简介</a>
+      <a href="/posts/9cb0f75/" class="post-nav-item" rel="next" title="布线简介">布线简介<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
+            <span class="license footer-divider">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0
+              </a>
+            </span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>
