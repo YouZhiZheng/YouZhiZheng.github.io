@@ -4,5 +4,37 @@
     <link>http://localhost:1313/tags/draft/</link>
     <description>Draft - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><atom:link href="http://localhost:1313/tags/draft/" rel="self" type="application/rss+xml" /></channel>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 24 Nov 2024 15:44:28 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/draft/" rel="self" type="application/rss+xml" /><item>
+  <title>Scikit Learn Note</title>
+  <link>http://localhost:1313/posts/e155846/</link>
+  <pubDate>Sun, 24 Nov 2024 15:44:28 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/e155846/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>Data Visualization Note</title>
+  <link>http://localhost:1313/posts/2691fe6/</link>
+  <pubDate>Sun, 24 Nov 2024 15:41:26 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/2691fe6/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>Scipy Note</title>
+  <link>http://localhost:1313/posts/94701db/</link>
+  <pubDate>Sun, 24 Nov 2024 15:40:48 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/94701db/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>Pandas Note</title>
+  <link>http://localhost:1313/posts/3182082/</link>
+  <pubDate>Sun, 24 Nov 2024 15:40:26 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/3182082/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
 </rss>

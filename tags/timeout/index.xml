@@ -1,0 +1,43 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Timeout - 标签 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/tags/timeout/</link>
+    <description>Timeout - 标签 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Fri, 03 Jan 2025 11:14:33 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/timeout/" rel="self" type="application/rss+xml" /><item>
+  <title>解决Git的ssh超时问题</title>
+  <link>https://YouZhiZheng.github.io/posts/4d5a726/</link>
+  <pubDate>Fri, 03 Jan 2025 11:14:33 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/4d5a726/</guid>
+  <description><![CDATA[<h2 id="问题发现" class="heading-element"><span>问题发现</span>
+  <a href="#%e9%97%ae%e9%a2%98%e5%8f%91%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最近在使用 <strong><code>git push</code></strong> 命令时发现连接超时，因为我使用的是用公钥走ssh协议进行连接，输入命令 <strong><code>ssh -T git@github.com</code></strong> 发现果然是ssh连接超时。在网上搜索了一圈，找到问题是主域名 <strong><code>github.com</code></strong> 的 IP 被彻底墙了。</p>
+<h2 id="解决办法" class="heading-element"><span>解决办法</span>
+  <a href="#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>通过Google大法，找到供 ssh 连接的子域名 <code>ssh.github.com</code> IP 还活着。因此，解决办法就是往 <strong><code>~/.ssh/config</code></strong> 文件 中添加下面的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">  Hostname ssh.github.com</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，问题成功解决。</p>
+<h2 id="参考资料" class="heading-element"><span>参考资料</span>
+  <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><a href="https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port"target="_blank" rel="external nofollow noopener noreferrer">https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port</a></li>
+<li><a href="https://ww-rm.top/posts/2024/01/17/githubssh-timeout/"target="_blank" rel="external nofollow noopener noreferrer">https://ww-rm.top/posts/2024/01/17/githubssh-timeout/</a></li>
+</ol>]]></description>
+</item>
+</channel>
+</rss>
