@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Meanshift - 标签 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/tags/meanshift/</link>
+    <description>Meanshift - 标签 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 16 Feb 2025 10:46:23 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/meanshift/" rel="self" type="application/rss+xml" /><item>
+  <title>MeanShift算法</title>
+  <link>https://YouZhiZheng.github.io/posts/60e3fcc/</link>
+  <pubDate>Sun, 16 Feb 2025 10:46:23 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/60e3fcc/</guid>
+  <description><![CDATA[前言最近在看的一篇布局论文，发现其将 Mean Shift 算法扩展来进行聚类操作，而想要读懂文章就必须先理解此算法，故此文章记录的就是我对该算法的理解，若有理解错误的地方，欢迎留言指正。
+简介Mean Shift 是一种「基于密度」的聚类算法，它是一种非参数聚类方法（无需开始前指定簇数），可以自动从数据点的分布中推断出簇的数量。该算法会让数据点朝着密度更高的地方进行快速移动，直到达到该数据点所在区域的局部密度峰值地（即簇中心）。
+通俗来说，将密度峰值比作山顶，数据点视为登山者，该算法就是让每个登山者沿着最快的路径登上离自己最近的山顶，登上同一个山顶的登山者就属于同一个簇。
+带宽带宽(bandwidth)是Mean Shift 算法唯一需要指定的参数，它用于确定每个点的邻域。以当前点为圆心，带宽为半径画圆，所画出的圆就是该点的邻域，在邻域内的点就是该点的邻居。
+带宽非常重要，它会影响簇的大小：
+小带宽。这会形成许多小簇，因为只有近距离的点才会形成一个群集。 大带宽。这会形成较少的大簇，因为距离远的点也可以形成一个群集。 核函数在 Mean Shift 算法中，核函数的作用就是用来衡量当前移动点的邻居对该移动点的下一个位置的影响程度(由于该点是不断移动的，所以其邻居也会不断变化)。
+为什么使用核函数？核函数有助于平滑数据并确保远离中心的点不会过度影响结果。它使得 Mean Shift 算法关注数据中的局部情况而不是全局，有助于进行分类。
+核函数类型核函数有非常多的类型，比如Uniform Kernel、Epanechnikov Kernel等，其中最常用的的是高斯核函数(Gaussian Kernel)： $$ K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right) $$
+$x$: 当前点坐标 $x_i$: 当前点的邻居坐标 $h$: 带宽 物理意义: 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0 核密度估计(Kernel Density Estimation, KDE)在Mean Shift算法中，KDE 的作用是用来估算数据点的局部密度分布。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部密度峰值(即告诉我们山顶在哪)，确定点的移动方向。KDE具体公式如下: $$ f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right) $$
+$n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
+</item>
+</channel>
+</rss>

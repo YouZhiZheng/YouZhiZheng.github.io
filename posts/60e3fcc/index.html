@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>MeanShift算法 - zyz的技术博客</title><meta name="author" content="zyz">
+<meta name="author-link" content="https://github.com/YouZhiZheng">
+<meta name="description" content="详细介绍了 meanShift 算法" /><meta name="keywords" content='meanshift' />
+  <meta itemprop="name" content="MeanShift算法">
+  <meta itemprop="description" content="详细介绍了 meanShift 算法">
+  <meta itemprop="datePublished" content="2025-02-16T10:46:23+08:00">
+  <meta itemprop="dateModified" content="2025-02-16T10:46:23+08:00">
+  <meta itemprop="wordCount" content="332">
+  <meta itemprop="keywords" content="Meanshift"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/60e3fcc/">
+  <meta property="og:site_name" content="zyz的技术博客">
+  <meta property="og:title" content="MeanShift算法">
+  <meta property="og:description" content="详细介绍了 meanShift 算法">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-16T10:46:23+08:00">
+    <meta property="article:modified_time" content="2025-02-16T10:46:23+08:00">
+    <meta property="article:tag" content="Meanshift">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MeanShift算法">
+  <meta name="twitter:description" content="详细介绍了 meanShift 算法">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/60e3fcc/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/4d5a726/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "MeanShift算法",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/60e3fcc\/"
+    },"genre": "posts","keywords": "meanshift","wordcount":  332 ,
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/60e3fcc\/","datePublished": "2025-02-16T10:46:23+08:00","dateModified": "2025-02-16T10:46:23+08:00","publisher": {
+      "@type": "Organization",
+      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
+        "@type": "Person",
+        "name": "zyz"
+      },"description": "详细介绍了 meanShift 算法"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>MeanShift算法</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-02-16 10:46:23"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-16">2025-02-16</time></span>&nbsp;<span title="332 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#带宽">带宽</a></li>
+    <li><a href="#核函数">核函数</a>
+      <ul>
+        <li><a href="#为什么使用核函数">为什么使用核函数？</a></li>
+        <li><a href="#核函数类型">核函数类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#核密度估计kernel-density-estimation-kde">核密度估计(Kernel Density Estimation, KDE)</a></li>
+    <li><a href="#均值漂移向量mean-shift-vector">均值漂移向量(Mean Shift Vector)</a>
+      <ul>
+        <li><a href="#怎么得出均值漂移向量的公式">怎么得出均值漂移向量的公式？</a>
+          <ul>
+            <li><a href="#步骤1-写出密度梯度表达式">步骤1: 写出密度梯度表达式</a></li>
+            <li><a href="#步骤2-选择核函数以高斯核为例">步骤2: 选择核函数（以高斯核为例）</a></li>
+            <li><a href="#步骤3-代入梯度表达式">步骤3: 代入梯度表达式</a></li>
+            <li><a href="#步骤4-得出均值漂移向量">步骤4: 得出均值漂移向量</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#算法流程">算法流程</a>
+      <ul>
+        <li><a href="#step-1-初始化">Step 1: 初始化</a></li>
+        <li><a href="#step-2-迭代更新">Step 2: 迭代更新</a></li>
+        <li><a href="#step-3-收敛判断">Step 3: 收敛判断</a></li>
+        <li><a href="#step-4-重复上述步骤">Step 4: 重复上述步骤</a></li>
+        <li><a href="#step-5-合并过近的簇">Step 5: 合并过近的簇</a></li>
+      </ul>
+    </li>
+    <li><a href="#具体例子">具体例子</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="前言" class="heading-element"><span>前言</span>
+  <a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最近在看的一篇布局论文，发现其将 <strong>Mean Shift</strong> 算法扩展来进行聚类操作，而想要读懂文章就必须先理解此算法，故此文章记录的就是我对该算法的理解，若有理解错误的地方，欢迎留言指正。</p>
+<h2 id="简介" class="heading-element"><span>简介</span>
+  <a href="#%e7%ae%80%e4%bb%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Mean Shift</strong> 是一种「基于密度」的聚类算法，它是一种非参数聚类方法（无需开始前指定簇数），可以自动从数据点的分布中推断出簇的数量。该算法会让数据点朝着密度更高的地方进行快速移动，直到达到该数据点所在区域的局部密度峰值地（即簇中心）。</p>
+<p>通俗来说，将密度峰值比作山顶，数据点视为登山者，该算法就是让每个登山者沿着最快的路径登上离自己最近的山顶，登上同一个山顶的登山者就属于同一个簇。</p>
+<h2 id="带宽" class="heading-element"><span>带宽</span>
+  <a href="#%e5%b8%a6%e5%ae%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>带宽(bandwidth)是Mean Shift 算法唯一需要指定的参数，它用于确定每个点的<strong>邻域</strong>。以当前点为圆心，带宽为半径画圆，所画出的圆就是该点的邻域，在邻域内的点就是该点的<strong>邻居</strong>。</p>
+<p>带宽非常重要，它会影响簇的大小：</p>
+<ul>
+<li><strong>小带宽</strong>。这会形成许多小簇，因为只有近距离的点才会形成一个群集。</li>
+<li><strong>大带宽</strong>。这会形成较少的大簇，因为距离远的点也可以形成一个群集。</li>
+</ul>
+<h2 id="核函数" class="heading-element"><span>核函数</span>
+  <a href="#%e6%a0%b8%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在 Mean Shift 算法中，核函数的作用就是用来衡量当前移动点的邻居对该移动点的下一个位置的<strong>影响程度</strong>(由于该点是不断移动的，所以其邻居也会不断变化)。</p>
+<h3 id="为什么使用核函数" class="heading-element"><span>为什么使用核函数？</span>
+  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bd%bf%e7%94%a8%e6%a0%b8%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>核函数有助于平滑数据并确保远离中心的点不会过度影响结果。它使得 Mean Shift 算法关注数据中的局部情况而不是全局，有助于进行分类。</p>
+<h3 id="核函数类型" class="heading-element"><span>核函数类型</span>
+  <a href="#%e6%a0%b8%e5%87%bd%e6%95%b0%e7%b1%bb%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>核函数有非常多的类型，比如<strong>Uniform Kernel、Epanechnikov Kernel</strong>等，其中最常用的的是<strong>高斯核函数(Gaussian Kernel)</strong>：
+$$
+K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right)
+$$</p>
+<ul>
+<li>$x$: 当前点坐标</li>
+<li>$x_i$: 当前点的邻居坐标</li>
+<li>$h$: 带宽</li>
+<li><strong>物理意义:</strong> 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0</li>
+</ul>
+<h2 id="核密度估计kernel-density-estimation-kde" class="heading-element"><span>核密度估计(Kernel Density Estimation, KDE)</span>
+  <a href="#%e6%a0%b8%e5%af%86%e5%ba%a6%e4%bc%b0%e8%ae%a1kernel-density-estimation-kde" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在Mean Shift算法中，<strong>KDE</strong> 的作用是用来估算数据点的<strong>局部密度分布</strong>。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部<strong>密度峰值</strong>(即告诉我们山顶在哪)，<span style="color:red;">确定点的移动方向</span>。KDE具体公式如下:
+$$
+f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right)
+$$</p>
+<ul>
+<li>$n$: 数据集中的点数</li>
+<li>$h$: 带宽</li>
+<li>$d$: 数据的维度</li>
+<li>$K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献</li>
+</ul>
+<h2 id="均值漂移向量mean-shift-vector" class="heading-element"><span>均值漂移向量(Mean Shift Vector)</span>
+  <a href="#%e5%9d%87%e5%80%bc%e6%bc%82%e7%a7%bb%e5%90%91%e9%87%8fmean-shift-vector" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在使用KDE确定了移动方向后，就需要使用<strong>均值漂移向量</strong>来将该数据点移动到当前的山顶。</p>
+<h3 id="怎么得出均值漂移向量的公式" class="heading-element"><span>怎么得出均值漂移向量的公式？</span>
+  <a href="#%e6%80%8e%e4%b9%88%e5%be%97%e5%87%ba%e5%9d%87%e5%80%bc%e6%bc%82%e7%a7%bb%e5%90%91%e9%87%8f%e7%9a%84%e5%85%ac%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>实际上我们要寻找的局部密度峰值就是KDE的局部极大值。所以，可以通过<strong>梯度上升法</strong>来将点移动到局部极大值对应的点位置(即利用导数来进行移动)。</p>
+<h4 id="步骤1-写出密度梯度表达式" class="heading-element"><span>步骤1: 写出密度梯度表达式</span>
+  <a href="#%e6%ad%a5%e9%aa%a41-%e5%86%99%e5%87%ba%e5%af%86%e5%ba%a6%e6%a2%af%e5%ba%a6%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>对$f(x)$求梯度：
+$$
+\nabla f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} \nabla K\left( \frac{x - x_i}{h} \right)
+$$</p>
+<h4 id="步骤2-选择核函数以高斯核为例" class="heading-element"><span>步骤2: 选择核函数（以高斯核为例）</span>
+  <a href="#%e6%ad%a5%e9%aa%a42-%e9%80%89%e6%8b%a9%e6%a0%b8%e5%87%bd%e6%95%b0%e4%bb%a5%e9%ab%98%e6%96%af%e6%a0%b8%e4%b8%ba%e4%be%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>高斯核函数对应的梯度为：
+$$
+\nabla K\left( \frac{x - x_i}{h} \right) = K\left( \frac{x - x_i}{h} \right) \cdot \left( - \frac{x - x_i}{h^2} \right)
+$$</p>
+<h4 id="步骤3-代入梯度表达式" class="heading-element"><span>步骤3: 代入梯度表达式</span>
+  <a href="#%e6%ad%a5%e9%aa%a43-%e4%bb%a3%e5%85%a5%e6%a2%af%e5%ba%a6%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>将高斯核函数的梯度代入$\nabla f(x)$：
+$$
+\nabla f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right) \cdot \left( - \frac{x - x_i}{h^2} \right)
+$$</p>
+<p>整理后：
+$$
+\nabla f(x) = \frac{1}{nh^{d+2}} \sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right) (x_i - x)
+$$</p>
+<p>即：
+$$
+\nabla f(x) \propto \sum_{i=1}^{n} K\left(\frac{x-x_{i}}{h}\right)\left(x_{i}-x\right)
+$$
+该表达式的结构可以拆解为：</p>
+<ul>
+<li>$\sum_{i=1}^{n} K\left(\frac{x-x_{i}}{h}\right) \cdot x_i$：所有邻居点的加权位置和（邻居点的加权平均）</li>
+<li>$\sum_{i=1}^{n} K\left(\frac{x-x_{i}}{h}\right) \cdot x$：当前点的加权和（当前位置的加权平均）</li>
+<li>结果是两者的差值，表示密度梯度的方向</li>
+</ul>
+<h4 id="步骤4-得出均值漂移向量" class="heading-element"><span>步骤4: 得出均值漂移向量</span>
+  <a href="#%e6%ad%a5%e9%aa%a44-%e5%be%97%e5%87%ba%e5%9d%87%e5%80%bc%e6%bc%82%e7%a7%bb%e5%90%91%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>上面的梯度表达式只是给出了移动方向，并没有告诉我们应该移动多少，<strong>它的数值大小未必适合直接作为移动步长</strong>。此外，数值大小依赖于<strong>数据的尺度</strong>，比如数据分布的密度和带宽会影响梯度的绝对值大小，导致步长难以控制。</p>
+<p>这时就需要进行<span style="color:red;"><strong>归一化操作</strong></span>，让梯度表达式的结果转换成 <strong>加权平均位置</strong>（表示在当前点邻域内，密度中心的位置），而不是一个与数据规模、密度等因素相关的数值。</p>
+<p>利用加权平均位置即可得到<strong>均值漂移向量</strong>(表示了移动方向和移动距离)：
+$$
+m(x) = \frac{\sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right) x_i}
+{\sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right)} - x
+$$
+即:
+$$
+m(x)=加权平均位置−当前位置
+$$</p>
+<p>这样就可以得到<strong>新位置的计算公式</strong>了：
+$$
+x_{new} = x + m(x) = \frac{\sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right) x_i}
+{\sum_{i=1}^{n} K\left( \frac{x - x_i}{h} \right)}
+$$</p>
+<h2 id="算法流程" class="heading-element"><span>算法流程</span>
+  <a href="#%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="step-1-初始化" class="heading-element"><span>Step 1: 初始化</span>
+  <a href="#step-1-%e5%88%9d%e5%a7%8b%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>选择合适的带宽$h$，比如通过<strong>estimate_bandwidth</strong>函数、经验法等方式来选择合适的带宽</li>
+<li>选择合适的收敛阈值$\varepsilon$</li>
+</ul>
+<h3 id="step-2-迭代更新" class="heading-element"><span>Step 2: 迭代更新</span>
+  <a href="#step-2-%e8%bf%ad%e4%bb%a3%e6%9b%b4%e6%96%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对于数据点$x$，利用均值漂移向量迭代的更新其位置。</p>
+<h3 id="step-3-收敛判断" class="heading-element"><span>Step 3: 收敛判断</span>
+  <a href="#step-3-%e6%94%b6%e6%95%9b%e5%88%a4%e6%96%ad" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>判断数据点$x$是否收敛，即判断下面不等式是否成立：
+$$
+||x_{new} - x||&lt; \varepsilon
+$$</p>
+<ul>
+<li>$\varepsilon$ 为指定阈值，比如为0.001</li>
+</ul>
+<h3 id="step-4-重复上述步骤" class="heading-element"><span>Step 4: 重复上述步骤</span>
+  <a href="#step-4-%e9%87%8d%e5%a4%8d%e4%b8%8a%e8%bf%b0%e6%ad%a5%e9%aa%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对于每个数据点依次重复<strong>step2</strong>和<strong>step3</strong>，使得全部的数据点都收敛(即都达到山顶)，移动到同一 &ldquo;山顶&rdquo; 的数据点属于同一类。</p>
+<h3 id="step-5-合并过近的簇" class="heading-element"><span>Step 5: 合并过近的簇</span>
+  <a href="#step-5-%e5%90%88%e5%b9%b6%e8%bf%87%e8%bf%91%e7%9a%84%e7%b0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对于簇中心过近的簇进行合并，比如簇中心距离小于 $h/2$ 的两个簇就会被合并成一个簇。</p>
+<h2 id="具体例子" class="heading-element"><span>具体例子</span>
+  <a href="#%e5%85%b7%e4%bd%93%e4%be%8b%e5%ad%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>假设有一组二维数据点，这些点的分布如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">点编号</th>
+<th style="text-align:center">坐标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">(1,2)</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">(2,3)</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">(3,3)</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">(5,6)</td>
+</tr>
+<tr>
+<td style="text-align:center">E</td>
+<td style="text-align:center">(6,7)</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">(6,5)</td>
+</tr>
+<tr>
+<td style="text-align:center">G</td>
+<td style="text-align:center">(7,6)</td>
+</tr>
+</tbody>
+</table>
+<p>这些点大致形成了两个聚类区域：</p>
+<ul>
+<li>(A, B, C) 形成一个密度较高的区域（簇1）</li>
+<li>(D, E, F, G) 形成另一个密度较高的区域（簇2）</li>
+</ul>
+<p>假设选择带宽$h = 2.5$，核函数为高斯核。</p>
+<p><strong>对于点A：</strong></p>
+<ol>
+<li><strong>找到邻域内的点：</strong>
+<ul>
+<li>带宽 $h = 2.5$，以 $(1,2)$ 为圆心的邻域包含点：$A(1,2)$、$B(2,3)$、$C(3,3)$。</li>
+</ul>
+</li>
+<li><strong>计算新位置：</strong>
+<ul>
+<li>根据公式计算加权后的新位置：
+$$
+x_{\text{new}} = \frac{1\cdot(1,2) + 1\cdot(2,3) + 1\cdot(3,3)}{3} = (2,2.67)
+$$</li>
+</ul>
+</li>
+<li><strong>重复这个过程，直到收敛：</strong>
+<ul>
+<li>继续迭代，点 A 可能会进一步移动到 $(2.5,3)$，最终收敛到密度峰值附近，例如 $(2.5,3)$。</li>
+</ul>
+</li>
+</ol>
+<p>对于剩下的点采用同样的方式将其进行收敛，<strong>最终结果</strong>为：</p>
+<ul>
+<li>点 A、B、C 最终都收敛到&quot;山顶&quot; $(2.5,3)$，形成一个簇。</li>
+<li>点 D、E、F、G 最终都收敛到&quot;山顶&quot; $(6,6)$，形成另一个簇。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-02-16 10:46:23">更新于 2025-02-16&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/meanshift/" class="post-tag" title="标签 - Meanshift">Meanshift</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/4d5a726/" class="post-nav-item" rel="prev" title="解决Git的ssh超时问题"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>解决Git的ssh超时问题</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
+      </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
+            <span class="license footer-divider">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0
+              </a>
+            </span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2025-02-16T10:46:23+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"MeanShift算法"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

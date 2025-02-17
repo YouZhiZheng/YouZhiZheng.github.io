@@ -16,7 +16,7 @@
 如果遍历到目标节点，或者池子空了之后，寻路就结束了。那么如何获得路径呢？我们从遍历的过程可以看出，节点加入到池子之前，我们知道这些加入到池子中的节点是来自于当前节点的，所以在加入池子之前将那些节点的父节点设为当前节点，等寻路到目标节点之后我们逐个节点遍历其父节点，就可以遍历完最短路径。
 对于算法，有以下几点需要注意：
 计算当前节点的周围节点的代价值时，如果需计算的节点原先就已经算过代价值，且当前算出来的代价值比原先的小，说明这个节点从当前节点过去路径会更短一些，应更新其父节点和代价值。 我们每次都是从「池子」中捞出代价最小的节点，所以用小根堆来实现「池子」是十分高效的。 综上所述，可以画出 A* 算法流程图：
-A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上传至此仓库" /><meta name="keywords" content='Astar' />
+A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上传至此仓库" /><meta name="keywords" content='Astar, C&#43;&#43;' />
   <meta itemprop="name" content="Astar算法">
   <meta itemprop="description" content="A星算法简介A*（A星）算法是一种基于格子（Grid）的寻路算法，用于从众多路径中，寻找一条从起点到终点代价最小的路径。基于格子也就是说会把地图看作是由 w*h 个格子组成的，因此寻得的路径也就是由一连串相邻的格子所组成的路径。
 既然是要寻找代价最小的路径，那么遍历节点时，就不能盲目地遍历，而是挑那些 「最有可能代价很小」 的节点来运算。如何获得这种代价很小的节点呢？这就需要使用启发函数来计算每个节点的代价了（在A*中启发函数也被称为 估价函数 ）。
@@ -31,7 +31,7 @@ A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上�
   <meta itemprop="datePublished" content="2024-09-18T19:47:39+08:00">
   <meta itemprop="dateModified" content="2024-09-26T14:01:41+08:00">
   <meta itemprop="wordCount" content="38">
-  <meta itemprop="keywords" content="Astar"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/1d723ce/">
+  <meta itemprop="keywords" content="Astar,C&#43;&#43;"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/1d723ce/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="Astar算法">
   <meta property="og:description" content="A星算法简介A*（A星）算法是一种基于格子（Grid）的寻路算法，用于从众多路径中，寻找一条从起点到终点代价最小的路径。基于格子也就是说会把地图看作是由 w*h 个格子组成的，因此寻得的路径也就是由一连串相邻的格子所组成的路径。
@@ -50,6 +50,7 @@ A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上�
     <meta property="article:published_time" content="2024-09-18T19:47:39+08:00">
     <meta property="article:modified_time" content="2024-09-26T14:01:41+08:00">
     <meta property="article:tag" content="Astar">
+    <meta property="article:tag" content="C&#43;&#43;">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Astar算法">
@@ -77,7 +78,7 @@ A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上�
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/YouZhiZheng.github.io\/posts\/1d723ce\/"
-    },"genre": "posts","keywords": "Astar","wordcount":  38 ,
+    },"genre": "posts","keywords": "Astar, C\u002b\u002b","wordcount":  38 ,
     "url": "https:\/\/YouZhiZheng.github.io\/posts\/1d723ce\/","datePublished": "2024-09-18T19:47:39+08:00","dateModified": "2024-09-26T14:01:41+08:00","publisher": {
       "@type": "Organization",
       "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
@@ -187,7 +188,7 @@ A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上�
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Astar算法</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/c++/" class="post-category" title="分类 - C++"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> C++</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 19:47:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="更新于 2024-09-26 14:01:41"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-26">2024-09-26</time></span>&nbsp;<span title="38 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 19:47:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="更新于 2024-09-26 14:01:41"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-26">2024-09-26</time></span>&nbsp;<span title="38 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -241,7 +242,7 @@ A星算法的实现作者采用 C&#43;&#43; 来实现 A* 算法，代码已上�
       </div></div>
 
   <div class="post-info-more">
-    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/astar/" class="post-tag" title="标签 - Astar">Astar</a></section>
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/astar/" class="post-tag" title="标签 - Astar">Astar</a><a href="/tags/c&#43;&#43;/" class="post-tag" title="标签 - C&#43;&#43;">C&#43;&#43;</a></section>
     <section>
       <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
     </section>
