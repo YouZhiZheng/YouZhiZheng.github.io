@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-02-17T19:39:01+08:00">
-  <meta itemprop="dateModified" content="2025-02-17T19:39:01+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-02-22T10:59:11+08:00">
+  <meta itemprop="dateModified" content="2025-02-22T15:21:14+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,14 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/df574ae/">15. 三数之和</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-02-22 10:59:11'>发布于 <time datetime="2025-02-22">2025-02-22</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目思路题目中要求找到所有 「不重复」且和为0的三元组，这个「不重复」的要求使得无法直接使用三重循环枚举所有的三元组找到答案。当然，可以直接用三重循环枚举每个答案，再使用哈希表进行去重(即先对得到的答案进行排序，比如从小到大，再转化成string后存放进unordered_set)，得到最终答案。这种做法时间复杂度和空间复杂度都很高，因此需要换一种思路来考虑这个问题。
+重复的答案形式为：$(a, b, c)、(a, c, b)、(b, a, c)$&hellip;&hellip; 假设$a \le b \le c$，如果能保证只有$(a, b, c)$这种形式的答案会被枚举，就能够直接去除掉重复的答案，而不必再使用哈希表来进行去重了。
+要实现这一点，就可以通过将数组中的元素从小达到进行排序，随后使用三重循环进行遍历，且 「每重循环相邻两次枚举的元素不能相同」，否则也会造成重复。例如：一个排完序后的数组为$[-1, 0, 1, 1, 2, 3]$，第一次枚举到的三元组为$(-1, 0, 1)$ ，如果第三重循环继续枚举下一个相邻元素，那么仍然为 $(-1, 0, 1)$，这就产生了重复，因此就需要将第三重的循环跳到下一个不相同的元素，即数组中的最后一个元素3，枚举三元组$(-1, 0, 3)$。
+至此，我们已经对初始版本进行了空间上的优化，下面给出伪代码：
+1 2 3 4 5 6 7 8 9 10 nums.sort() for first = 0 .. n-1 // 只有和上一次枚举的元素不相同，我们才会进行枚举 if first == 0 or nums[first] != nums[first-1] then for second = first+1 .. n-1 if second == first+1 or nums[second] !</div><div class="post-footer">
+    <a href="/posts/df574ae/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E7%BB%84/' class="post-tag">数组</a><a href='/tags/%E5%8F%8C%E6%8C%87%E9%92%88/' class="post-tag">双指针</a><a href='/tags/%E6%8E%92%E5%BA%8F/' class="post-tag">排序</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/7d4248c/">1. 两数之和</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-02-17 19:39:01'>发布于 <time datetime="2025-02-17">2025-02-17</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目描述：
 思路时间复杂度为 $O(n^2)$ 的算法思路很简单，直接采用暴力法使用两层循环遍历每一种可能，判断是否存在答案。
@@ -231,27 +239,6 @@ $ sudo sed -i 's|//.*archive.ubuntu.com|//mirrors.ustc.edu.cn|g' /etc/apt/source
 当然也可以直接使用 vim、nano 等文本编辑器进行修改。</div><div class="post-footer">
     <a href="/posts/3d623e4/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%AC%94%E8%AE%B0/' class="post-tag">笔记</a></div></div>
 </article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/c0ef113/">VsCode推荐插件</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-12 10:30:17'>发布于 <time datetime="2024-08-12">2024-08-12</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vscode/" class="post-category" title="分类 - VsCode"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> VsCode</a></span></div><div class="content">Better C++ Syntax该插件主要作用是提供 C++ 语法高亮
-Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
-该插件常用快捷键为：
-添加书签：Ctrl+Alt+K 删除书签：将光标放在带有书签的行上，然后使用 Ctrl+Alt+J 切换书签：Ctrl+Alt+Q可以在书签之间切换，如果当前行有书签，则会删除它。 跳转到下一书签：Ctrl+Alt+L 跳转到上一书签：Shift+Ctrl+Alt+L C/C++该插件主要作用是提供了一系列的工具和功能，例如代码分析功能、代码格式化功能、代码提示等。
-CMake该插件主要作用是CMake语法高亮、CMake代码自动补全。
-CMake Tools该插件主要作用是提供各种CMake编译相关的小工具，包括在底部状态栏显示一些快捷工具。
-cmake-format该插件的主要作用是格式化 CMakeLists.txt 文件，使其保持一致和可读性。安装此插件前，需要先安装cmake-format工具。
-Code Runner该插件的主要作用是运行选定的代码片段。
-该插件常用快捷键为：
-运行选定代码 Ctrl+Alt+N 或 直接点击右上角的三角形 或 点击右键菜单中的 Run Code 停止正在运行的代码 Ctrl+Alt+M 或 点击右键菜单中的 Stop Run Code 插件详细说明地址
-Diff该插件的主要作用是比较两个文件的不同之处，直接在资源管理窗口中选择两个要比较的文件，将会直接显示比较结果。
-Error Lens该插件的主要作用是将代码中存在的问题突出显示(包括错误、警告和语法问题)，它不仅在代码行尾显示问题，而且会在整行进行高亮，使得诊断信息更加明显。
-GitLens该插件的主要作用是可以更方便地在VsCode中进行Git相关操作，该插件的使用可看此视频了解。
-PS: 建议能够熟练使用Git命令后再使用此插件，Git的学习可看此教程。
-GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI编码工具，能根据注释、函数名、函数参数编写代码。该插件的详细介绍可看此文章。
-PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
-Include Autocomplete该插件的主要作用是提供编写 C++ #include 语句时自动补全功能
-Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件</div><div class="post-footer">
-    <a href="/posts/c0ef113/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/vscode%E6%8F%92%E4%BB%B6/' class="post-tag">Vscode插件</a></div></div>
-</article>
 <ul class="pagination"><li class="page-item active">
           <span class="page-link">
             <a href="/">1</a>
@@ -259,6 +246,10 @@ Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮
         </li><li class="page-item">
           <span class="page-link">
             <a href="/page/2/">2</a>
+          </span>
+        </li><li class="page-item">
+          <span class="page-link">
+            <a href="/page/3/">3</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>

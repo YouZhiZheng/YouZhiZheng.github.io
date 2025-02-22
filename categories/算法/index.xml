@@ -4,7 +4,19 @@
     <link>https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/</link>
     <description>算法 - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 17 Feb 2025 19:39:01 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sat, 22 Feb 2025 10:59:11 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+  <title>15. 三数之和</title>
+  <link>https://YouZhiZheng.github.io/posts/df574ae/</link>
+  <pubDate>Sat, 22 Feb 2025 10:59:11 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/df574ae/</guid>
+  <description><![CDATA[题目思路题目中要求找到所有 「不重复」且和为0的三元组，这个「不重复」的要求使得无法直接使用三重循环枚举所有的三元组找到答案。当然，可以直接用三重循环枚举每个答案，再使用哈希表进行去重(即先对得到的答案进行排序，比如从小到大，再转化成string后存放进unordered_set)，得到最终答案。这种做法时间复杂度和空间复杂度都很高，因此需要换一种思路来考虑这个问题。
+重复的答案形式为：$(a, b, c)、(a, c, b)、(b, a, c)$&hellip;&hellip; 假设$a \le b \le c$，如果能保证只有$(a, b, c)$这种形式的答案会被枚举，就能够直接去除掉重复的答案，而不必再使用哈希表来进行去重了。
+要实现这一点，就可以通过将数组中的元素从小达到进行排序，随后使用三重循环进行遍历，且 「每重循环相邻两次枚举的元素不能相同」，否则也会造成重复。例如：一个排完序后的数组为$[-1, 0, 1, 1, 2, 3]$，第一次枚举到的三元组为$(-1, 0, 1)$ ，如果第三重循环继续枚举下一个相邻元素，那么仍然为 $(-1, 0, 1)$，这就产生了重复，因此就需要将第三重的循环跳到下一个不相同的元素，即数组中的最后一个元素3，枚举三元组$(-1, 0, 3)$。
+至此，我们已经对初始版本进行了空间上的优化，下面给出伪代码：
+1 2 3 4 5 6 7 8 9 10 nums.sort() for first = 0 .. n-1 // 只有和上一次枚举的元素不相同，我们才会进行枚举 if first == 0 or nums[first] != nums[first-1] then for second = first+1 .. n-1 if second == first+1 or nums[second] !]]></description>
+</item>
+<item>
   <title>1. 两数之和</title>
   <link>https://YouZhiZheng.github.io/posts/7d4248c/</link>
   <pubDate>Mon, 17 Feb 2025 19:39:01 &#43;0800</pubDate>
