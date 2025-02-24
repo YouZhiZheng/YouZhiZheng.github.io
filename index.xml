@@ -4,15 +4,104 @@
     <link>https://YouZhiZheng.github.io/</link>
     <description>zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</lastBuildDate>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 24 Feb 2025 11:02:49 &#43;0800</lastBuildDate>
       <atom:link href="https://YouZhiZheng.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>3. 无重复字符的最长子串</title>
+  <link>https://YouZhiZheng.github.io/posts/2aaae8d/</link>
+  <pubDate>Mon, 24 Feb 2025 11:02:49 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/2aaae8d/</guid>
+  <description><![CDATA[<h2 id="题目httpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
+  <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a class="lightgallery" href="/PostsImgs/LeetCode/3/question.png?size=large" data-thumbnail="/PostsImgs/LeetCode/3/question.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/LeetCode/3/question.png" alt="图1" srcset="/PostsImgs/LeetCode/3/question.png?size=small, /PostsImgs/LeetCode/3/question.png?size=medium 1.5x, /PostsImgs/LeetCode/3/question.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="思路" class="heading-element"><span>思路</span>
+  <a href="#%e6%80%9d%e8%b7%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>使用两个指针$l, r$分别指向当前字串的左右边界，通过不断将 r 指针往后移使得子串不断变长，在移动r指针的同时需要判断新增的字符是否已经在窗口中出现了，如果已出现则需要移动l指针来<strong>将重复的字符移动出窗口</strong>，这样通过一次遍历就能找到无重复字符的最长子串。</p>
+<h2 id="代码" class="heading-element"><span>代码</span>
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Solution</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/** 
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *    记录元素最后一次出现的位置，用于判断r指向的字符是否已经在当前窗口已经存在
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *    以及帮助 l 指针进行移动
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ans</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">l</span> <span class="o">=</span> <span class="n">r</span> <span class="o">=</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 判断当前窗口是否存在重复字符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 需要注意的是 hash[s[r]] &gt;= l，这样才能确保当前元素是存在于当前窗口的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 若没有这个条件，只能说明 s[r] 字符在前面出现过，但不能确保它是在当前窗口中的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// 比如 abba 字符串，当我们的窗口内字符为 ba 时，hash[s[3]] 的值为 0 但其并不在当前窗口内
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">hash</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="o">!=</span> <span class="n">hash</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">hash</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="p">]]</span> <span class="o">&gt;=</span> <span class="n">l</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ans</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">l</span> <span class="o">=</span> <span class="n">hash</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 将重复的字符串移除窗口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// 更新字符最后一次出现的下标
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">hash</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="p">]]</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// r - l 计算最后一个窗口的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="nf">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item>
+<item>
   <title>42. 接雨水</title>
   <link>https://YouZhiZheng.github.io/posts/473665c/</link>
   <pubDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</pubDate>
   <author>zyz</author>
   <guid>https://YouZhiZheng.github.io/posts/473665c/</guid>
-  <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度(**left_max[i]**从左往右计算， **right_max[i]**从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
+  <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度( left_max[i] 从左往右计算， right_max[i] 从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
 上面的方法时间复杂度和空间复杂度均为$O(n)$。时间已经是最快了，那么空间上还能不能进行优化呢？上面的方法空间耗费主要来自于新建的两个存储数组。由于数组left_max是从左往右计算，数组right_max是从右往左计算，因此可以使用双指针和两个变量代替两个数组。
 对于左指针left来说，其左右两侧的最大高度分别为left_left_max和 left_right_max；同理右指针有right_left_max和 right_right_max。由于$right &gt; left$，故$right\_left\_max \ge left\_left\_max$ 且 $left\_right\_max \ge right\_right\_max$，这两个不等式画个图便可直接看出。
 由上面的不等式可知：
@@ -173,21 +262,6 @@ GitHub Copilot该插件的主要作用是辅助编码。该插件是GitHub的AI
 PS: 该插件需要进行GitHub学生认证才能免费使用，可参考此教程。
 Include Autocomplete该插件的主要作用是提供编写 C++ #include 语句时自动补全功能
 Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮助编写Markdown文件]]></description>
-</item>
-<item>
-  <title>C&#43;&#43;学习笔记</title>
-  <link>https://YouZhiZheng.github.io/posts/3b2b064/</link>
-  <pubDate>Wed, 07 Aug 2024 20:15:22 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/3b2b064/</guid>
-  <description><![CDATA[前言由于笔者具备一定的C语言基础，所以在本文中对于C语言的语法不再会进行赘述，主要专注与C++语法。为了更好的学习C++，笔者找了一些题目来进行练习，所有题目与题解均可在此仓库找到。
-本学习笔记适用于 「具备一定C语言基础，想要使用C++来编写代码」 的读者。
-本文阅读指南：
-在看过示例代码后，一定要编写一个自己的示例代码 或 自己动手重写一遍。 标红的注意内容一定要仔细看！！！ 一定要做上面仓库中的题！！！一定要做上面仓库中的题！！！一定要做上面仓库中的题！！！ 好的命名能够提高代码的可读性，本文从类章节开始采用以下命名规范：
-局部变量名单词之间使用下划线隔开； 类的变量成员用下划线作为前缀如 _file_name; 类的函数名使用驼峰类型；如doSomething(); 类的成员存取使用 如get_file_name() set_file_name()； 类名是PASCAL风格，即首字母大写 如MyClass； 常量用k作为前缀后面是PASCAL风格如 kFileName; 全局变量用g作为前缀后面是PASCAL风格如 gFileName; 宏定义全大写，中间用下划线隔开 FILE_NAME。 从C到C++本章节主要介绍一些C++的比较重要特性，例如如何申请和释放内存空间、bool和string类型、命名空间等。这些新特性可以给我们编程提供遍历，提高开发效率。
-布尔类型(bool)在C语言中，没有&quot;真&quot;与&quot;假&quot;的数据类型，我们通常使用一个整形变量的值来表示真假，其值为 1 表示真，为 0 表示假。以下为一个例子：
-1 2 3 4 5 6 7 8 int IsOddNum(int n) //判断一个数是否是奇数 { int flag; if(n % 2 == 0) flag = 0; else flag = 1; return flag; } 然而，这种做法有几个缺点：
-可读性差： 使用整数来表示布尔值可能会让代码的可读性降低，因为读者需要记住0和非0值的含义。 存在类型安全问题： 整数可以进行算术运算，这可能导致意外的类型转换和错误。 语义不明确： 整数类型的使用没有明确表达出变量的布尔语义。 所以，C++提供了 bool 类型来表示真假，该类型的变量只有 true 和 false 两种取值。那么上面的例子则可改为：]]></description>
 </item>
 </channel>
 </rss>

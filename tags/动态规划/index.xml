@@ -10,7 +10,7 @@
   <pubDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</pubDate>
   <author>zyz</author>
   <guid>https://YouZhiZheng.github.io/posts/473665c/</guid>
-  <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度(**left_max[i]**从左往右计算， **right_max[i]**从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
+  <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度( left_max[i] 从左往右计算， right_max[i] 从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
 上面的方法时间复杂度和空间复杂度均为$O(n)$。时间已经是最快了，那么空间上还能不能进行优化呢？上面的方法空间耗费主要来自于新建的两个存储数组。由于数组left_max是从左往右计算，数组right_max是从右往左计算，因此可以使用双指针和两个变量代替两个数组。
 对于左指针left来说，其左右两侧的最大高度分别为left_left_max和 left_right_max；同理右指针有right_left_max和 right_right_max。由于$right &gt; left$，故$right\_left\_max \ge left\_left\_max$ 且 $left\_right\_max \ge right\_right\_max$，这两个不等式画个图便可直接看出。
 由上面的不等式可知：

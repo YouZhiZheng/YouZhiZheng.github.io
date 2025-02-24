@@ -11,8 +11,8 @@
   <meta itemprop="name" content="42. 接雨水">
   <meta itemprop="description" content="力扣第42题 接雨水">
   <meta itemprop="datePublished" content="2025-02-23T14:07:10+08:00">
-  <meta itemprop="dateModified" content="2025-02-23T14:07:10+08:00">
-  <meta itemprop="wordCount" content="151">
+  <meta itemprop="dateModified" content="2025-02-23T16:37:37+08:00">
+  <meta itemprop="wordCount" content="154">
   <meta itemprop="keywords" content="双指针,数组,动态规划"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/473665c/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="42. 接雨水">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-02-23T14:07:10+08:00">
-    <meta property="article:modified_time" content="2025-02-23T14:07:10+08:00">
+    <meta property="article:modified_time" content="2025-02-23T16:37:37+08:00">
     <meta property="article:tag" content="双指针">
     <meta property="article:tag" content="数组">
     <meta property="article:tag" content="动态规划">
@@ -32,7 +32,7 @@
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/473665c/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/df574ae/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/473665c/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/df574ae/" /><link rel="next" href="https://YouZhiZheng.github.io/posts/2aaae8d/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -43,8 +43,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/YouZhiZheng.github.io\/posts\/473665c\/"
-    },"genre": "posts","keywords": "双指针, 数组, 动态规划","wordcount":  151 ,
-    "url": "https:\/\/YouZhiZheng.github.io\/posts\/473665c\/","datePublished": "2025-02-23T14:07:10+08:00","dateModified": "2025-02-23T14:07:10+08:00","publisher": {
+    },"genre": "posts","keywords": "双指针, 数组, 动态规划","wordcount":  154 ,
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/473665c\/","datePublished": "2025-02-23T14:07:10+08:00","dateModified": "2025-02-23T16:37:37+08:00","publisher": {
       "@type": "Organization",
       "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
         "@type": "Person",
@@ -153,7 +153,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>42. 接雨水</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-02-23 14:07:10"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-23">2025-02-23</time></span>&nbsp;<span title="151 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-02-23 14:07:10"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-23">2025-02-23</time></span>&nbsp;<span title="更新于 2025-02-23 16:37:37"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-23">2025-02-23</time></span>&nbsp;<span title="154 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -179,7 +179,7 @@
 $$
 接水量=\min(左右两边最高柱子)−当前柱子的高度
 $$
-那么直接新建两个数组 <strong>left_max</strong> 和 <strong>right_max</strong> 来存储每个柱子左右两侧的最大高度， <strong>left_max[i]</strong> 和 <strong>right_max[i]</strong> 分别表示柱子i左右两侧的最高柱子高度(**left_max[i]**从左往右计算， **right_max[i]**从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。</p>
+那么直接新建两个数组 <strong>left_max</strong> 和 <strong>right_max</strong> 来存储每个柱子左右两侧的最大高度， <strong>left_max[i]</strong> 和 <strong>right_max[i]</strong> 分别表示柱子i左右两侧的最高柱子高度( <strong>left_max[i]</strong> 从左往右计算，  <strong>right_max[i]</strong> 从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。</p>
 <p>上面的方法时间复杂度和空间复杂度均为$O(n)$。时间已经是最快了，那么空间上还能不能进行优化呢？上面的方法空间耗费主要来自于新建的两个存储数组。由于数组<code>left_max</code>是从左往右计算，数组<code>right_max</code>是从右往左计算，因此可以使用双指针和两个变量代替两个数组。</p>
 <p>对于左指针<code>left</code>来说，其左右两侧的最大高度分别为<code>left_left_max</code>和 <code>left_right_max</code>；同理右指针有<code>right_left_max</code>和 <code>right_right_max</code>。由于$right &gt; left$，故$right\_left\_max \ge left\_left\_max$ 且 $left\_right\_max \ge right\_right\_max$，这两个不等式画个图便可直接看出。</p>
 <p>由上面的不等式可知：</p>
@@ -269,7 +269,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-02-23 14:07:10">更新于 2025-02-23&nbsp;</span>
+        <span title="更新于 2025-02-23 16:37:37">更新于 2025-02-23&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"></div>
         <div class="post-info-share">
@@ -284,7 +284,8 @@ $$
     </section>
   </div>
 
-  <div class="post-nav"><a href="/posts/df574ae/" class="post-nav-item" rel="prev" title="15. 三数之和"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>15. 三数之和</a></div>
+  <div class="post-nav"><a href="/posts/df574ae/" class="post-nav-item" rel="prev" title="15. 三数之和"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>15. 三数之和</a>
+      <a href="/posts/2aaae8d/" class="post-nav-item" rel="next" title="3. 无重复字符的最长子串">3. 无重复字符的最长子串<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
         Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
