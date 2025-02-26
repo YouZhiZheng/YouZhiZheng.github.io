@@ -4,7 +4,19 @@
     <link>https://YouZhiZheng.github.io/tags/%E6%95%B0%E7%BB%84/</link>
     <description>数组 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E6%95%B0%E7%BB%84/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E6%95%B0%E7%BB%84/" rel="self" type="application/rss+xml" /><item>
+  <title>560. 和为 K 的子数组</title>
+  <link>https://YouZhiZheng.github.io/posts/847b681/</link>
+  <pubDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/847b681/</guid>
+  <description><![CDATA[题目思路直接暴力法，遍历每一个子数组查看其和是否为k，发现会超时。暴力法的时间复杂度为$O(n^2)$，瓶颈在于对于每个 $i$，我们需要枚举所有以$nums[i]$作为结尾的子数组来判断其和是否等于k，这一步是否可以优化呢？当然是可以的，考虑到子数组的连续性特性，可以通过 前缀和 来优化。
+前缀和是指数组中从第一个元素到当前元素的和。假设 $pre[i]$ 为 $[0, &hellip;, i]$里所有数的和，那么 $pre[i]$ 就是前缀和。有了前缀和我们就可以用其来计算子数组的和, “子数组 [j, i] 的和为k” 就可以转化为以下等式： $$ pre[i] - pre[j - 1] = k $$ 通过变形就可以得到： $$ pre[i] - k = pre[j - 1] $$ 这说明，想要知道以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的 个数 时只要统计在位置$i$之前有多少个前缀和为 $pre[i] - k$的$pre[j]$ 。所以，考虑建立哈希表，以前缀和为key，该前缀和出现次数为value，从左往右边更新哈希表边计算答案，即可在$O(n)$时间内完成此题。
+需要注意的是，我们在构造哈希表时需要先插入键值对{0, 1} 且在遍历时必须先判断是否有符合条件的前缀和再往哈希表里记录当前前缀和。
+为什么可以从左往右依次更新哈希表？因为$pre[i]$的值可以由 $pre[i - 1]$递推而来，即： $$ pre[i] = pre[i - 1] + nums[i] $$
+为什么在构造哈希表时需要先插入键值对{0, 1}?这是为了处理特殊情况。当我们处理到位置 $i$ 时，我们想要知道的是全部以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的个数，这肯定包括由[0, &hellip;, i]组成的连续子数组，它们的前缀和即为 $pre[i]$，如果不先插入键值对{0, 1}就会漏掉 $pre[i] = k$ 这一情况，导致漏算答案。]]></description>
+</item>
+<item>
   <title>42. 接雨水</title>
   <link>https://YouZhiZheng.github.io/posts/473665c/</link>
   <pubDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</pubDate>
