@@ -4,9 +4,18 @@
     <link>https://YouZhiZheng.github.io/</link>
     <description>zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 27 Feb 2025 19:04:09 &#43;0800</lastBuildDate>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</lastBuildDate>
       <atom:link href="https://YouZhiZheng.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>53. 最大子数组和</title>
+  <link>https://YouZhiZheng.github.io/posts/3930252/</link>
+  <pubDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
+  <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 最大和的连续子数组就是找最大差值，让$preSum[j]$ 尽可能的大，同时让它减去的$preSum[i - 1]$尽可能的小。所以，我们只需要从左往右依次计算每个位置的前缀和，且记录下截止当前下标之前出现过的最小前缀和$min\_pre\_sum$，并用它来和当前前缀和做差，获取一个潜在的最大子数组和。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int ans = -1e5; int min_pre_sum, pre_sum; min_pre_sum = pre_sum = 0; for (const auto&amp; num : nums) { pre_sum += num; // 计算当前位置的前缀和 ans = max(ans, pre_sum - min_pre_sum); // 计算最大子数组和 min_pre_sum = min(min_pre_sum, pre_sum); // 记录已经出现的最小前缀和 } return ans; } }; ]]></description>
+</item>
+<item>
   <title>560. 和为 K 的子数组</title>
   <link>https://YouZhiZheng.github.io/posts/847b681/</link>
   <pubDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</pubDate>
@@ -225,30 +234,6 @@ miniconda 的常用命令有：
 对于算法，有以下几点需要注意：
 计算当前节点的周围节点的代价值时，如果需计算的节点原先就已经算过代价值，且当前算出来的代价值比原先的小，说明这个节点从当前节点过去路径会更短一些，应更新其父节点和代价值。 我们每次都是从「池子」中捞出代价最小的节点，所以用小根堆来实现「池子」是十分高效的。 综上所述，可以画出 A* 算法流程图：
 A星算法的实现作者采用 C++ 来实现 A* 算法，代码已上传至此仓库]]></description>
-</item>
-<item>
-  <title>Linux学习笔记</title>
-  <link>https://YouZhiZheng.github.io/posts/3d623e4/</link>
-  <pubDate>Thu, 15 Aug 2024 10:57:39 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/3d623e4/</guid>
-  <description><![CDATA[软件安装与更新在Linux下，一般用包管理器来安装软件，它能自动化地完成软件的安装、更新、配置和移除功能，优雅而快速。
-软件包管理器的一个重要组成部分是软件仓库。软件仓库是收藏了互联网上可用软件包（应用程序）的图书馆，里面往往包含了数万个可供下载 和安装的可用软件包。
-有了软件仓库，我们不需要手动下载大量的软件包再通过包管理器安装。只需要知道软件在软件仓库中的名称，即可让包管理器从网络中抓取到相应的软件包到本地，自动进行安装。
-但是与应用商店相比，使用包管理器安装需要预先知道所需软件在软件仓库中的对应包名，和应用商店相比无法进行模糊搜索（不过你也可以在包管理器官网上进行查找包名，再通过包管理器安装）。
-作者使用的是Ubuntu系统，Ubuntu下默认的包管理器为apt，所有后面的讲解以apt为例。
-使用包管理器系统安装搜索安装前，先在浏览器中搜索所需的软件，查找包名，再使用 apt search package_name 命令搜索软件仓库，查看对应的包名是否在软件仓库中(这步可跳过，只要知道要安装的软件包名即可)。
-安装找到要安装的软件的包名后，使用命令 apt install package_name 进行安装。
-PS： 如果提示当前用户无安装软件权限，则在命令前加上 sudo，即 sudo apt install package_name，输入此命令后会要求用户输入密码(输入的密码不会在终端显示)。
-官方软件源镜像通过 apt 安装的软件都来源于相对应的软件源，每个 Linux 发行版一般都带有官方的软件源，在官方的软件源中已经包含了丰富的软件，apt 的软件源列表在 /etc/apt/sources.list 下。
-Ubuntu 官方源位于国外，往往会有速度与延迟上的限制，可以通过修改官方源为其镜像实现更快的下载速度。镜像缓存了官方源中的软件列表，与官方源基本一致。
-修改官方源为镜像步骤
-本例以修改官方源为 USTC Mirror 为例。注意：在操作前请做好备份。
-一般情况下，/etc/apt/sources.list 下的官方源地址为 http://archive.ubuntu.com/ ，我们只需要将其替换为 http://mirrors.ustc.edu.cn 即可。
-如果你使用 Ubuntu 图形安装器安装，默认的源地址通常不是 http://archive.ubuntu.com/ ， 而是 http://&lt;country-code&gt;.archive.ubuntu.com/ubuntu/ ，如 http://cn.archive.ubuntu.com/ubuntu/，同样也将其替换为 http://mirrors.ustc.edu.cn 即可。
-可以使用如下命令：
-$ sudo sed -i 's|//.*archive.ubuntu.com|//mirrors.ustc.edu.cn|g' /etc/apt/sources.list
-当然也可以直接使用 vim、nano 等文本编辑器进行修改。]]></description>
 </item>
 </channel>
 </rss>

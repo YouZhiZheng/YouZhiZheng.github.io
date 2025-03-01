@@ -4,7 +4,16 @@
     <link>https://YouZhiZheng.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
     <description>前缀和 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="self" type="application/rss+xml" /><item>
+  <title>53. 最大子数组和</title>
+  <link>https://YouZhiZheng.github.io/posts/3930252/</link>
+  <pubDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
+  <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 最大和的连续子数组就是找最大差值，让$preSum[j]$ 尽可能的大，同时让它减去的$preSum[i - 1]$尽可能的小。所以，我们只需要从左往右依次计算每个位置的前缀和，且记录下截止当前下标之前出现过的最小前缀和$min\_pre\_sum$，并用它来和当前前缀和做差，获取一个潜在的最大子数组和。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int ans = -1e5; int min_pre_sum, pre_sum; min_pre_sum = pre_sum = 0; for (const auto&amp; num : nums) { pre_sum += num; // 计算当前位置的前缀和 ans = max(ans, pre_sum - min_pre_sum); // 计算最大子数组和 min_pre_sum = min(min_pre_sum, pre_sum); // 记录已经出现的最小前缀和 } return ans; } }; ]]></description>
+</item>
+<item>
   <title>560. 和为 K 的子数组</title>
   <link>https://YouZhiZheng.github.io/posts/847b681/</link>
   <pubDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</pubDate>

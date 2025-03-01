@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-02-27T19:04:09+08:00">
-  <meta itemprop="dateModified" content="2025-02-27T19:04:09+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-03-01T10:14:12+08:00">
+  <meta itemprop="dateModified" content="2025-03-01T10:14:12+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,37 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/4d5a726/">解决Git的ssh超时问题</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-01-03 11:14:33'>发布于 <time datetime="2025-01-03">2025-01-03</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/git/" class="post-category" title="分类 - Git"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Git</a></span></div><div class="content"><h2 id="问题发现" class="heading-element"><span>问题发现</span>
+  <a href="#%e9%97%ae%e9%a2%98%e5%8f%91%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最近在使用 <strong><code>git push</code></strong> 命令时发现连接超时，因为我使用的是用公钥走ssh协议进行连接，输入命令 <strong><code>ssh -T git@github.com</code></strong> 发现果然是ssh连接超时。在网上搜索了一圈，找到问题是主域名 <strong><code>github.com</code></strong> 的 IP 被彻底墙了。</p>
+<h2 id="解决办法" class="heading-element"><span>解决办法</span>
+  <a href="#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>通过Google大法，找到供 ssh 连接的子域名 <code>ssh.github.com</code> IP 还活着。因此，解决办法就是往 <strong><code>~/.ssh/config</code></strong> 文件 中添加下面的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
+</span></span><span class="line"><span class="cl">  Hostname ssh.github.com</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，问题成功解决。</p>
+<h2 id="参考资料" class="heading-element"><span>参考资料</span>
+  <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><a href="https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port"target="_blank" rel="external nofollow noopener noreferrer">https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port</a></li>
+<li><a href="https://ww-rm.top/posts/2024/01/17/githubssh-timeout/"target="_blank" rel="external nofollow noopener noreferrer">https://ww-rm.top/posts/2024/01/17/githubssh-timeout/</a></li>
+</ol></div><div class="post-footer">
+    <a href="/posts/4d5a726/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/git/' class="post-tag">Git</a><a href='/tags/ssh/' class="post-tag">Ssh</a><a href='/tags/timeout/' class="post-tag">Timeout</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/92c957a/">Python学习笔记</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-11-20 21:35:53'>发布于 <time datetime="2024-11-20">2024-11-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/python/" class="post-category" title="分类 - Python"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Python</a></span></div><div class="content">环境搭建我是在WSL2下的Ubuntu进行Python开发的，所以本笔记的环境搭建仅适用于Liunx开发环境，Windows下搭建环境请自行Google。
 miniconda首先，先安装 miniconda，直接按照官方教程即可安装。
@@ -215,19 +246,6 @@ Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-02 10:37:33'>发布于 <time datetime="2024-08-02">2024-08-02</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/ieda/" class="post-category" title="分类 - IEDA"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> IEDA</a></span></div><div class="content">脚本创建在单独运行点工具前必须配置对应的环境变量，在iEDA目录/iEDA/scripts/design/sky130_gcd下使用命令touch创建一个.sh脚本，内容如下:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 #!/bin/bash CURRENT_DIR=&#34;$(pwd)&#34; export CONFIG_DIR=&#34;$CURRENT_DIR/iEDA_config&#34; export RESULT_DIR=&#34;$CURRENT_DIR/result/my_test_result&#34; export TCL_SCRIPT_DIR=&#34;$CURRENT_DIR/script&#34; export NETLIST_FILE=&#34;$CURRENT_DIR/result/verilog/gcd.v&#34; export FOUNDRY_DIR=&#34;$CURRENT_DIR/../../foundry/sky130&#34; export SPEF_FILE=&#34;$CURRENT_DIR/../../foundry/sky130/spef/gcd.spef&#34; export SDC_FILE=&#34;$CURRENT_DIR/../../foundry/sky130/sdc/gcd.sdc&#34; export DESIGN_TOP=&#34;gcd&#34; export DIE_AREA=&#34;0.0 0.0 149.96 150.128&#34; export CORE_AREA=&#34;9.996 10.08 139.964 140.048&#34; echo &#34;CONFIG_DIR set to: $CONFIG_DIR&#34; echo &#34;RESULT_DIR set to: $RESULT_DIR&#34; echo &#34;TCL_SCRIPT_DIR set to: $TCL_SCRIPT_DIR&#34; echo &#34;NETLIST_FILE set to: $NETLIST_FILE&#34; echo &#34;FOUNDRY_DIR set to: $FOUNDRY_DIR&#34; echo &#34;SPEF_FILE set to: $SPEF_FILE&#34; echo &#34;SDC_FILE set to: $SDC_FILE&#34; echo &#34;DESIGN_TOP set to: $DESIGN_TOP&#34; echo &#34;DIE_AREA set to: $DIE_AREA&#34; echo &#34;CORE_AREA set to: $CORE_AREA&#34; 点工具运行运行点工具前，在当前窗口使用命令 source 脚本名.</div><div class="post-footer">
     <a href="/posts/3b24a9e/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%82%B9%E5%B7%A5%E5%85%B7/' class="post-tag">点工具</a><a href='/tags/%E6%95%99%E7%A8%8B/' class="post-tag">教程</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/bd6092d/">322. 零钱兑换</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-29 21:01:40'>发布于 <time datetime="2024-07-29">2024-07-29</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目描述(力扣):
-什么是最优子结构
-最优子结构指的是，问题的最优解包含子问题的最优解。反过来说就是，可以通过子问题的最优解，推导出问题的最优解。要符合「最优子结构」，子问题间必须互相独立。
-比如说，假设你考试，每门科目的成绩都是互相独立的。你的原问题是考出最高的总成绩，那么你的子问题就是要把语文考到最高，数学考到最高…… 为了每门课考到最高，你要把每门课相应的选择题分数拿到最高，填空题分数拿到最高…… 当然，最终就是你每门课都是满分，这就是最高的总成绩。
-得到了正确的结果：最高的总成绩就是总分。因为这个过程符合最优子结构，「每门科目考到最高」这些子问题是互相独立，互不干扰的。
-但是，如果加一个条件：你的语文成绩和数学成绩会互相制约，不能同时达到满分，数学分数高，语文分数就会降低，反之亦然。
-这样的话，显然你能考到的最高总成绩就达不到总分了，按刚才那个思路就会得到错误的结果。因为「每门科目考到最高」的子问题并不独立，语文数学成绩户互相影响，无法同时最优，所以最优子结构被破坏。
-思路: 题目说明了每种硬币数量无限，所以该问题具有最优子结构，可以用动态规划来解决。确定好用动态规划来解决后，先确定dp数组的意义，这里dp[i]存储的值就是总金额为i的最优解。接下来最重要的事情就是找到状态转移方程，dp[0] = 0，当amount大于0时，我们只需遍历给出的coins数组找到 dp[amount - coin_value] + 1 中的最小值即可(避免越界，需要先判断coin_value是否小于amount)，加一是因为要加上一个面值为coin_value的硬币。
-代码:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 class Solution { public: int coinChange(vector&lt;int&gt;&amp; coins, int amount) { vector&lt;int&gt; dp(amount + 1, INT_MAX - 1); //初始化dp数组，初始值为INT_MAX - 1是因为后面有dp[i - value] + 1操作，需要避免整形溢出 dp[0] = 0; //已知的最优解 for(int i = 1; i &lt;= amount; i++) { for(int value : coins) //遍历每种硬币 { if(i - value &lt; 0) continue; //进行判断是为了避免越界 dp[i] = min(dp[i], dp[i - value] + 1); //找到总金额为 i 时的最优解 } } return dp[amount] == (INT_MAX - 1) ?</div><div class="post-footer">
-    <a href="/posts/bd6092d/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/' class="post-tag">动态规划</a></div></div>
 </article>
 <ul class="pagination"><li class="page-item">
           <span class="page-link">
