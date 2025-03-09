@@ -4,7 +4,17 @@
     <link>https://YouZhiZheng.github.io/posts/</link>
     <description>所有文章 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 06 Mar 2025 16:20:06 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+  <title>48. 旋转图像</title>
+  <link>https://YouZhiZheng.github.io/posts/fa20807/</link>
+  <pubDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/fa20807/</guid>
+  <description><![CDATA[题目思路这道题的难点主要在于不能使用辅助数组，空间复杂度必须为$O(1)$。通过观察示例，我们可以发现以下规律：
+「第 $i$ 行」元素旋转到「第 $n−1−i$ 列」元素。 「第 $j$ 列」元素旋转到「第 $j$ 行」元素。 即 $(i, j)$ 要放置的位置为 $(j, n - 1 - i)$，只要我们提前使用一个临时变量$temp$来存储$matrix[j][n - 1 - i]$，即可完成$(i, j)$这个位置的旋转操作。那么$(j, n - 1 - i)$又旋转到哪个位置呢？继续应用规律，发现其旋转的位置为$(n - 1 - i, n - 1 - j)$，同样的，如果使用$temp$来存储$matrix[n - 1 - i][n - 1 - j]$，即可完成$(i, j)$和$(j, n - 1 - i)$这两个位置的旋转。按照前面的逻辑继续推理，我们可以发现：
+$(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 - i, n - 1 - j) → (n - 1 - j, i)$ $(n - 1 - j, i) → (i, j)$ $A→B$表示位置A的元素顺时针旋转$90°$后的位置为B。观察上面的式子，发现这四项处于一个循环中，使用一个临时变量$temp$即可完成这四个元素的原地交换！]]></description>
+</item>
+<item>
   <title>238. 除自身以外数组的乘积</title>
   <link>https://YouZhiZheng.github.io/posts/0ee95a7/</link>
   <pubDate>Thu, 06 Mar 2025 16:20:06 &#43;0800</pubDate>
@@ -188,41 +198,6 @@
 核函数类型核函数有非常多的类型，比如Uniform Kernel、Epanechnikov Kernel等，其中最常用的的是高斯核函数(Gaussian Kernel)： $$ K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right) $$
 $x$: 当前点坐标 $x_i$: 当前点的邻居坐标 $h$: 带宽 物理意义: 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0 核密度估计(Kernel Density Estimation, KDE)在Mean Shift算法中，KDE 的作用是用来估算数据点的局部密度分布。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部密度峰值(即告诉我们山顶在哪)，确定点的移动方向。KDE具体公式如下: $$ f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right) $$
 $n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
-</item>
-<item>
-  <title>解决Git的ssh超时问题</title>
-  <link>https://YouZhiZheng.github.io/posts/4d5a726/</link>
-  <pubDate>Fri, 03 Jan 2025 11:14:33 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/4d5a726/</guid>
-  <description><![CDATA[<h2 id="问题发现" class="heading-element"><span>问题发现</span>
-  <a href="#%e9%97%ae%e9%a2%98%e5%8f%91%e7%8e%b0" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p>最近在使用 <strong><code>git push</code></strong> 命令时发现连接超时，因为我使用的是用公钥走ssh协议进行连接，输入命令 <strong><code>ssh -T git@github.com</code></strong> 发现果然是ssh连接超时。在网上搜索了一圈，找到问题是主域名 <strong><code>github.com</code></strong> 的 IP 被彻底墙了。</p>
-<h2 id="解决办法" class="heading-element"><span>解决办法</span>
-  <a href="#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p>通过Google大法，找到供 ssh 连接的子域名 <code>ssh.github.com</code> IP 还活着。因此，解决办法就是往 <strong><code>~/.ssh/config</code></strong> 文件 中添加下面的配置：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
-</span></span><span class="line"><span class="cl">  Hostname ssh.github.com</span></span></code></pre></td></tr></table>
-</div>
-</div><p>至此，问题成功解决。</p>
-<h2 id="参考资料" class="heading-element"><span>参考资料</span>
-  <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><ol>
-<li><a href="https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port"target="_blank" rel="external nofollow noopener noreferrer">https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port</a></li>
-<li><a href="https://ww-rm.top/posts/2024/01/17/githubssh-timeout/"target="_blank" rel="external nofollow noopener noreferrer">https://ww-rm.top/posts/2024/01/17/githubssh-timeout/</a></li>
-</ol>]]></description>
 </item>
 </channel>
 </rss>

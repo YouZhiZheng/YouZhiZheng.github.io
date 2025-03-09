@@ -4,7 +4,17 @@
     <link>https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/</link>
     <description>算法 - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 06 Mar 2025 16:20:06 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+  <title>48. 旋转图像</title>
+  <link>https://YouZhiZheng.github.io/posts/fa20807/</link>
+  <pubDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/fa20807/</guid>
+  <description><![CDATA[题目思路这道题的难点主要在于不能使用辅助数组，空间复杂度必须为$O(1)$。通过观察示例，我们可以发现以下规律：
+「第 $i$ 行」元素旋转到「第 $n−1−i$ 列」元素。 「第 $j$ 列」元素旋转到「第 $j$ 行」元素。 即 $(i, j)$ 要放置的位置为 $(j, n - 1 - i)$，只要我们提前使用一个临时变量$temp$来存储$matrix[j][n - 1 - i]$，即可完成$(i, j)$这个位置的旋转操作。那么$(j, n - 1 - i)$又旋转到哪个位置呢？继续应用规律，发现其旋转的位置为$(n - 1 - i, n - 1 - j)$，同样的，如果使用$temp$来存储$matrix[n - 1 - i][n - 1 - j]$，即可完成$(i, j)$和$(j, n - 1 - i)$这两个位置的旋转。按照前面的逻辑继续推理，我们可以发现：
+$(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 - i, n - 1 - j) → (n - 1 - j, i)$ $(n - 1 - j, i) → (i, j)$ $A→B$表示位置A的元素顺时针旋转$90°$后的位置为B。观察上面的式子，发现这四项处于一个循环中，使用一个临时变量$temp$即可完成这四个元素的原地交换！]]></description>
+</item>
+<item>
   <title>238. 除自身以外数组的乘积</title>
   <link>https://YouZhiZheng.github.io/posts/0ee95a7/</link>
   <pubDate>Thu, 06 Mar 2025 16:20:06 &#43;0800</pubDate>
@@ -188,23 +198,6 @@
 核函数类型核函数有非常多的类型，比如Uniform Kernel、Epanechnikov Kernel等，其中最常用的的是高斯核函数(Gaussian Kernel)： $$ K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right) $$
 $x$: 当前点坐标 $x_i$: 当前点的邻居坐标 $h$: 带宽 物理意义: 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0 核密度估计(Kernel Density Estimation, KDE)在Mean Shift算法中，KDE 的作用是用来估算数据点的局部密度分布。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部密度峰值(即告诉我们山顶在哪)，确定点的移动方向。KDE具体公式如下: $$ f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right) $$
 $n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
-</item>
-<item>
-  <title>Astar算法</title>
-  <link>https://YouZhiZheng.github.io/posts/1d723ce/</link>
-  <pubDate>Wed, 18 Sep 2024 19:47:39 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/1d723ce/</guid>
-  <description><![CDATA[A星算法简介A*（A星）算法是一种基于格子（Grid）的寻路算法，用于从众多路径中，寻找一条从起点到终点代价最小的路径。基于格子也就是说会把地图看作是由 w*h 个格子组成的，因此寻得的路径也就是由一连串相邻的格子所组成的路径。
-既然是要寻找代价最小的路径，那么遍历节点时，就不能盲目地遍历，而是挑那些 「最有可能代价很小」 的节点来运算。如何获得这种代价很小的节点呢？这就需要使用启发函数来计算每个节点的代价了（在A*中启发函数也被称为 估价函数 ）。
-一条路径的代价无非就是路径长度（不带权重时），可是当寻找路径时，该如何计算代价呢？那就是将代价分为两个方面：
-已知代价。 即从起点到当前节点的路径长度。 未来可能会有的代价。 用 &ldquo;猜&rdquo; 的，假设当前节点到终点之间没有障碍，代价是多少。 那么我们就可以得到估价函数为：f(n) = g(n) + h(n)，其中g(n)表示起点到格子n的代价，h(n)表示格子n到终点的代价，f(n)表示格子n的代价。
-由于在EDA中，是使用曼哈顿距离来表示两点之间的距离，所以本文采用曼哈顿距离来计算代价。
-知道启发函数是怎么回事之后我们就可以开始遍历节点了。从起点开始，计算其四周节点的代价，并把那些节点放到一个 「池子」 里面去，之后每次都从池子里面捞出来代价最小的节点，继续计算其周围节点的代价。
-如果遍历到目标节点，或者池子空了之后，寻路就结束了。那么如何获得路径呢？我们从遍历的过程可以看出，节点加入到池子之前，我们知道这些加入到池子中的节点是来自于当前节点的，所以在加入池子之前将那些节点的父节点设为当前节点，等寻路到目标节点之后我们逐个节点遍历其父节点，就可以遍历完最短路径。
-对于算法，有以下几点需要注意：
-计算当前节点的周围节点的代价值时，如果需计算的节点原先就已经算过代价值，且当前算出来的代价值比原先的小，说明这个节点从当前节点过去路径会更短一些，应更新其父节点和代价值。 我们每次都是从「池子」中捞出代价最小的节点，所以用小根堆来实现「池子」是十分高效的。 综上所述，可以画出 A* 算法流程图：
-A星算法的实现作者采用 C++ 来实现 A* 算法，代码已上传至此仓库]]></description>
 </item>
 </channel>
 </rss>
