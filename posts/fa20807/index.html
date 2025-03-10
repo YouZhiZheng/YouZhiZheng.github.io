@@ -15,7 +15,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
 「第 $i$ 行」元素旋转到「第 $n−1−i$ 列」元素。 「第 $j$ 列」元素旋转到「第 $j$ 行」元素。 即 $(i, j)$ 要放置的位置为 $(j, n - 1 - i)$，只要我们提前使用一个临时变量$temp$来存储$matrix[j][n - 1 - i]$，即可完成$(i, j)$这个位置的旋转操作。那么$(j, n - 1 - i)$又旋转到哪个位置呢？继续应用规律，发现其旋转的位置为$(n - 1 - i, n - 1 - j)$，同样的，如果使用$temp$来存储$matrix[n - 1 - i][n - 1 - j]$，即可完成$(i, j)$和$(j, n - 1 - i)$这两个位置的旋转。按照前面的逻辑继续推理，我们可以发现：
 $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 - i, n - 1 - j) → (n - 1 - j, i)$ $(n - 1 - j, i) → (i, j)$ $A→B$表示位置A的元素顺时针旋转$90°$后的位置为B。观察上面的式子，发现这四项处于一个循环中，使用一个临时变量$temp$即可完成这四个元素的原地交换！">
   <meta itemprop="datePublished" content="2025-03-09T10:40:24+08:00">
-  <meta itemprop="dateModified" content="2025-03-09T10:40:24+08:00">
+  <meta itemprop="dateModified" content="2025-03-09T14:28:31+08:00">
   <meta itemprop="wordCount" content="266">
   <meta itemprop="keywords" content="数组,LeetCodeHot100"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/fa20807/">
   <meta property="og:site_name" content="zyz的技术博客">
@@ -27,7 +27,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-03-09T10:40:24+08:00">
-    <meta property="article:modified_time" content="2025-03-09T10:40:24+08:00">
+    <meta property="article:modified_time" content="2025-03-09T14:28:31+08:00">
     <meta property="article:tag" content="数组">
     <meta property="article:tag" content="LeetCodeHot100">
 
@@ -51,7 +51,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
       "@type": "WebPage",
       "@id": "https:\/\/YouZhiZheng.github.io\/posts\/fa20807\/"
     },"genre": "posts","keywords": "数组, LeetCodeHot100","wordcount":  266 ,
-    "url": "https:\/\/YouZhiZheng.github.io\/posts\/fa20807\/","datePublished": "2025-03-09T10:40:24+08:00","dateModified": "2025-03-09T10:40:24+08:00","publisher": {
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/fa20807\/","datePublished": "2025-03-09T10:40:24+08:00","dateModified": "2025-03-09T14:28:31+08:00","publisher": {
       "@type": "Organization",
       "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
         "@type": "Person",
@@ -160,7 +160,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>48. 旋转图像</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-03-09 10:40:24"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="266 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-03-09 10:40:24"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="更新于 2025-03-09 14:28:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="266 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -297,7 +297,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-03-09 10:40:24">更新于 2025-03-09&nbsp;</span>
+        <span title="更新于 2025-03-09 14:28:31">更新于 2025-03-09&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"></div>
         <div class="post-info-share">
