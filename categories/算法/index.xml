@@ -4,7 +4,20 @@
     <link>https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/</link>
     <description>算法 - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+  <title>240. 搜索二维矩阵Ⅱ</title>
+  <link>https://YouZhiZheng.github.io/posts/77cc956/</link>
+  <pubDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/77cc956/</guid>
+  <description><![CDATA[题目思路看到这题直接暴力法，但时间复杂度为$O(m*n)$，不够快。考虑到每一行的元素都是升序排列，那么可以在遍历每一行的元素时使用二分查找法，时间复杂度为$O(m * log_{}{n})$（当然也可以在遍历每一列时使用二分查找法）。
+二分查找法我们只用到了行有序或列有序这两个中的一个条件，能不能同时应用这两个条件来实现更快的算法呢？设「$num$为某一行的最后一个元素」，观察发现：
+如果$num$比$target$大，那么该元素所在列的后续元素都将比$target$大，所以可以直接抛弃掉这些元素。 如果$num$比$target$小，那么该元素所在行的前驱元素都将比$target$小，所以可以直接抛弃掉这些元素。 这意味着：我们可以一次性跳过当前搜索范围中的一整行或一整列，快速减少搜索空间！ 每次移动会排除一行或一列，最多移动$m+n$次，时间复杂度为 $O(m+n)$
+理清了思路，那么起始点该选择哪里呢？开始时能覆盖全部值的只有右上角和右下角，那么该选哪个呢？分析一下：
+右上角 值比target大时：可以跳过当前列。 值比target小时：可以跳过当前行。 右下角 值比target大时：无法跳过当前行和列。 值比target小时：target不存在。 通过分析发现，起始点只能选择右上角。这里采用的是分析行的最后一个元素，当然也可以分析列的最后一个元素，该方法就请读者自行思考了。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 class Solution { public: bool searchMatrix(vector&lt;vector&lt;int&gt;&gt;&amp; matrix, int target) { int x = 0, y = matrix[0].size() - 1; while (x &lt; matrix.]]></description>
+</item>
+<item>
   <title>48. 旋转图像</title>
   <link>https://YouZhiZheng.github.io/posts/fa20807/</link>
   <pubDate>Sun, 09 Mar 2025 10:40:24 &#43;0800</pubDate>
@@ -43,6 +56,19 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
   <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 最大和的连续子数组就是找最大差值，让$preSum[j]$ 尽可能的大，同时让它减去的$preSum[i - 1]$尽可能的小。所以，我们只需要从左往右依次计算每个位置的前缀和，且记录下截止当前下标之前出现过的最小前缀和$min\_pre\_sum$，并用它来和当前前缀和做差，获取一个潜在的最大子数组和。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int ans = -1e5; int min_pre_sum, pre_sum; min_pre_sum = pre_sum = 0; for (const auto&amp; num : nums) { pre_sum += num; // 计算当前位置的前缀和 ans = max(ans, pre_sum - min_pre_sum); // 计算最大子数组和 min_pre_sum = min(min_pre_sum, pre_sum); // 记录已经出现的最小前缀和 } return ans; } }; ]]></description>
+</item>
+<item>
+  <title>239. 滑动窗口最大值</title>
+  <link>https://YouZhiZheng.github.io/posts/f524d2b/</link>
+  <pubDate>Thu, 27 Feb 2025 19:04:09 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/f524d2b/</guid>
+  <description><![CDATA[题目思路直接暴力法，发现超时，怎么进一步优化呢？每个窗口我们都要从头到尾扫描一遍来寻找最大值，这是耗时所在，因为是寻找最大值，直接想到一种非常适合的数据结构——大根堆，堆顶就是最大值。每往右移动一次，就将新的元素加入堆中，再判断堆顶元素是否在窗口内，如果不是就移除，直到在当前窗口的元素成为堆顶。因为将一个元素加入到堆中的时间复杂度为$O(log n)$，所以算法的时间复杂度为$O(n log n)$。
+能不能进一步优化呢？当然可以，在一个窗口中，假设两个元素的下标分别为$i, j$且$i &lt; j$，那么「只要$i$在窗口中，$j$也必定在窗口中」。若$nums[i] &lt; nums[j]$， 那么$nums[i]$必定不可能成为最大值，我们就可以不必存储类似$nums[i]$的值。所以，我们只需要用一个双端队列来存储「在当前窗口中可能在以后成为最大值的值的对应下标」。存储下标是因为我们后续要判断该值是否超过窗口范围。
+根据前面的分析可知，该队列中的元素是递增的（因为是从左往后扫描的），元素(下标)对应的值是递减的。每次移动窗口就只需要将新元素与队尾元素对应的值进行比较，如果队尾元素对应的值小于新加元素对应的值，则将其移除（因为其对应的值不可能成为最大值了），不断地进行此项操作，直到队列为空或者新元素对应的值小于队尾元素对应值。
+显然，队首元素对应的值就是当前窗口的最大值，但需要注意队首元素是否超过了窗口的范围。
+这样我们只需要$O(n)$时间内就能完成此题。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 class Solution { public: vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) { deque&lt;int&gt; dq; // 初始化, 即处理第一个窗口中的值 for (int i = 0; i &lt; k; ++i) { // 将不可能成为最大值的移除队列 while (!]]></description>
 </item>
 <item>
   <title>560. 和为 K 的子数组</title>
@@ -169,35 +195,6 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
 要实现这一点，就可以通过将数组中的元素从小达到进行排序，随后使用三重循环进行遍历，且 「每重循环相邻两次枚举的元素不能相同」，否则也会造成重复。例如：一个排完序后的数组为$[-1, 0, 1, 1, 2, 3]$，第一次枚举到的三元组为$(-1, 0, 1)$ ，如果第三重循环继续枚举下一个相邻元素，那么仍然为 $(-1, 0, 1)$，这就产生了重复，因此就需要将第三重的循环跳到下一个不相同的元素，即数组中的最后一个元素3，枚举三元组$(-1, 0, 3)$。
 至此，我们已经对初始版本进行了空间上的优化，下面给出伪代码：
 1 2 3 4 5 6 7 8 9 10 nums.sort() for first = 0 .. n-1 // 只有和上一次枚举的元素不相同，我们才会进行枚举 if first == 0 or nums[first] != nums[first-1] then for second = first+1 .. n-1 if second == first+1 or nums[second] !]]></description>
-</item>
-<item>
-  <title>1. 两数之和</title>
-  <link>https://YouZhiZheng.github.io/posts/7d4248c/</link>
-  <pubDate>Mon, 17 Feb 2025 19:39:01 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/7d4248c/</guid>
-  <description><![CDATA[题目描述：
-思路时间复杂度为 $O(n^2)$ 的算法思路很简单，直接采用暴力法使用两层循环遍历每一种可能，判断是否存在答案。
-这里详细说明一下时间复杂度为 $O(n)$ 的算法，暴力法之所以慢是因为寻找 target - x 的时间复杂度过高。那有没有什么方法可以加速寻找元素 target - x 是否存在且存在时可以知道其索引呢？有的，那就是使用哈希表来做，以target - x 为key，以索引为value。这样，寻找target - x的时间复杂度就变为了 $O(1)$，极大地提高了效率。
-具体来说，对于遍历的每个元素，先判断其target - x是否存在，若存在，则直接返回对应的下标；若不存在，则将x存入哈希表，方便后续的查找。
-代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 // 暴力法 class Solution { public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) { for (int i = 0; i &lt; nums.]]></description>
-</item>
-<item>
-  <title>MeanShift算法</title>
-  <link>https://YouZhiZheng.github.io/posts/60e3fcc/</link>
-  <pubDate>Sun, 16 Feb 2025 10:46:23 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/60e3fcc/</guid>
-  <description><![CDATA[前言最近在看的一篇布局论文，发现其将 Mean Shift 算法扩展来进行聚类操作，而想要读懂文章就必须先理解此算法，故此文章记录的就是我对该算法的理解，若有理解错误的地方，欢迎留言指正。
-简介Mean Shift 是一种「基于密度」的聚类算法，它是一种非参数聚类方法（无需开始前指定簇数），可以自动从数据点的分布中推断出簇的数量。该算法会让数据点朝着密度更高的地方进行快速移动，直到达到该数据点所在区域的局部密度峰值地（即簇中心）。
-通俗来说，将密度峰值比作山顶，数据点视为登山者，该算法就是让每个登山者沿着最快的路径登上离自己最近的山顶，登上同一个山顶的登山者就属于同一个簇。
-带宽带宽(bandwidth)是Mean Shift 算法唯一需要指定的参数，它用于确定每个点的邻域。以当前点为圆心，带宽为半径画圆，所画出的圆就是该点的邻域，在邻域内的点就是该点的邻居。
-带宽非常重要，它会影响簇的大小：
-小带宽。这会形成许多小簇，因为只有近距离的点才会形成一个群集。 大带宽。这会形成较少的大簇，因为距离远的点也可以形成一个群集。 核函数在 Mean Shift 算法中，核函数的作用就是用来衡量当前移动点的邻居对该移动点的下一个位置的影响程度(由于该点是不断移动的，所以其邻居也会不断变化)。
-为什么使用核函数？核函数有助于平滑数据并确保远离中心的点不会过度影响结果。它使得 Mean Shift 算法关注数据中的局部情况而不是全局，有助于进行分类。
-核函数类型核函数有非常多的类型，比如Uniform Kernel、Epanechnikov Kernel等，其中最常用的的是高斯核函数(Gaussian Kernel)： $$ K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right) $$
-$x$: 当前点坐标 $x_i$: 当前点的邻居坐标 $h$: 带宽 物理意义: 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0 核密度估计(Kernel Density Estimation, KDE)在Mean Shift算法中，KDE 的作用是用来估算数据点的局部密度分布。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部密度峰值(即告诉我们山顶在哪)，确定点的移动方向。KDE具体公式如下: $$ f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right) $$
-$n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
 </item>
 </channel>
 </rss>

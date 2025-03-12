@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>二分查找 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</link>
     <description>二分查找 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="self" type="application/rss+xml" /><item>
   <title>240. 搜索二维矩阵Ⅱ</title>
-  <link>http://localhost:1313/posts/77cc956/</link>
+  <link>https://YouZhiZheng.github.io/posts/77cc956/</link>
   <pubDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/77cc956/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/77cc956/</guid>
   <description><![CDATA[题目思路看到这题直接暴力法，但时间复杂度为$O(m*n)$，不够快。考虑到每一行的元素都是升序排列，那么可以在遍历每一行的元素时使用二分查找法，时间复杂度为$O(m * log_{}{n})$（当然也可以在遍历每一列时使用二分查找法）。
 二分查找法我们只用到了行有序或列有序这两个中的一个条件，能不能同时应用这两个条件来实现更快的算法呢？设「$num$为某一行的最后一个元素」，观察发现：
 如果$num$比$target$大，那么该元素所在列的后续元素都将比$target$大，所以可以直接抛弃掉这些元素。 如果$num$比$target$小，那么该元素所在行的前驱元素都将比$target$小，所以可以直接抛弃掉这些元素。 这意味着：我们可以一次性跳过当前搜索范围中的一整行或一整列，快速减少搜索空间！ 每次移动会排除一行或一列，最多移动$m+n$次，时间复杂度为 $O(m+n)$
