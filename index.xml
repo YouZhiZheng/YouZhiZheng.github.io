@@ -72,8 +72,8 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <pubDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</pubDate>
   <author>zyz</author>
   <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
-  <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 最大和的连续子数组就是找最大差值，让$preSum[j]$ 尽可能的大，同时让它减去的$preSum[i - 1]$尽可能的小。所以，我们只需要从左往右依次计算每个位置的前缀和，且记录下截止当前下标之前出现过的最小前缀和$min\_pre\_sum$，并用它来和当前前缀和做差，获取一个潜在的最大子数组和。
-代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int ans = -1e5; int min_pre_sum, pre_sum; min_pre_sum = pre_sum = 0; for (const auto&amp; num : nums) { pre_sum += num; // 计算当前位置的前缀和 ans = max(ans, pre_sum - min_pre_sum); // 计算最大子数组和 min_pre_sum = min(min_pre_sum, pre_sum); // 记录已经出现的最小前缀和 } return ans; } }; ]]></description>
+  <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$（$i \le j$）来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 我们的目标是找到一个和最大的连续子数组，即： $$ max(preSum[j] - preSum[i - 1])，j \in [0, nums.size() - 1] $$ 我们只需计算出每一个$preSum[j] - preSum[i - 1]$的值，取其中最大值作为答案。但对$preSum[j]$来说我们需要让其减去每一个$preSum[i - 1]$吗？并不需要，因为我们需要的是差值的最大值，所以只需要用一个变量$preSumMin$来记录最小的$preSum[i - 1]$，然后只需计算每一个 $preSum[j] - preSumMin$，取其中的最大差值为答案即可。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int preSumMin = 0, preSum = 0, ans = -1e5; for (int i = 0; i &lt; nums.]]></description>
 </item>
 <item>
   <title>239. 滑动窗口最大值</title>
