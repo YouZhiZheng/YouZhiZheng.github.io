@@ -1,10 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
-    <title>二叉树 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
-    <description>二叉树 - 标签 | zyz的技术博客</description>
+    <title>树 - 标签 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/tags/%E6%A0%91/</link>
+    <description>树 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E6%A0%91/" rel="self" type="application/rss+xml" /><item>
   <title>437. 路径总和III</title>
   <link>https://YouZhiZheng.github.io/posts/8dee5a0/</link>
   <pubDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</pubDate>
@@ -15,17 +15,6 @@
 我们想要计算以当前节点为终点的任意路径的和，那么就需要借助第560题学习到的前缀和方法。用一个哈希表 $presum$ 来记录当前子路径中每种路径和的个数，当走到结点$node$时，我们只需要获得路径和为 $curr\_presum - targetSum$ 的路径数就可知道以$node$为终点，路径和为$targetSum$的路径数了。
 那么来整理一下整体思路：使用递归来遍历每个节点，用$currSum$来记录从根节点到当前节点的路径和(即前缀和)，同时用哈希表来记录从根节点到当前节点的父节点的所有路径和的出现次数。这样，每当走到一个新节点，就可以用减法快速判断以当前节点为终止节点的所有路径中有多少是符合要求的。最后，使用一个变量来累加全部结果。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 // 解法一，暴力法： class Solution { public: // 累加每个点符合要求的路径数 long pathSum(TreeNode* root, long targetSum) { if (root == nullptr) { return 0; } long ret = rootSum(root, targetSum); ret += pathSum(root-&gt;left, targetSum); ret += pathSum(root-&gt;right, targetSum); return ret; } // 计算以root为起点，符合要求的路径数 long rootSum(TreeNode* root, long targetSum) { if (!]]></description>
-</item>
-<item>
-  <title>543. 二叉树的直径</title>
-  <link>https://YouZhiZheng.github.io/posts/b92556f/</link>
-  <pubDate>Thu, 25 Jul 2024 21:27:01 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/b92556f/</guid>
-  <description><![CDATA[题目描述(力扣):
-思路: 首先理解二叉树的直径指的是二叉树中任意两个节点之间的路径长度的最大值(最长直径不一定经过根节点)。想要找到二叉树的直径，就需要遍历每个节点，依次计算每个节点的左右子树深度之和，其中的最大值就是二叉树的直径。因为二叉树的直径大多数情况下就是根节点下的左右子树深度之和，但存在直径不经过根节点的情况，所以需要遍历每个节点，计算以该节点为根的二叉树的直径，然后取计算结果中的最大值。根据前面的分析，我们需要计算左右子树深度之和，这就需要左右子树的信息，所以选择后序遍历。
-代码:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 /** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: int diameterOfBinaryTree(TreeNode* root) { maxDepth(root); return maxDia; } int maxDepth(TreeNode* root) { if(root == nullptr) return 0; int lefth_h = maxDepth(root-&gt;left); int right_h = maxDepth(root-&gt;right); int Dia = lefth_h + right_h; //计算当前二叉树的直径 maxDia = max(maxDia, Dia); return lefth_h &gt; right_h?]]></description>
 </item>
 </channel>
 </rss>

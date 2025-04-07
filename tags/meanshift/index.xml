@@ -19,7 +19,7 @@
 为什么使用核函数？核函数有助于平滑数据并确保远离中心的点不会过度影响结果。它使得 Mean Shift 算法关注数据中的局部情况而不是全局，有助于进行分类。
 核函数类型核函数有非常多的类型，比如Uniform Kernel、Epanechnikov Kernel等，其中最常用的的是高斯核函数(Gaussian Kernel)： $$ K\left(\frac{x - x_i}{h}\right) = \exp\left(-\frac{||x - x_i||^2}{2h^2}\right) $$
 $x$: 当前点坐标 $x_i$: 当前点的邻居坐标 $h$: 带宽 物理意义: 距离$x$越近的$x_i$，权重越大；超过带宽$h$的点权重为0 核密度估计(Kernel Density Estimation, KDE)在Mean Shift算法中，KDE 的作用是用来估算数据点的局部密度分布。它通过核函数将每个点的邻域内的其他点进行加权，提供一个平滑的、连续的密度估计，帮助识别局部密度峰值(即告诉我们山顶在哪)，确定点的移动方向。KDE具体公式如下: $$ f(x) = \frac{1}{nh^d} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right) $$
-$n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
+$n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个点 $x_i$ 对当前点的密度贡献 均值漂移向量(Mean Shift Vector)在使用KDE确定了移动方向后，就需要使用均值漂移向量来将该数据点移动到当前的山顶。]]></description>
 </item>
 </channel>
 </rss>

@@ -50,7 +50,7 @@ $$
 - $n$: 数据集中的点数
 - $h$: 带宽
 - $d$: 数据的维度
-- $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个邻居点 $x_i$ 对密度的贡献
+- $K\left(\frac{x - x_i}{h}\right)$: 核函数，加权每个点 $x_i$ 对当前点的密度贡献
 
 ## 均值漂移向量(Mean Shift Vector)
 
