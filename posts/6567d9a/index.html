@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>4. 寻找两个正序数组的中位数 - zyz的技术博客</title><meta name="author" content="zyz">
+<meta name="author-link" content="https://github.com/YouZhiZheng">
+<meta name="description" content="题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m &#43; n)$，不符合题目要求。
+进一步思考中位数的作用是什么？中位数的作用就是:
+将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
+所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
+切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) &#43; min(right\_part)}{2} $$
+长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i &#43; j = m - i &#43; n - j &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = m - i &#43; n - j &#43; 1 &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i &#43; j = \frac{m &#43; n}{2} &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = \frac{m &#43; n &#43; 1}{2} &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} $$" /><meta name="keywords" content='数组, 二分查找, LeetCodeHot100' />
+  <meta itemprop="name" content="4. 寻找两个正序数组的中位数">
+  <meta itemprop="description" content="题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m &#43; n)$，不符合题目要求。
+进一步思考中位数的作用是什么？中位数的作用就是:
+将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
+所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
+切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) &#43; min(right\_part)}{2} $$
+长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i &#43; j = m - i &#43; n - j &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = m - i &#43; n - j &#43; 1 &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i &#43; j = \frac{m &#43; n}{2} &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = \frac{m &#43; n &#43; 1}{2} &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} $$">
+  <meta itemprop="datePublished" content="2025-04-28T10:27:02+08:00">
+  <meta itemprop="dateModified" content="2025-04-28T10:27:02+08:00">
+  <meta itemprop="wordCount" content="401">
+  <meta itemprop="keywords" content="数组,二分查找,LeetCodeHot100"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/6567d9a/">
+  <meta property="og:site_name" content="zyz的技术博客">
+  <meta property="og:title" content="4. 寻找两个正序数组的中位数">
+  <meta property="og:description" content="题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m &#43; n)$，不符合题目要求。
+进一步思考中位数的作用是什么？中位数的作用就是:
+将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
+所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
+切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) &#43; min(right\_part)}{2} $$
+长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i &#43; j = m - i &#43; n - j &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = m - i &#43; n - j &#43; 1 &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i &#43; j = \frac{m &#43; n}{2} &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = \frac{m &#43; n &#43; 1}{2} &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} $$">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-28T10:27:02+08:00">
+    <meta property="article:modified_time" content="2025-04-28T10:27:02+08:00">
+    <meta property="article:tag" content="数组">
+    <meta property="article:tag" content="二分查找">
+    <meta property="article:tag" content="LeetCodeHot100">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="4. 寻找两个正序数组的中位数">
+  <meta name="twitter:description" content="题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m &#43; n)$，不符合题目要求。
+进一步思考中位数的作用是什么？中位数的作用就是:
+将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
+所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
+切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) &#43; min(right\_part)}{2} $$
+长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i &#43; j = m - i &#43; n - j &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = m - i &#43; n - j &#43; 1 &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i &#43; j = \frac{m &#43; n}{2} &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = \frac{m &#43; n &#43; 1}{2} &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} $$">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/6567d9a/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/8c42677/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "4. 寻找两个正序数组的中位数",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/6567d9a\/"
+    },"genre": "posts","keywords": "数组, 二分查找, LeetCodeHot100","wordcount":  401 ,
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/6567d9a\/","datePublished": "2025-04-28T10:27:02+08:00","dateModified": "2025-04-28T10:27:02+08:00","publisher": {
+      "@type": "Organization",
+      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
+        "@type": "Person",
+        "name": "zyz"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>4. 寻找两个正序数组的中位数</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-04-28 10:27:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-28">2025-04-28</time></span>&nbsp;<span title="401 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#题目httpsleetcodecnproblemsmedian-of-two-sorted-arraysdescriptionenvtypestudy-plan-v2envidtop-100-liked"><a href="https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=study-plan-v2&amp;envId=top-100-liked">题目</a></a></li>
+    <li><a href="#思路">思路</a></li>
+    <li><a href="#代码">代码</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="题目httpsleetcodecnproblemsmedian-of-two-sorted-arraysdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
+  <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemsmedian-of-two-sorted-arraysdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a class="lightgallery" href="/PostsImgs/LeetCode/4/question.png?size=large" data-thumbnail="/PostsImgs/LeetCode/4/question.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/LeetCode/4/question.png" alt="图1" srcset="/PostsImgs/LeetCode/4/question.png?size=small, /PostsImgs/LeetCode/4/question.png?size=medium 1.5x, /PostsImgs/LeetCode/4/question.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="思路" class="heading-element"><span>思路</span>
+  <a href="#%e6%80%9d%e8%b7%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m + n)$，不符合题目要求。</p>
+<p>进一步思考中位数的作用是什么？中位数的作用就是:</p>
+<blockquote>
+<p>将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。</p>
+</blockquote>
+<p>所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。</p>
+<p>切割好后，如果两数组长度和为偶数，那么中位数为：
+$$
+median = \frac{max(left\_part) + min(right\_part)}{2}
+$$</p>
+<p>长度和为奇数（为了便于处理，我们将中位数划分给<strong>左边</strong>部分。当然也可以划分给右边部分），那么中位数为：
+$$
+median = max(left\_part)
+$$</p>
+<p>确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知：
+$$
+\begin{cases}
+i + j = m - i + n - j &amp; \text{当 } m+n \text{ 为偶数} \\
+i + j = m - i + n - j + 1 &amp; \text{当 } m+n \text{ 为奇数}
+\end{cases}
+\Rightarrow
+\begin{cases}
+i + j = \frac{m + n}{2} &amp; \text{当 } m+n \text{ 为偶数} \\
+i + j = \frac{m + n + 1}{2} &amp; \text{当 } m+n \text{ 为奇数}
+\end{cases}
+$$</p>
+<p>又$m$和$n$均是整数，由整除可知 $\frac{m + n}{2} = \frac{m + n + 1}{2}$，故$i + j = \frac{m + n + 1}{2}$。只要我们确定了$i$值就能确定$j$值，需要注意的是当<strong>数组A的长度大于数组B的长度</strong>（即$m &gt; n$）时，$j$可能不是有效值。所以，当$m &gt; n$时，我们需要交换两个数组来确保$j$的取值<strong>一定是有效</strong>的（可通过数学放缩法来证明$j$一定在$[0, n]$内）。</p>
+<p>这道题时间复杂度要求为$O(log(m+n))$，所以我们只需在数组A上通过二分法找到$i$的位置，就能确定$j$的位置，从而解决这道题。因为我们通过上面的公式已经确保了$left\_part = right\_part$（$left\_part = left\_A + left\_B$），接下来只需要使用二分法不断移动$i$，使得下面的不等式成立即可：
+$$
+\begin{cases}
+max(left_A) \le min(right_B)  \\
+max(left_B) \le min(right_A)
+\end{cases}
+\Rightarrow
+max(left_part) \le min(right_part)
+$$</p>
+<h2 id="代码" class="heading-element"><span>代码</span>
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Solution</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">double</span> <span class="n">findMedianSortedArrays</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 确保j不会越界
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">return</span> <span class="nf">findMedianSortedArrays</span><span class="p">(</span><span class="n">nums2</span><span class="p">,</span> <span class="n">nums1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 注意这里的 right 不能为nums1.size() - 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 因为 left和right表示的是i的取值范围, i最大是能取到nums1.size()的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">A_left_max</span><span class="p">,</span> <span class="n">A_right_min</span><span class="p">,</span> <span class="n">B_left_max</span><span class="p">,</span> <span class="n">B_right_min</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 二分法查找i的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">i</span> <span class="o">=</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// 记得处理特殊情况, 即判断分割线左右两边是否存在元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">A_left_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">INT_MIN</span> <span class="p">:</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="n">A_right_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span> <span class="o">?</span> <span class="nl">INT_MAX</span> <span class="p">:</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="n">B_left_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">INT_MIN</span> <span class="p">:</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="n">B_right_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span> <span class="o">?</span> <span class="nl">INT_MAX</span> <span class="p">:</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// 判断是否满足 left_part &lt;= right_part
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">A_left_max</span> <span class="o">&lt;=</span> <span class="n">B_right_min</span> <span class="o">&amp;&amp;</span> <span class="n">B_left_max</span> <span class="o">&lt;=</span> <span class="n">A_right_min</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// 偶数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="k">return</span> <span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">A_left_max</span><span class="p">,</span> <span class="n">B_left_max</span><span class="p">)</span> <span class="o">+</span> <span class="n">min</span><span class="p">(</span><span class="n">A_right_min</span><span class="p">,</span> <span class="n">B_right_min</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// 奇数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="k">return</span> <span class="nf">max</span><span class="p">(</span><span class="n">A_left_max</span><span class="p">,</span> <span class="n">B_left_max</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">else</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">A_left_max</span> <span class="o">&gt;</span> <span class="n">B_right_min</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">right</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">left</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 不会走到这一步
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mf">0.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-04-28 10:27:02">更新于 2025-04-28&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E6%95%B0%E7%BB%84/" class="post-tag" title="标签 - 数组">数组</a><a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" class="post-tag" title="标签 - 二分查找">二分查找</a><a href="/tags/leetcodehot100/" class="post-tag" title="标签 - LeetCodeHot100">LeetCodeHot100</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/8c42677/" class="post-nav-item" rel="prev" title="33. 搜索旋转排序数组"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>33. 搜索旋转排序数组</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
+      </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
+            <span class="license footer-divider">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0
+              </a>
+            </span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2025-04-28T10:27:02+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"4. 寻找两个正序数组的中位数"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

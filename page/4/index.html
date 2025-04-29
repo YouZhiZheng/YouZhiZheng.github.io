@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-04-25T10:12:40+08:00">
-  <meta itemprop="dateModified" content="2025-04-25T10:12:40+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-04-28T10:27:02+08:00">
+  <meta itemprop="dateModified" content="2025-04-28T10:27:02+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,19 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/1d723ce/">Astar算法</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-09-18 19:47:39'>发布于 <time datetime="2024-09-18">2024-09-18</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">A星算法简介A*（A星）算法是一种基于格子（Grid）的寻路算法，用于从众多路径中，寻找一条从起点到终点代价最小的路径。基于格子也就是说会把地图看作是由 w*h 个格子组成的，因此寻得的路径也就是由一连串相邻的格子所组成的路径。
+既然是要寻找代价最小的路径，那么遍历节点时，就不能盲目地遍历，而是挑那些 「最有可能代价很小」 的节点来运算。如何获得这种代价很小的节点呢？这就需要使用启发函数来计算每个节点的代价了（在A*中启发函数也被称为 估价函数 ）。
+一条路径的代价无非就是路径长度（不带权重时），可是当寻找路径时，该如何计算代价呢？那就是将代价分为两个方面：
+已知代价。 即从起点到当前节点的路径长度。 未来可能会有的代价。 用 &ldquo;猜&rdquo; 的，假设当前节点到终点之间没有障碍，代价是多少。 那么我们就可以得到估价函数为：f(n) = g(n) + h(n)，其中g(n)表示起点到格子n的代价，h(n)表示格子n到终点的代价，f(n)表示格子n的代价。
+由于在EDA中，是使用曼哈顿距离来表示两点之间的距离，所以本文采用曼哈顿距离来计算代价。
+知道启发函数是怎么回事之后我们就可以开始遍历节点了。从起点开始，计算其四周节点的代价，并把那些节点放到一个 「池子」 里面去，之后每次都从池子里面捞出来代价最小的节点，继续计算其周围节点的代价。
+如果遍历到目标节点，或者池子空了之后，寻路就结束了。那么如何获得路径呢？我们从遍历的过程可以看出，节点加入到池子之前，我们知道这些加入到池子中的节点是来自于当前节点的，所以在加入池子之前将那些节点的父节点设为当前节点，等寻路到目标节点之后我们逐个节点遍历其父节点，就可以遍历完最短路径。
+对于算法，有以下几点需要注意：
+计算当前节点的周围节点的代价值时，如果需计算的节点原先就已经算过代价值，且当前算出来的代价值比原先的小，说明这个节点从当前节点过去路径会更短一些，应更新其父节点和代价值。 我们每次都是从「池子」中捞出代价最小的节点，所以用小根堆来实现「池子」是十分高效的。 综上所述，可以画出 A* 算法流程图：
+A星算法的实现作者采用 C++ 来实现 A* 算法，代码已上传至此仓库</div><div class="post-footer">
+    <a href="/posts/1d723ce/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/astar/' class="post-tag">Astar</a><a href='/tags/c&#43;&#43;/' class="post-tag">C&#43;&#43;</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/3d623e4/">Linux学习笔记</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-15 10:57:39'>发布于 <time datetime="2024-08-15">2024-08-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="content">软件安装与更新在Linux下，一般用包管理器来安装软件，它能自动化地完成软件的安装、更新、配置和移除功能，优雅而快速。
 软件包管理器的一个重要组成部分是软件仓库。软件仓库是收藏了互联网上可用软件包（应用程序）的图书馆，里面往往包含了数万个可供下载 和安装的可用软件包。
@@ -213,13 +226,6 @@ Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮
 代码:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 /** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: int diameterOfBinaryTree(TreeNode* root) { maxDepth(root); return maxDia; } int maxDepth(TreeNode* root) { if(root == nullptr) return 0; int lefth_h = maxDepth(root-&gt;left); int right_h = maxDepth(root-&gt;right); int Dia = lefth_h + right_h; //计算当前二叉树的直径 maxDia = max(maxDia, Dia); return lefth_h &gt; right_h?</div><div class="post-footer">
     <a href="/posts/b92556f/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/' class="post-tag">二叉树</a><a href='/tags/%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/' class="post-tag">后序遍历</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/6fc9142/">86. 分隔链表</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-22 21:19:02'>发布于 <time datetime="2024-07-22">2024-07-22</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目描述(力扣):
-思路: 创造两个指针，分别指向大于x的链表和小于x的链表，然后依次遍历初始链表的每个节点进行判断将其添加到对应的新链表中，最后将两个链接进行连接后返回。
-代码:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* partition(ListNode* head, int x) { ListNode *h1 = new ListNode(-1); //指向小于x的节点组成的链表的头节点 ListNode *h2 = new ListNode(-1); //指向大于x的节点组成的链表的头节点 ListNode *t1, *t2; //分别指向各自链表的尾结点 t1 = h1; t2 = h2; while(head !</div><div class="post-footer">
-    <a href="/posts/6fc9142/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%8F%8C%E6%8C%87%E9%92%88/' class="post-tag">双指针</a><a href='/tags/%E9%93%BE%E8%A1%A8/' class="post-tag">链表</a></div></div>
 </article>
 <ul class="pagination"><li class="page-item">
           <span class="page-link">

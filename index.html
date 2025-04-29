@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-04-25T10:12:40+08:00">
-  <meta itemprop="dateModified" content="2025-04-25T10:12:40+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-04-28T10:27:02+08:00">
+  <meta itemprop="dateModified" content="2025-04-28T10:27:02+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,16 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/6567d9a/">4. 寻找两个正序数组的中位数</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-04-28 10:27:02'>发布于 <time datetime="2025-04-28">2025-04-28</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m + n)$，不符合题目要求。
+进一步思考中位数的作用是什么？中位数的作用就是:
+将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
+所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
+切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) + min(right\_part)}{2} $$
+长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i + j = m - i + n - j &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = m - i + n - j + 1 &amp; \text{当 } m+n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i + j = \frac{m + n}{2} &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = \frac{m + n + 1}{2} &amp; \text{当 } m+n \text{ 为奇数} \end{cases} $$</div><div class="post-footer">
+    <a href="/posts/6567d9a/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E7%BB%84/' class="post-tag">数组</a><a href='/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/' class="post-tag">二分查找</a><a href='/tags/leetcodehot100/' class="post-tag">LeetCodeHot100</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/8c42677/">33. 搜索旋转排序数组</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-04-25 10:12:40'>发布于 <time datetime="2025-04-25">2025-04-25</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目思路最开始想的是先通过二分来找到最大值位置，确定$right$和$left$的值，再使用一次二分来进行查询。但仔细观察题目发现只需进行一次二分查找算法就可以解决问题了，因为 「该旋转后的数组从中间分开后，左右部分中必定有一个部分是有序的」。
 那么我们就可以借助这个有序数组来直接进行二分查找，采用下面的方式来更新$left$和$right$的值：
@@ -181,15 +191,6 @@ $start$表示要满足该出行计划的最早做核酸的时刻。 $end$表示�
 例如，将区间$[l, r]$的每个数都加上一个$k$，只需要让 $b[l] += k, b[r+1] -= k$; 这样就可以让$a_l$到$a_r$都加上$k$，因为$a_i$的值是$b_i$的前缀和。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 #include &lt;bits/stdc++.</div><div class="post-footer">
     <a href="/posts/8d7c109/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%B7%AE%E5%88%86%E6%B3%95/' class="post-tag">差分法</a><a href='/tags/%E6%95%B0%E7%BB%84/' class="post-tag">数组</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/77cc956/">240. 搜索二维矩阵Ⅱ</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-03-10 09:57:17'>发布于 <time datetime="2025-03-10">2025-03-10</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目思路看到这题直接暴力法，但时间复杂度为$O(m*n)$，不够快。考虑到每一行的元素都是升序排列，那么可以在遍历每一行的元素时使用二分查找法，时间复杂度为$O(m * log_{}{n})$（当然也可以在遍历每一列时使用二分查找法）。
-二分查找法我们只用到了行有序或列有序这两个中的一个条件，能不能同时应用这两个条件来实现更快的算法呢？设「$num$为某一行的最后一个元素」，观察发现：
-如果$num$比$target$大，那么该元素所在列的后续元素都将比$target$大，所以可以直接抛弃掉这些元素。 如果$num$比$target$小，那么该元素所在行的前驱元素都将比$target$小，所以可以直接抛弃掉这些元素。 这意味着：我们可以一次性跳过当前搜索范围中的一整行或一整列，快速减少搜索空间！ 每次移动会排除一行或一列，最多移动$m+n$次，时间复杂度为 $O(m+n)$
-理清了思路，那么起始点该选择哪里呢？开始时能覆盖全部值的只有右上角和右下角，那么该选哪个呢？分析一下：
-右上角 值比target大时：可以跳过当前列。 值比target小时：可以跳过当前行。 右下角 值比target大时：无法跳过当前行和列。 值比target小时：target不存在。 通过分析发现，起始点只能选择右上角。这里采用的是分析行的最后一个元素，当然也可以分析列的最后一个元素，该方法就请读者自行思考了。
-代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 class Solution { public: bool searchMatrix(vector&lt;vector&lt;int&gt;&gt;&amp; matrix, int target) { int x = 0, y = matrix[0].size() - 1; while (x &lt; matrix.</div><div class="post-footer">
-    <a href="/posts/77cc956/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E7%BB%84/' class="post-tag">数组</a><a href='/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/' class="post-tag">二分查找</a><a href='/tags/leetcodehot100/' class="post-tag">LeetCodeHot100</a></div></div>
 </article>
 <ul class="pagination"><li class="page-item active">
           <span class="page-link">
