@@ -23,7 +23,7 @@
 长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
 确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i &#43; j = m - i &#43; n - j &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = m - i &#43; n - j &#43; 1 &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i &#43; j = \frac{m &#43; n}{2} &amp; \text{当 } m&#43;n \text{ 为偶数} \\ i &#43; j = \frac{m &#43; n &#43; 1}{2} &amp; \text{当 } m&#43;n \text{ 为奇数} \end{cases} $$">
   <meta itemprop="datePublished" content="2025-04-28T10:27:02+08:00">
-  <meta itemprop="dateModified" content="2025-04-28T10:27:02+08:00">
+  <meta itemprop="dateModified" content="2025-04-29T10:45:25+08:00">
   <meta itemprop="wordCount" content="401">
   <meta itemprop="keywords" content="数组,二分查找,LeetCodeHot100"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/6567d9a/">
   <meta property="og:site_name" content="zyz的技术博客">
@@ -39,7 +39,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-04-28T10:27:02+08:00">
-    <meta property="article:modified_time" content="2025-04-28T10:27:02+08:00">
+    <meta property="article:modified_time" content="2025-04-29T10:45:25+08:00">
     <meta property="article:tag" content="数组">
     <meta property="article:tag" content="二分查找">
     <meta property="article:tag" content="LeetCodeHot100">
@@ -56,7 +56,7 @@
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/6567d9a/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/8c42677/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/6567d9a/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/8c42677/" /><link rel="next" href="https://YouZhiZheng.github.io/posts/84d7cc5/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -68,7 +68,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/YouZhiZheng.github.io\/posts\/6567d9a\/"
     },"genre": "posts","keywords": "数组, 二分查找, LeetCodeHot100","wordcount":  401 ,
-    "url": "https:\/\/YouZhiZheng.github.io\/posts\/6567d9a\/","datePublished": "2025-04-28T10:27:02+08:00","dateModified": "2025-04-28T10:27:02+08:00","publisher": {
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/6567d9a\/","datePublished": "2025-04-28T10:27:02+08:00","dateModified": "2025-04-29T10:45:25+08:00","publisher": {
       "@type": "Organization",
       "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
         "@type": "Person",
@@ -177,7 +177,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>4. 寻找两个正序数组的中位数</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-04-28 10:27:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-28">2025-04-28</time></span>&nbsp;<span title="401 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-04-28 10:27:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-28">2025-04-28</time></span>&nbsp;<span title="更新于 2025-04-29 10:45:25"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-04-29">2025-04-29</time></span>&nbsp;<span title="401 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -194,7 +194,7 @@
   <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemsmedian-of-two-sorted-arraysdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><p><a class="lightgallery" href="/PostsImgs/LeetCode/4/question.png?size=large" data-thumbnail="/PostsImgs/LeetCode/4/question.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/LeetCode/4/question.png" alt="图1" srcset="/PostsImgs/LeetCode/4/question.png?size=small, /PostsImgs/LeetCode/4/question.png?size=medium 1.5x, /PostsImgs/LeetCode/4/question.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</h2><p><a class="lightgallery" href="/PostsImgs/LeetCode/394/question.png?size=large" data-thumbnail="/PostsImgs/LeetCode/394/question.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/LeetCode/394/question.png" alt="图1" srcset="/PostsImgs/LeetCode/394/question.png?size=small, /PostsImgs/LeetCode/394/question.png?size=medium 1.5x, /PostsImgs/LeetCode/394/question.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <h2 id="思路" class="heading-element"><span>思路</span>
   <a href="#%e6%80%9d%e8%b7%af" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -372,7 +372,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-04-28 10:27:02">更新于 2025-04-28&nbsp;</span>
+        <span title="更新于 2025-04-29 10:45:25">更新于 2025-04-29&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"></div>
         <div class="post-info-share">
@@ -387,7 +387,8 @@ $$</p>
     </section>
   </div>
 
-  <div class="post-nav"><a href="/posts/8c42677/" class="post-nav-item" rel="prev" title="33. 搜索旋转排序数组"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>33. 搜索旋转排序数组</a></div>
+  <div class="post-nav"><a href="/posts/8c42677/" class="post-nav-item" rel="prev" title="33. 搜索旋转排序数组"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>33. 搜索旋转排序数组</a>
+      <a href="/posts/84d7cc5/" class="post-nav-item" rel="next" title="394. 字符串解码">394. 字符串解码<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 <div id="comments"><div id="gitalk" class="comment"></div><noscript>
         Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.

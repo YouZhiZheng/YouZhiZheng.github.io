@@ -4,7 +4,17 @@
     <link>https://YouZhiZheng.github.io/posts/</link>
     <description>所有文章 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 28 Apr 2025 10:27:02 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 04 May 2025 16:01:45 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+  <title>394. 字符串解码</title>
+  <link>https://YouZhiZheng.github.io/posts/84d7cc5/</link>
+  <pubDate>Sun, 04 May 2025 16:01:45 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/84d7cc5/</guid>
+  <description><![CDATA[题目思路该题就是给定一个编码后的字符串，然后返回解码后的字符串。
+由题可知要处理嵌套的情况，即要先解决内层的$k[encoded_string]$，再解决外层，即后进先出，很适合用栈来解决。而且其结构为$k[encoded_string]$，很适合用双栈来解决，一个为数字栈用来存储重复几次，一个为字符串栈用来存储每一层进入 $[$ 时，之前构造的字符串。
+代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 class Solution { public: string decodeString(string s) { string cur_str, pre_str, temp; stack&lt;int&gt; s_n; // 数字栈，存储重复几次 stack&lt;string&gt; s_s; // 字符串栈，存储前面的字符串 for (size_t i = 0; i &lt; s.]]></description>
+</item>
+<item>
   <title>4. 寻找两个正序数组的中位数</title>
   <link>https://YouZhiZheng.github.io/posts/6567d9a/</link>
   <pubDate>Mon, 28 Apr 2025 10:27:02 &#43;0800</pubDate>
@@ -109,16 +119,6 @@ $start$表示要满足该出行计划的最早做核酸的时刻。 $end$表示�
   <description><![CDATA[题目思路这道题的难点主要在于不能使用辅助数组，空间复杂度必须为$O(1)$。通过观察示例，我们可以发现以下规律：
 「第 $i$ 行」元素旋转到「第 $n−1−i$ 列」元素。 「第 $j$ 列」元素旋转到「第 $j$ 行」元素。 即 $(i, j)$ 要放置的位置为 $(j, n - 1 - i)$，只要我们提前使用一个临时变量$temp$来存储$matrix[j][n - 1 - i]$，即可完成$(i, j)$这个位置的旋转操作。那么$(j, n - 1 - i)$又旋转到哪个位置呢？继续应用规律，发现其旋转的位置为$(n - 1 - i, n - 1 - j)$，同样的，如果使用$temp$来存储$matrix[n - 1 - i][n - 1 - j]$，即可完成$(i, j)$和$(j, n - 1 - i)$这两个位置的旋转。按照前面的逻辑继续推理，我们可以发现：
 $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 - i, n - 1 - j) → (n - 1 - j, i)$ $(n - 1 - j, i) → (i, j)$ $A→B$表示位置A的元素顺时针旋转$90°$后的位置为B。观察上面的式子，发现这四项处于一个循环中，使用一个临时变量$temp$即可完成这四个元素的原地交换！]]></description>
-</item>
-<item>
-  <title>238. 除自身以外数组的乘积</title>
-  <link>https://YouZhiZheng.github.io/posts/0ee95a7/</link>
-  <pubDate>Thu, 06 Mar 2025 16:20:06 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/0ee95a7/</guid>
-  <description><![CDATA[题目思路看题第一眼想到的是先计算给定数组所有元素的乘积，然后对数组中的每个元素 $x$，将总的乘积除以 $x$ 来求得除自身值的以外数组的乘积。但当数组中出现$0$时，这个方法就失效了，且题目说明了不能使用除法。
-不能使用除法，又怎么计算除自身值以外数组的乘积呢？考虑到 该数对应的乘积 =其左边的乘积 * 其右边的乘积。所以，可以通过两次遍历依次计算每个数的左右乘积即可得到答案。
-代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 class Solution { public: vector&lt;int&gt; productExceptSelf(vector&lt;int&gt;&amp; nums) { vector&lt;int&gt; ans; // 计算每个数的左侧乘积 for(int i = 0; i &lt; nums.size(); ++i) { if(i == 0) { ans.]]></description>
 </item>
 </channel>
 </rss>

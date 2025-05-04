@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-04-28T10:27:02+08:00">
-  <meta itemprop="dateModified" content="2025-04-28T10:27:02+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-05-04T16:01:45+08:00">
+  <meta itemprop="dateModified" content="2025-05-04T16:01:45+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,14 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/847b681/">560. 和为 K 的子数组</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-02-26 10:57:50'>发布于 <time datetime="2025-02-26">2025-02-26</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content">题目思路直接暴力法，遍历每一个子数组查看其和是否为k，发现会超时。暴力法的时间复杂度为$O(n^2)$，瓶颈在于对于每个 $i$，我们需要枚举所有以$nums[i]$作为结尾的子数组来判断其和是否等于k，这一步是否可以优化呢？当然是可以的，考虑到子数组的连续性特性，可以通过 前缀和 来优化。
+前缀和是指数组中从第一个元素到当前元素的和。假设 $pre[i]$ 为 $[0, &hellip;, i]$里所有数的和，那么 $pre[i]$ 就是前缀和。有了前缀和我们就可以用其来计算子数组的和, “子数组 [j, i] 的和为k” 就可以转化为以下等式： $$ pre[i] - pre[j - 1] = k $$ 通过变形就可以得到： $$ pre[i] - k = pre[j - 1] $$ 这说明，想要知道以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的 个数 时只要统计在位置$i$之前有多少个前缀和为 $pre[i] - k$的$pre[j]$ 。所以，考虑建立哈希表，以前缀和为key，该前缀和出现次数为value，从左往右边更新哈希表边计算答案，即可在$O(n)$时间内完成此题。
+需要注意的是，我们在构造哈希表时需要先插入键值对{0, 1} 且在遍历时必须先判断是否有符合条件的前缀和再往哈希表里记录当前前缀和。
+为什么可以从左往右依次更新哈希表？因为$pre[i]$的值可以由 $pre[i - 1]$递推而来，即： $$ pre[i] = pre[i - 1] + nums[i] $$
+为什么在构造哈希表时需要先插入键值对{0, 1}?这是为了处理特殊情况。当我们处理到位置 $i$ 时，我们想要知道的是全部以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的个数，这肯定包括由[0, &hellip;, i]组成的连续子数组，它们的前缀和即为 $pre[i]$，如果不先插入键值对{0, 1}就会漏掉 $pre[i] = k$ 这一情况，导致漏算答案。</div><div class="post-footer">
+    <a href="/posts/847b681/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E7%BB%84/' class="post-tag">数组</a><a href='/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/' class="post-tag">哈希表</a><a href='/tags/%E5%89%8D%E7%BC%80%E5%92%8C/' class="post-tag">前缀和</a><a href='/tags/leetcodehot100/' class="post-tag">LeetCodeHot100</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/2aaae8d/">3. 无重复字符的最长子串</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2025-02-24 11:02:49'>发布于 <time datetime="2025-02-24">2025-02-24</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="content"><h2 id="题目httpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
   <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
@@ -290,15 +298,6 @@ $n$: 数据集中的点数 $h$: 带宽 $d$: 数据的维度 $K\left(\frac{x - x_
 <li><a href="https://ww-rm.top/posts/2024/01/17/githubssh-timeout/"target="_blank" rel="external nofollow noopener noreferrer">https://ww-rm.top/posts/2024/01/17/githubssh-timeout/</a></li>
 </ol></div><div class="post-footer">
     <a href="/posts/4d5a726/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/git/' class="post-tag">Git</a><a href='/tags/ssh/' class="post-tag">Ssh</a><a href='/tags/timeout/' class="post-tag">Timeout</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/92c957a/">Python学习笔记</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-11-20 21:35:53'>发布于 <time datetime="2024-11-20">2024-11-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/python/" class="post-category" title="分类 - Python"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Python</a></span></div><div class="content">环境搭建我是在WSL2下的Ubuntu进行Python开发的，所以本笔记的环境搭建仅适用于Liunx开发环境，Windows下搭建环境请自行Google。
-miniconda首先，先安装 miniconda，直接按照官方教程即可安装。
-不同的项目可能需要不同版本的库或包，而直接在系统中安装多个版本可能会导致冲突和不可预见的问题。为了解决这个问题，conda虚拟环境应运而生。
-conda虚拟环境允许你在同一台机器上创建多个 「独立」 的环境，每个环境都有自己的Python解释器和依赖库，从而实现了项目之间的隔离。这样，你可以在一个环境中安装特定版本的库，而不影响其他环境。
-miniconda 的常用命令有：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 # 创建一个名为 myenv 的环境并指定在该环境中安装 3.7版本的Python conda create --name myenv python=3.7 # 激活或切换到名称为 myenc 的环境 conda activate myenv # 在当前环境下安装 numpy 包 conda install numpy # 在当前环境下安装指定版本的 numpy 包 conda install numpy=1.</div><div class="post-footer">
-    <a href="/posts/92c957a/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%AC%94%E8%AE%B0/' class="post-tag">笔记</a></div></div>
 </article>
 <ul class="pagination"><li class="page-item">
           <span class="page-link">
