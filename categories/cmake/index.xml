@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>CMake - 分类 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/categories/cmake/</link>
+    <description>CMake - 分类 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Tue, 24 Jun 2025 09:53:34 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/cmake/" rel="self" type="application/rss+xml" /><item>
+  <title>Cmake学习笔记</title>
+  <link>https://YouZhiZheng.github.io/posts/6c7e777/</link>
+  <pubDate>Tue, 24 Jun 2025 09:53:34 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/6c7e777/</guid>
+  <description><![CDATA[该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
+基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C++ ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION 3.15) project( MBFF VERSION 0.1.12 LANGUAGES CXX ) add_executable(MBFF src/main.cpp) 这样我们就可以产生一个名为MBFF的可执行文件。
+其中 cmake_minimum_required()和project()命令需要在项目的顶级CMakeLists.txt给出（当项目十分复杂时，会存在多个CMakeLists.txt文件）。
+cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令，用于控制CMake的版本，禁用一些已启用的特性 project(): 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用 add_executable(): 产生可执行文件，没有该命令是不会产生可执行文件的 注意：CMakeLists.txt的命令执行顺序是从上往下的，所以要有逻辑的编写命令。
+使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些C++17或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 C++98/GCC 或 C++14/Clang， 可通过输出变量 CMAKE_CXX_STANDARD_DEFAULT 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 set() 命令来进行相关设置：]]></description>
+</item>
+</channel>
+</rss>

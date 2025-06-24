@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Cmake学习笔记 - zyz的技术博客</title><meta name="author" content="zyz">
+<meta name="author-link" content="https://github.com/YouZhiZheng">
+<meta name="description" content="该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
+基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C&#43;&#43; ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION 3.15) project( MBFF VERSION 0.1.12 LANGUAGES CXX ) add_executable(MBFF src/main.cpp) 这样我们就可以产生一个名为MBFF的可执行文件。
+其中 cmake_minimum_required()和project()命令需要在项目的顶级CMakeLists.txt给出（当项目十分复杂时，会存在多个CMakeLists.txt文件）。
+cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令，用于控制CMake的版本，禁用一些已启用的特性 project(): 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用 add_executable(): 产生可执行文件，没有该命令是不会产生可执行文件的 注意：CMakeLists.txt的命令执行顺序是从上往下的，所以要有逻辑的编写命令。
+使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些C&#43;&#43;17或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 C&#43;&#43;98/GCC 或 C&#43;&#43;14/Clang， 可通过输出变量 CMAKE_CXX_STANDARD_DEFAULT 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 set() 命令来进行相关设置：" /><meta name="keywords" content='笔记' />
+  <meta itemprop="name" content="Cmake学习笔记">
+  <meta itemprop="description" content="该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
+基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C&#43;&#43; ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION 3.15) project( MBFF VERSION 0.1.12 LANGUAGES CXX ) add_executable(MBFF src/main.cpp) 这样我们就可以产生一个名为MBFF的可执行文件。
+其中 cmake_minimum_required()和project()命令需要在项目的顶级CMakeLists.txt给出（当项目十分复杂时，会存在多个CMakeLists.txt文件）。
+cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令，用于控制CMake的版本，禁用一些已启用的特性 project(): 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用 add_executable(): 产生可执行文件，没有该命令是不会产生可执行文件的 注意：CMakeLists.txt的命令执行顺序是从上往下的，所以要有逻辑的编写命令。
+使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些C&#43;&#43;17或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 C&#43;&#43;98/GCC 或 C&#43;&#43;14/Clang， 可通过输出变量 CMAKE_CXX_STANDARD_DEFAULT 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 set() 命令来进行相关设置：">
+  <meta itemprop="datePublished" content="2025-06-24T09:53:34+08:00">
+  <meta itemprop="dateModified" content="2025-06-24T09:53:34+08:00">
+  <meta itemprop="wordCount" content="1449">
+  <meta itemprop="keywords" content="笔记"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/6c7e777/">
+  <meta property="og:site_name" content="zyz的技术博客">
+  <meta property="og:title" content="Cmake学习笔记">
+  <meta property="og:description" content="该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
+基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C&#43;&#43; ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION 3.15) project( MBFF VERSION 0.1.12 LANGUAGES CXX ) add_executable(MBFF src/main.cpp) 这样我们就可以产生一个名为MBFF的可执行文件。
+其中 cmake_minimum_required()和project()命令需要在项目的顶级CMakeLists.txt给出（当项目十分复杂时，会存在多个CMakeLists.txt文件）。
+cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令，用于控制CMake的版本，禁用一些已启用的特性 project(): 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用 add_executable(): 产生可执行文件，没有该命令是不会产生可执行文件的 注意：CMakeLists.txt的命令执行顺序是从上往下的，所以要有逻辑的编写命令。
+使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些C&#43;&#43;17或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 C&#43;&#43;98/GCC 或 C&#43;&#43;14/Clang， 可通过输出变量 CMAKE_CXX_STANDARD_DEFAULT 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 set() 命令来进行相关设置：">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-24T09:53:34+08:00">
+    <meta property="article:modified_time" content="2025-06-24T09:53:34+08:00">
+    <meta property="article:tag" content="笔记">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cmake学习笔记">
+  <meta name="twitter:description" content="该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
+基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C&#43;&#43; ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：
+1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION 3.15) project( MBFF VERSION 0.1.12 LANGUAGES CXX ) add_executable(MBFF src/main.cpp) 这样我们就可以产生一个名为MBFF的可执行文件。
+其中 cmake_minimum_required()和project()命令需要在项目的顶级CMakeLists.txt给出（当项目十分复杂时，会存在多个CMakeLists.txt文件）。
+cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令，用于控制CMake的版本，禁用一些已启用的特性 project(): 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用 add_executable(): 产生可执行文件，没有该命令是不会产生可执行文件的 注意：CMakeLists.txt的命令执行顺序是从上往下的，所以要有逻辑的编写命令。
+使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些C&#43;&#43;17或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 C&#43;&#43;98/GCC 或 C&#43;&#43;14/Clang， 可通过输出变量 CMAKE_CXX_STANDARD_DEFAULT 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 set() 命令来进行相关设置：">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/6c7e777/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/84d7cc5/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Cmake学习笔记",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/6c7e777\/"
+    },"genre": "posts","keywords": "笔记","wordcount":  1449 ,
+    "url": "https:\/\/YouZhiZheng.github.io\/posts\/6c7e777\/","datePublished": "2025-06-24T09:53:34+08:00","dateModified": "2025-06-24T09:53:34+08:00","publisher": {
+      "@type": "Organization",
+      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
+        "@type": "Person",
+        "name": "zyz"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/archives/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/archives/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Cmake学习笔记</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/cmake/" class="post-category" title="分类 - CMake"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> CMake</a></span></div><div class="post-meta-line"><span title="发布于 2025-06-24 09:53:34"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-06-24">2025-06-24</time></span>&nbsp;<span title="1449 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础框架">基础框架</a></li>
+    <li><a href="#生成库文件并使用">生成库文件并使用</a>
+      <ul>
+        <li><a href="#在指定源文件中生成宏定义">在指定源文件中生成宏定义</a></li>
+      </ul>
+    </li>
+    <li><a href="#设置不同编译器标志">设置不同编译器标志</a></li>
+    <li><a href="#生成器表达式">生成器表达式</a></li>
+    <li><a href="#安装和测试">安装和测试</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#测试">测试</a></li>
+      </ul>
+    </li>
+    <li><a href="#编译环境探测">编译环境探测</a></li>
+    <li><a href="#注入自定义逻辑">注入自定义逻辑</a></li>
+    <li><a href="#打包分发">打包分发</a></li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>该笔记只是用于记录和梳理<code>CMake</code>中比较重要的知识，并不会写得很详细（比如不会写出使用<code>project()</code>命令后会创建哪些变量）。学完本笔记<strong>即可上手使用<code>CMake</code></strong>，一些很细的知识可以在遇到所用的场景时自行查阅<a href="https://cmake.org/cmake/help/v3.30/index.html"target="_blank" rel="external nofollow noopener noreferrer">官方资料</a>。</p>
+<h2 id="基础框架" class="heading-element"><span>基础框架</span>
+  <a href="#%e5%9f%ba%e7%a1%80%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最基本的<code>CMake</code>项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 <strong><code>CMakeLists.txt</code></strong> 文件提供三个命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-CMake" data-lang="CMake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">x.xx</span><span class="p">)</span> <span class="c"># 指定CMake最低版本
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">ProjectName</span>     <span class="c"># 项目名称
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="s"> </span> <span class="s"> </span> <span class="s">VERSION</span> <span class="s">x.x.x</span>   <span class="c"># 项目版本
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="s"> </span> <span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>   <span class="c"># 项目语言, CXX表示C++
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">ExecutableName</span> <span class="s">SourceCodePath</span><span class="p">)</span> <span class="err">#</span> <span class="err">设置可执行文件的名称和源代码路径</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.15</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">VERSION</span> <span class="s">0.1.12</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">src/main.cpp</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样我们就可以产生一个名为<code>MBFF</code>的可执行文件。</p>
+<p>其中 <code>cmake_minimum_required()</code>和<code>project()</code>命令需要在项目的顶级<code>CMakeLists.txt</code>给出（当项目十分复杂时，会存在多个<code>CMakeLists.txt</code>文件）。</p>
+<ul>
+<li><code>cmake_minimum_required()</code>: 该命令是<code>CMakeLists.txt</code>中<strong>第一条</strong>执行的命令，用于控制<code>CMake</code>的版本，禁用一些已启用的特性</li>
+<li><code>project()</code>: 设置项目的相关属性，可以只设置项目名称，但推荐按上面的写法来用</li>
+<li><code>add_executable()</code>: 产生可执行文件，没有该命令是不会产生可执行文件的</li>
+</ul>
+<p><strong>注意</strong>：<code>CMakeLists.txt</code>的命令执行顺序是从上往下的，所以要<strong>有逻辑的编写命令</strong>。</p>
+<p>使用上面的命令足够处理一些基本情况了，但是当我们在代码中使用了一些<code>C++17</code>或更高标准的特性后，会发现编译失败，这是因为编译器会使用默认标准（通常为 <code>C++98/GCC</code> 或 <code>C++14/Clang</code>， 可通过输出变量 <code>CMAKE_CXX_STANDARD_DEFAULT</code> 的值查询默认值）来进行编译，导致不存在这些特性。这时，就需要使用 <strong><code>set()</code></strong> 命令来进行相关设置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.15</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">VERSION</span> <span class="s">0.1.12</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">src/main.cpp</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在上面的内容中，我们使用<code>set()</code>命令为<code>CMAKE_CXX_STANDARD</code>、<code>CMAKE_CXX_STANDARD_REQUIRED</code>、<code>CMAKE_CXX_EXTENSIONS</code>三个变量进行了赋值，其中：</p>
+<ul>
+<li><code>CMAKE_CXX_STANDARD</code>：设置使用的C++标准，未设置时编译器使用默认值</li>
+<li><code>CMAKE_CXX_STANDARD_REQUIRED</code>：控制是否强制要求编译器支持指定标准，若为<code>OFF</code>时编译器可能会回退到旧标准（比如指定标准为C++20，但没有强制要求，clang编译器会使用有扩展的C++17标准）</li>
+<li><code>CMAKE_CXX_EXTENSIONS</code>：控制是否禁止使用编译器特定的C++扩展，为<code>OFF</code>时强制代码遵循ISO C++ 标准</li>
+</ul>
+<p><strong>注意</strong>：CMake中存在一系列以<code>CMAKE_</code>开头的变量，它们都有特殊的用途，在创建变量时应该避免以<code>CMAKE_</code>开头。</p>
+<p>通过上面的内容，我们可以得到一份基础的<code>CMakeLists.txt</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">版本要求</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">项目名称</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">VERSION</span> <span class="s">版本号</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">语言要求</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">标准</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">二进制文件名称</span> <span class="s">源代码路径</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果有在源代码中使用CMake变量的需求，可以参考<a href="https://cmake.org/cmake/help/v3.30/guide/tutorial/A%20Basic%20Starting%20Point.html#exercise-3-adding-a-version-number-and-configured-header-file"target="_blank" rel="external nofollow noopener noreferrer">官方文档</a>。</p>
+<h2 id="生成库文件并使用" class="heading-element"><span>生成库文件并使用</span>
+  <a href="#%e7%94%9f%e6%88%90%e5%ba%93%e6%96%87%e4%bb%b6%e5%b9%b6%e4%bd%bf%e7%94%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>通常来说，我们都会将项目生成一个可执行文件，但是，当我们有代码复用需求、模块解耦需求或商业保护需求时，就需要将项目生成一个库文件来使用。例如，当项目需要我们自己编写一个数学库时，就可以在项目根目录下创建一个 <strong>mylibrary</strong> 目录，然后在该子目录下存放对应的<code>CMakeLists.txt</code>文件和源文件，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Mylibrary  
+</span></span><span class="line"><span class="cl"> ┣ 3rdparty  
+</span></span><span class="line"><span class="cl"> ┣ include  
+</span></span><span class="line"><span class="cl"> ┃ ┗ math.h  
+</span></span><span class="line"><span class="cl"> ┣ src  
+</span></span><span class="line"><span class="cl"> ┃ ┗ math.cpp  
+</span></span><span class="line"><span class="cl"> ┗ CMakeLists.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该子目录下的<code>CMakeLists.txt</code>文件内容为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">add_library</span><span class="p">(</span><span class="s">MathFunctions</span> <span class="s">math.cpp</span><span class="p">)</span> <span class="c"># 创建名为 MathFunctions 的库文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">target_include_directories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">MathFunctions</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">PUBLIC</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/include</span>      <span class="c"># 公共 API
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">PRIVATE</span>  <span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/src</span>        <span class="c"># 实现代码头文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">INTERFACE</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/3rdparty</span>  <span class="c"># 链接者依赖但本库不直接使用
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><code>add_library(&lt;name&gt; [STATIC | SHARED] [EXCLUDE_FROM_ALL] source1 [source2...])</code>用于生成库文件，其参数为：
+<ul>
+<li><code>&lt;name&gt;</code>：库名称（全局唯一）</li>
+<li><code>STATIC</code>/<code>SHARED</code>：创建静态库（.a/.lib）/动态库（.so/.dll），默认为静态库</li>
+<li><code>EXCLUDE_FROM_ALL</code>：不包含在默认构建中</li>
+<li><code>sourceX</code>：源代码文件列表</li>
+</ul>
+</li>
+<li><code>target_include_directories(&lt;target&gt; [PRIVATE|PUBLIC|INTERFACE] [&lt;dirs&gt;...])</code>用于为特定目标设置头文件搜索路径，其参数为：
+<ul>
+<li><code>&lt;target&gt;</code>：定义的目标，在上面的例子中为 <code>MathFunctions</code></li>
+<li><code>PRIVATE</code>、<code>PUBLIC</code>、<code>INTERFACE</code>：修饰词，用于决定这些路径的<strong>可见性</strong>。这些修饰词的使用场景为：
+<ul>
+<li><code>PUBLIC</code>：库本身的<code>.cpp</code>文件和链接该库的其他目标的源文件（比如这里的<code>src/main.cpp</code>）需要<code>include</code>这个目录</li>
+<li><code>PRIVATE</code>：只有库本身的<code>.cpp</code>文件需要<code>include</code>这个目录</li>
+<li><code>INTERFACE</code>：链接者需要依赖，但库本身不需要（例如纯头文件库、宏定义、编译选项等）</li>
+</ul>
+</li>
+<li><code>&lt;dirs&gt;</code>：一个或多个目录路径，告诉编译器在这些路径中查找头文件</li>
+</ul>
+</li>
+</ol>
+<p><strong>为什么该子目录只需写这两行命令？</strong></p>
+<p>因为<code>CMake</code>的变量具备传递性，顶层<code>CMakeLists.txt</code>文件产生的全局变量都可以被子目录的<code>CMakeLists.txt</code>文件访问，所以无需在子目录的<code>CMakeLists.txt</code>文件重复写<code>project()</code>，<code>cmake_minimum_required()</code>等命令。</p>
+<p><strong>为什么不在顶层文件中使用target_include_directories()命令？</strong></p>
+<p>顶层<code>CMakeLists.txt</code> 中不推荐写任何以<code>target_</code>开头的命令，因为这会破坏模块封装性以及导致顶层<code>CMakeLists.txt</code>变复杂，逻辑耦合太重。</p>
+<p>上面的 <strong><code>CMAKE_CURRENT_SOURCE_DIR</code></strong> 为特殊变量，存储了当前<code>CMakeLists.txt</code>文件的路径。为了使用生成的库，我们需要在顶层<code>CMakeLists.txt</code>文件添加下面两个命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add_subdirectory(Mylibrary)
+</span></span><span class="line"><span class="cl">target_link_libraries(MBFF PRIVATE MathFunctions)</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><code>add_subdirectory()</code>：添加一个目录，并执行该目录下的<code>CMakeLists.txt</code></li>
+<li><code>target_link_libraries()</code>：将定义好的库链接到目标<code>MBFF</code>中，其也有<code>PRIVATE</code>、<code>PUBLIC</code>、<code>INTERFACE</code>三个修饰词可选</li>
+</ol>
+<p>完整的顶层<code>CMakeLists.txt</code>文件内容为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.15</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">Project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">VERSION</span> <span class="s">1.0</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">Mylibrary</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">src/main.cpp</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">MathFunctions</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样，就能够在代码中使用编写的库函数了。</p>
+<h3 id="在指定源文件中生成宏定义" class="heading-element"><span>在指定源文件中生成宏定义</span>
+  <a href="#%e5%9c%a8%e6%8c%87%e5%ae%9a%e6%ba%90%e6%96%87%e4%bb%b6%e4%b8%ad%e7%94%9f%e6%88%90%e5%ae%8f%e5%ae%9a%e4%b9%89" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>有时我们需要在编译时指定一些参数，用来控制程序的行为（这在大型文件中非常常见，比如不同的平台代码有不同的处理逻辑）。例如在前面的例子中，我们希望在编译时能够指定程序调用的是标准的数学库还是我们自己编写的数学库，这时就需要使用下面的三个命令：</p>
+<ol>
+<li>
+<p><code>if</code>命令，用于条件判断，语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">if</span><span class="p">(</span><span class="s">&lt;condition&gt;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="c"># 条件为真时执行
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">elseif</span><span class="p">(</span><span class="s">&lt;condition&gt;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="c"># 可选：其他条件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">else</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="c"># 可选：所有条件都不满足时执行
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">endif</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>option</code>命令，用于定义<strong>布尔</strong>变量（<code>set</code>命令可以定义任意类型的变量），语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">option</span><span class="p">(</span><span class="s">&lt;option_variable&gt;</span> <span class="s2">&#34;Description text&#34;</span> <span class="s">&lt;initial_value&gt;</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>target_compile_definitions</code>命令，向<strong>目标对应的源文件</strong>添加预处理器宏定义，语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">target_compile_definitions</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&lt;target&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">[PRIVATE|PUBLIC|INTERFACE]</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&lt;definition1&gt;</span> <span class="s">&lt;definition2&gt;</span> <span class="s">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>通过使用上面的三个命令将顶层<code>CMakeLists.txt</code>文件修改为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.15</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">Project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">VERSION</span> <span class="s">1.0</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">option</span><span class="p">(</span><span class="s">USE_MYMATH</span> <span class="s2">&#34;Use custom math library instead of standard math&#34;</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 只有开启USE_MATH时才添加数学库子目录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">if</span><span class="p">(</span><span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Using custom math library&#34;</span><span class="p">)</span> <span class="c"># message()命令用于输出信息
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">Mylibrary</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">endif</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">src/main.cpp</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">if</span><span class="p">(</span><span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Linking with MathFunctions library&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">MathFunctions</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_compile_definitions</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">else</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Using standard math library&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">m</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">endif</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在<code>main.cpp</code>中使用预处理器指令（即<code>#ifdef USE_MYMATH</code>）即可完成上面所说的功能了。</p>
+<p>最后使用 <strong><code>cmake .. -DUSE_MYMATH=OFF</code></strong> 为<code>CMake</code>传递参数 。</p>
+<h2 id="设置不同编译器标志" class="heading-element"><span>设置不同编译器标志</span>
+  <a href="#%e8%ae%be%e7%bd%ae%e4%b8%8d%e5%90%8c%e7%bc%96%e8%af%91%e5%99%a8%e6%a0%87%e5%bf%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在前面的示例中，我们在顶层<code>CMakeLists.txt</code>文件设定了项目的全局编译器标准(即<code>C++17</code>)，但是在实际的大型项目中，极大可能每个库所使用的标准都不一样（有的要求C++11，有的要求C++14）。这时，就需要使用下面的命令来声明编译目标所需的<strong>语言特性</strong>（如特定的C++标准或关键字支持）：
+<code>target_compile_features(&lt;target&gt; &lt;INTERFACE|PUBLIC|PRIVATE&gt; &lt;feature&gt; [...])</code></p>
+<p>修改Mylibrary目录下的<code>CMakeLists.txt</code>文件为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">add_library</span><span class="p">(</span><span class="s">MathFunctions</span> <span class="s">src/math.cpp</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">target_include_directories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">MathFunctions</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">PUBLIC</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/include</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 设定编译标准
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">target_compile_features</span><span class="p">(</span><span class="s">MathFunctions</span> <span class="s">PRIVATE</span> <span class="s">cxx_std_20</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后进行编译即可。</p>
+<p>如果你使用命令 <code>cmake --build . --clean-first -- VERBOSE=1</code>打印详细的编译过程，会发现<code>MathFunctions</code>库的编译并没有使用<code>C++20</code>标准，这是为什么呢？这是因为：</p>
+<blockquote>
+<p><code>target_compile_features()</code>命令<strong>不直接设置编译器标志（如 <code>-std=c++20</code>）</strong>，而是让 CMake <strong>==自动判断是否需要这些编译器选项==</strong> 以启用这些特性。即CMake 通过检测特性需求来<strong>隐式决定是否加上 <code>-std=c++20</code> 等参数</strong>。</p>
+</blockquote>
+<p>想要强制编译该库时使用某些编译器选项时可使用 <strong><code>set_target_properties()</code></strong> 命令</p>
+<h2 id="生成器表达式" class="heading-element"><span>生成器表达式</span>
+  <a href="#%e7%94%9f%e6%88%90%e5%99%a8%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>生成器表达式用于在<strong>生成构建系统</strong>的过程中，根据不同上下文（如构建配置、目标类型、编译器等）<strong>动态</strong>地生成内容。其基本语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="err">$&lt;expression&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>表达式可以是条件判断、逻辑操作、语言/编译器识别、目标属性获取等。有些表达式还有嵌套结构，如：<code>$&lt;IF:$&lt;CONFIG:Debug&gt;,ON,OFF&gt;</code></p>
+<p>常见表达式类型及语法规则为（更多内容可查阅<a href="https://cmake.org/cmake/help/v3.30/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions%287%29"target="_blank" rel="external nofollow noopener noreferrer">官方文档</a>）：</p>
+<table>
+<thead>
+<tr>
+<th>表达式语法</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$&lt;IF:cond,true_val,false_val&gt;</code></td>
+<td>条件选择</td>
+<td>类似于三目运算符</td>
+</tr>
+<tr>
+<td><code>$&lt;BOOL:value&gt;</code></td>
+<td>布尔判断</td>
+<td>ON/1 为真，其他为假</td>
+</tr>
+<tr>
+<td><code>$&lt;CONFIG:cfg&gt;</code></td>
+<td>构建配置判断</td>
+<td>如 Debug、Release</td>
+</tr>
+<tr>
+<td><code>$&lt;COMPILE_LANG_AND_ID:lang,id1,...&gt;</code></td>
+<td>编译器识别</td>
+<td>判断是否是某类编译器</td>
+</tr>
+<tr>
+<td><code>$&lt;BUILD_INTERFACE:...&gt;</code></td>
+<td>构建作用域</td>
+<td>当前是构建而非安装</td>
+</tr>
+<tr>
+<td><code>$&lt;INSTALL_INTERFACE:...&gt;</code></td>
+<td>安装作用域</td>
+<td>当前是 install/export 后</td>
+</tr>
+<tr>
+<td><code>$&lt;TARGET_PROPERTY:target,prop&gt;</code></td>
+<td>获取目标属性</td>
+<td>如 include 路径等</td>
+</tr>
+<tr>
+<td><code>$&lt;JOIN:list,delim&gt;</code></td>
+<td>字符串拼接</td>
+<td>将列表合并为字符串</td>
+</tr>
+<tr>
+<td><code>$&lt;REMOVE_DUPLICATES:list&gt;</code></td>
+<td>去重列表</td>
+<td>去除重复元素</td>
+</tr>
+</tbody>
+</table>
+<p>比如，在前面的例子中，我们希望能够根据构建类型在<code>main.cpp</code>中启用宏定义以及根据编译器选择警告选项，那么可以在顶层<code>CMakeLists.txt</code>文件中添加生成器表达式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.15</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">Project</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">VERSION</span> <span class="s">1.0</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">LANGUAGES</span> <span class="s">CXX</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">option</span><span class="p">(</span><span class="s">USE_MYMATH</span> <span class="s2">&#34;Use custom math library instead of standard math&#34;</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">if</span><span class="p">(</span><span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Using custom math library&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">Mylibrary</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">endif</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">src/main.cpp</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 根据构建类型启用宏定义
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">target_compile_definitions</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s2">&#34;$&lt;$&lt;CONFIG:Debug&gt;:DEBUG_BUILD&gt;&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 根据编译器选择警告选项
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">target_compile_options</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s2">&#34;$&lt;$&lt;COMPILE_LANG_AND_ID:CXX,GNU,Clang&gt;:-Wall;-Wextra&gt;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s2">&#34;$&lt;$&lt;COMPILE_LANG_AND_ID:CXX,MSVC&gt;:/W3&gt;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">if</span><span class="p">(</span><span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Linking with MathFunctions library&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">MathFunctions</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_compile_definitions</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">USE_MYMATH</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">else</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;Using standard math library&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">PRIVATE</span> <span class="s">m</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">endif</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装和测试" class="heading-element"><span>安装和测试</span>
+  <a href="#%e5%ae%89%e8%a3%85%e5%92%8c%e6%b5%8b%e8%af%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="安装" class="heading-element"><span>安装</span>
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在软件开发和部署过程中，仅构建可执行文件（如通过<code>make</code>或编译命令生成二进制文件）通常​<strong>​不够​</strong>​，还需要通过相关安装步骤完成部署。</p>
+<p>首先我们需要在<code>CMakeLists.txt</code>文件中用 <strong><code>install()</code></strong> 命令来指定安装时运行的规则，<a href="https://blog.csdn.net/qq_38410730/article/details/102837401"target="_blank" rel="external nofollow noopener noreferrer">这里</a>有该命令的详细说明。</p>
+<p>在顶层和Mylibrary目录下的<code>CMakeLists.txt</code>文件最后分别加上下面的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="c"># 顶层 CMakeLists.txt
+</span></span></span><span class="line"><span class="cl"><span class="c"># 指定可执行文件安装目录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="s">MBFF</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">RUNTIME</span> <span class="s">DESTINATION</span> <span class="s">bin</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Mylibrary下的CMakeLists.txt
+</span></span></span><span class="line"><span class="cl"><span class="c"># 指定可执行文件, 动态库, 静态库安装位置
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="s">MathFunctions</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">LIBRARY</span> <span class="s">DESTINATION</span> <span class="s">lib</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">ARCHIVE</span> <span class="s">DESTINATION</span> <span class="s">lib</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">RUNTIME</span> <span class="s">DESTINATION</span> <span class="s">bin</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 指定 头文件安装位置
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="s">include/math.h</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">DESTINATION</span> <span class="s">include</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在编译完成后（即执行完<code>cmake --build .</code>命令后），执行下面的命令：
+<code>cmake --install . --prefix ../install</code></p>
+<ul>
+<li><code>--instal</code>: 执行安装操作</li>
+<li><code>--prefix</code>: 指定安装目录</li>
+</ul>
+<h3 id="测试" class="heading-element"><span>测试</span>
+  <a href="#%e6%b5%8b%e8%af%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>CMake</code>内部集成了一个测试管理工具<code>CTest</code>，该工具用来测试<strong>可执行文件</strong>。如果想要更细粒化的测试推荐使用<a href="https://github.com/google/googletest"target="_blank" rel="external nofollow noopener noreferrer">GoogleTest</a>框架。</p>
+<p>在顶层<code>CMakeLists.txt</code>文件末尾添加下面的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">enable_testing</span><span class="p">()</span> <span class="c"># 启动测试
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span> <span class="s">Runs</span> <span class="s">COMMAND</span> <span class="s">MBFF</span> <span class="s">7</span><span class="p">)</span> <span class="c"># 验证程序能否正常工作
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 验证程序功能是否正确
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span> <span class="s">StandardUse</span> <span class="s">COMMAND</span> <span class="s">MBFF</span> <span class="s">4</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set_tests_properties</span><span class="p">(</span><span class="s">StandardUse</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">PROPERTIES</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">PASS_REGULAR_EXPRESSION</span> <span class="s2">&#34;4 sqrt is 2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 定义参数化测试函数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">function</span><span class="p">(</span><span class="s">do_test</span> <span class="s">target</span> <span class="s">arg</span> <span class="s">result</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"> </span> <span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span> <span class="s">Comp</span><span class="o">${</span><span class="nv">arg</span><span class="o">}</span> <span class="s">COMMAND</span> <span class="o">${</span><span class="nv">target</span><span class="o">}</span> <span class="o">${</span><span class="nv">arg</span><span class="o">}</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"> </span> <span class="nb">set_tests_properties</span><span class="p">(</span><span class="s">Comp</span><span class="o">${</span><span class="nv">arg</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">PROPERTIES</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s"> </span> <span class="s">PASS_REGULAR_EXPRESSION</span> <span class="s2">&#34;${result}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s"> </span> <span class="s">OUTPUT_STRIP_TRAILING_WHITESPACE</span> <span class="s">ON</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">endfunction</span><span class="p">()</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 调用测试函数
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">9</span> <span class="s2">&#34;9 sqrt is 3&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">5</span> <span class="s2">&#34;5 sqrt is 2&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">7</span> <span class="s2">&#34;7 sqrt is 2&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">25</span> <span class="s2">&#34;25 sqrt is 5&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">-25</span> <span class="s2">&#34;-25 sqrt is (nan|-nan|-1)&#34;</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">do_test</span><span class="p">(</span><span class="s">MBFF</span> <span class="s">0.0001</span> <span class="s2">&#34;0.0001 sqrt is 0.01&#34;</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中：</p>
+<ul>
+<li><code>add_test(NAME &lt;Name&gt; COMMAND &lt;command&gt;)</code>：定义一个测试用例</li>
+<li><code>set_tests_properties(&lt;name&gt; PROPERTIES ...)</code>：为已定义的测试用例设置属性</li>
+</ul>
+<p>然后在项目的<code>build</code>目录下执行 <code>ctest</code> 命令，即可看到下面的输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Test project /home/xxx/CPlusPlusProject/CMakePractice/build
+</span></span><span class="line"><span class="cl">    Start 1: Runs
+</span></span><span class="line"><span class="cl">1/8 Test <span class="c1">#1: Runs .............................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 2: StandardUse
+</span></span><span class="line"><span class="cl">2/8 Test <span class="c1">#2: StandardUse ......................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 3: Comp9
+</span></span><span class="line"><span class="cl">3/8 Test <span class="c1">#3: Comp9 ............................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 4: Comp5
+</span></span><span class="line"><span class="cl">4/8 Test <span class="c1">#4: Comp5 ............................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 5: Comp7
+</span></span><span class="line"><span class="cl">5/8 Test <span class="c1">#5: Comp7 ............................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 6: Comp25
+</span></span><span class="line"><span class="cl">6/8 Test <span class="c1">#6: Comp25 ...........................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 7: Comp-25
+</span></span><span class="line"><span class="cl">7/8 Test <span class="c1">#7: Comp-25 ..........................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">    Start 8: Comp0.0001
+</span></span><span class="line"><span class="cl">8/8 Test <span class="c1">#8: Comp0.0001 .......................   Passed    0.00 sec</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">100% tests passed, <span class="m">0</span> tests failed out of <span class="m">8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total Test <span class="nb">time</span> <span class="o">(</span>real<span class="o">)</span> <span class="o">=</span>   0.01 sec</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你的项目是<strong>跨平台的，或想要监控质量指标（比如覆盖率）、历史追踪、可视化测试结果</strong>等功能可以使用CMake中的 <strong><code>CDash</code></strong> ，该组件的详细说明可查看<a href="https://cmake.org/cmake/help/v3.30/guide/tutorial/Adding%20Support%20for%20a%20Testing%20Dashboard.html"target="_blank" rel="external nofollow noopener noreferrer">官方文档</a>。该组件的使用方法简单来说就是，将前面顶层<code>CMakeLists.txt</code>文件的<code>enable_testing()</code>改写为<code>include(CTest)</code>，然后在顶层目录下编写一个<code>CTestConfig.cmake</code>文件（该文件用来配置CDash的相关信息），最后在<code>build/</code>执行<code>ctest -D Experimental</code>命令即可。</p>
+<h2 id="编译环境探测" class="heading-element"><span>编译环境探测</span>
+  <a href="#%e7%bc%96%e8%af%91%e7%8e%af%e5%a2%83%e6%8e%a2%e6%b5%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在实际开发中，我们很容易遇到跨平台、需适配<strong>不同编译环境</strong>的场景。这时，我们需要项目能够兼容多种环境、动态调整编译逻辑，<strong><code>check_cxx_source_compiles</code></strong> 命令就能派上用场了。</p>
+<p>在使用该命令前，我们需要引入检查模块：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">include</span><span class="p">(</span><span class="s">CheckCXXSourceCompiles</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>该命令的基本语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">check_cxx_source_compiles</span><span class="p">(</span><span class="s">&lt;code&gt;</span> <span class="s">&lt;resultVar&gt;</span> <span class="s">[FAIL_REGEX</span> <span class="s">&lt;regex1&gt;</span> <span class="s">&lt;regex2&gt;...]</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong><code>&lt;code&gt;</code></strong>：必填参数，是要测试的 C++ 代码片段（字符串形式），需能编译生成可执行文件（包含 <code>main</code> 函数等完整入口逻辑 ）。</li>
+<li><strong><code>&lt;resultVar&gt;</code></strong>：必填参数，用于存储检测结果的变量名。若代码编译成功，变量值为 <code>TRUE</code>；失败则为 <code>FALSE</code>（或空值、错误信息，依场景而定 ）。</li>
+<li><strong><code>[FAIL_REGEX ...]</code></strong>：可选参数，若编译输出（如警告、错误日志）匹配指定正则表达式，即便代码编译成功，也判定为 “检测失败”。</li>
+</ul>
+<p>比如，我们代码中使用了C++17的特性<code>std::filesystem</code>和结构化绑定，想要确认编译器是否支持，可以这样写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">include</span><span class="p">(</span><span class="s">CheckCXXSourceCompiles</span><span class="p">)</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_REQUIRED_FLAGS</span> <span class="s2">&#34;-std=c++17&#34;</span><span class="p">)</span> <span class="c"># 指定测试命令的编译环境, 不影响项目
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 测试代码：使用结构化绑定和 std::filesystem 
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">set</span><span class="p">(</span><span class="s">TEST_CODE</span> <span class="s2">&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">#include &lt;filesystem&gt; 
+</span></span></span><span class="line"><span class="cl"><span class="s2">#include &lt;tuple&gt; 
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">int main() 
+</span></span></span><span class="line"><span class="cl"><span class="s2">{ 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  // 示例1：从 pair 中提取值 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  auto [a, b] = std::make_pair(1, 2.5); 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  
+</span></span></span><span class="line"><span class="cl"><span class="s2">  // 示例2：从 filesystem 中获取路径组件 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  std::filesystem::path p = \&#34;</span><span class="s">/home/user/example.txt\</span><span class="s2">&#34;; 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  auto [root, stem, ext] = std::tuple{ 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  p.root_name(),
+</span></span></span><span class="line"><span class="cl"><span class="s2">  p.stem(), 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  p.extension() 
+</span></span></span><span class="line"><span class="cl"><span class="s2">  }; 
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">  return 0; 
+</span></span></span><span class="line"><span class="cl"><span class="s2">} 
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span><span class="p">)</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">check_cxx_source_compiles</span><span class="p">(</span><span class="s2">&#34;${TEST_CODE}&#34;</span> <span class="s">HAVE_CPP17_STRUCTURED_BINDINGS</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">unset</span><span class="p">(</span><span class="s">CMAKE_REQUIRED_FLAGS</span><span class="p">)</span>  <span class="c"># 用完立即清理该变量
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">if</span><span class="p">(</span><span class="s">HAVE_CPP17_STRUCTURED_BINDINGS</span><span class="p">)</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;编译器支持 C++17 结构化绑定特性&#34;</span><span class="p">)</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">target_compile_features</span><span class="p">(</span><span class="s">YourProject</span> <span class="s">PRIVATE</span> <span class="s">cxx_std_17</span><span class="p">)</span> <span class="c"># 启用 C++17 标准 
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">else</span><span class="p">()</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&#34;编译器不支持 C++17 结构化绑定特性&#34;</span><span class="p">)</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c"># 这里可以添加降级策略或错误处理 
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">endif</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="注入自定义逻辑" class="heading-element"><span>注入自定义逻辑</span>
+  <a href="#%e6%b3%a8%e5%85%a5%e8%87%aa%e5%ae%9a%e4%b9%89%e9%80%bb%e8%be%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>当我们需要在构建时动态生成头文件（如数学表、版本信息）、配置文件（<code>config.h</code>），或处理非传统文件依赖时就需要在<code>CMake</code>中使用 <strong><code>add_custom_command</code></strong> 命令在CMake构建过程中注入自定义逻辑。</p>
+<p>该命令语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">add_custom_command</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">OUTPUT</span> <span class="s">&lt;output_files&gt;...</span>          <span class="c"># 生成的目标文件路径（用于判断是否执行下面的命令）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">COMMAND</span> <span class="s">&lt;command&gt;</span> <span class="s">[&lt;args&gt;...]</span>     <span class="c"># 要执行的命令（支持多条，按顺序执行）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[MAIN_DEPENDENCY</span> <span class="s">&lt;main_dep&gt;]</span>      <span class="c"># 主依赖文件（变化时强制重新生成输出）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[DEPENDS</span> <span class="s">&lt;deps&gt;...]</span>               <span class="c"># 附加依赖（文件/目标变化时触发重新执行）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[IMPLICIT_DEPENDS</span> <span class="s">&lt;lang&gt;</span> <span class="s">&lt;file&gt;]</span>  <span class="c"># 隐式依赖（如 C++ 语法分析推导的依赖，需指定语言）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[WORKING_DIRECTORY</span> <span class="s">&lt;dir&gt;]</span>         <span class="c"># 命令执行的工作目录（默认当前源目录）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[COMMENT</span> <span class="s">&lt;message&gt;]</span>               <span class="c"># 执行时显示的提示信息（方便调试）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[VERBATIM]</span>                        <span class="c"># 保留命令原始格式（避免转义特殊字符，如 $、# ）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>  <span class="s">[USES_TERMINAL]</span>                   <span class="c"># 在终端中执行命令（Windows 下适用，保证输出可见 ）
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以之前的数学库代码为例，我们想要生成一个预先计算值表，以便自定义的<code>sqrt</code>函数使用，加快计算速度。</p>
+<p>在自定义库目录下先创建生成计算值表的代码<code>maketable.cpp</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error: You need to specify an output file name as a parameter&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Usge: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &lt;OutputFile&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">ofstream</span> <span class="n">fout</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">fout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error: Unable to open output file: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 生成平方根表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">fout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;#ifndef SQRT_TABLE_H</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">&lt;&lt;</span> <span class="s">&#34;#define SQRT_TABLE_H</span><span class="se">\n\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">&lt;&lt;</span> <span class="s">&#34;static constexpr double sqrtTable[10] = {</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">&lt;&lt;</span> <span class="s">&#34;    0.0,  // 索引 0 未使用</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;    &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;,  // sqrt(&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">fout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;};</span><span class="se">\n\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">&lt;&lt;</span> <span class="s">&#34;#endif // SQRT_TABLE_H</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;已生成 &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时，在该目录下创建对应的<code>MakeTable.cmake</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">add_executable</span><span class="p">(</span><span class="s">MakeTable</span> <span class="s">src/maketable.cpp</span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 定义生成 Table.h 的自定义命令
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">add_custom_command</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">OUTPUT</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="s">/table.h</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">COMMAND</span> <span class="s">MakeTable</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="s">/table.h</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s"> </span> <span class="s">DEPENDS</span> <span class="s">MakeTable</span> <span class="s"> </span><span class="c"># 依赖 MakeTable 可执行文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="s"> </span> <span class="s"> </span> <span class="s">COMMENT</span> <span class="s2">&#34;Generating sqrt table (Table.h)&#34;</span> <span class="s"> </span><span class="c"># 构建时显示的信息
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>再修改自定义库下的<code>CMakeLists.txt</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmake" data-lang="cmake"><span class="line"><span class="cl"><span class="nb">include</span><span class="p">(</span><span class="s">MakeTable.cmake</span><span class="p">)</span> <span class="c"># 包含配置文件
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">add_library</span><span class="p">(</span><span class="s">MathFunctions</span> <span class="s">STATIC</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">src/math.cpp</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="s">/table.h</span> <span class="c"># 添加依赖
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">target_include_directories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">MathFunctions</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">PUBLIC</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/include</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">PRIVATE</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span> <span class="c">#添加生成的头文件目录
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="s">MathFunctions</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">LIBRARY</span> <span class="s">DESTINATION</span> <span class="s">lib</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">ARCHIVE</span> <span class="s">DESTINATION</span> <span class="s">lib</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">RUNTIME</span> <span class="s">DESTINATION</span> <span class="s">bin</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="s">include/math.h</span>
+</span></span><span class="line"><span class="cl"><span class="s"> </span> <span class="s">DESTINATION</span> <span class="s">include</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="打包分发" class="heading-element"><span>打包分发</span>
+  <a href="#%e6%89%93%e5%8c%85%e5%88%86%e5%8f%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>当有将项目打包成可分发的安装包（二进制包、源码包）的需要时，可以使用<code>CPack</code>工具来实现。</p>
+<p>该工具可以打包的类型为：</p>
+<ul>
+<li><strong>二进制包（Binary Package）</strong>：<br>
+包含已编译的可执行文件、库文件、配置文件等，用户拿到后无需编译即可直接运行。<br>
+<strong>常见格式</strong>：<code>.tar.gz</code>（Linux）、<code>.deb</code>（Debian/Ubuntu）、<code>.rpm</code>（RedHat/CentOS）、<code>.msi</code>（Windows）。</li>
+<li><strong>源码包（Source Package）</strong>：<br>
+包含项目的所有源文件（.cpp、.h、CMakeLists.txt 等），用户需要自行编译才能使用。<br>
+<strong>常见格式</strong>：<code>.tar.gz</code>、<code>.zip</code>。</li>
+</ul>
+<p><code>CPack</code>通常写在项目根目录下的<code>CMakeLists.txt</code>中，该工具基于<code>install()</code>命令的规则来进行打包。</p>
+<p>该工具的使用方法可参考<a href="https://cmake.org/cmake/help/v3.30/guide/tutorial/Packaging%20an%20Installer.html"target="_blank" rel="external nofollow noopener noreferrer">链接1</a>，<a href="https://cmake.org/cmake/help/v3.30/module/CPack.html#module:CPack"target="_blank" rel="external nofollow noopener noreferrer">链接2</a>。</p>
+<p>在进行跨平台编译时，需要注意 Windows 与 Linux/macOS 在动态库实现上有一个关键差异：</p>
+<ul>
+<li><strong>Windows</strong>：动态库（DLL）默认隐藏所有函数和类，必须显式使用 <code>__declspec(dllexport)</code> 标记才能被外部访问</li>
+<li><strong>Linux/macOS</strong>：动态库（.so/.dylib）默认公开所有函数和类，只有使用 <code>__attribute__((visibility(&quot;hidden&quot;)))</code> 才能隐藏</li>
+</ul>
+<p><strong>这个差异导致</strong>：</p>
+<ol>
+<li>在 Windows 上开发动态库时，必须为每个要公开的函数 / 类添加导出标记</li>
+<li>为了让同一个头文件既能用于编译库本身（导出），又能用于其他项目使用这个库（导入），就需要这种条件编译机制</li>
+</ol>
+<p>这时就可以使用CMake提供的 <strong><code>GenerateExportHeader</code></strong> 模块来自动处理这个问题。</p>
+<p>此外，为了方便别人<code>find_package()</code>自己的库，在导出时我需要添加导出配置，具体操作参考<a href="https://cmake.org/cmake/help/v3.30/guide/tutorial/Adding%20Export%20Configuration.html"target="_blank" rel="external nofollow noopener noreferrer">此链接</a>。</p>
+<h2 id="参考资料" class="heading-element"><span>参考资料</span>
+  <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><a href="https://cmake.org/cmake/help/v3.30/guide/tutorial/index.html"target="_blank" rel="external nofollow noopener noreferrer">CMake官方教程</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-06-24 09:53:34">更新于 2025-06-24&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag" title="标签 - 笔记">笔记</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/84d7cc5/" class="post-nav-item" rel="prev" title="394. 字符串解码"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>394. 字符串解码</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
+      </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
+            <span class="license footer-divider">
+              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0
+              </a>
+            </span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2025-06-24T09:53:34+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"Cmake学习笔记"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>
