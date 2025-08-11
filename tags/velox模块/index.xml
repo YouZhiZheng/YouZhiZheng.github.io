@@ -1,0 +1,44 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Velox模块 - 标签 - zyz的技术博客</title>
+    <link>http://localhost:1313/tags/velox%E6%A8%A1%E5%9D%97/</link>
+    <description>Velox模块 - 标签 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 10 Aug 2025 20:29:39 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/velox%E6%A8%A1%E5%9D%97/" rel="self" type="application/rss+xml" /><item>
+  <title>Velox_控制模块</title>
+  <link>http://localhost:1313/posts/325196d/</link>
+  <pubDate>Sun, 10 Aug 2025 20:29:39 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/325196d/</guid>
+  <description><![CDATA[概述配置模块的作用为提供一个类型安全、集中式管理应用程序配置项的方式，允许开发者定义任意类型的配置变量，为它们设置默认值，并通过YAML文件方便地加载和修改这些配置。
+该模块的核心设计思想是将每一个配置项抽象为一个ConfigVar对象。所有这些对象都由一个单例管理的Config类进行统一存储和访问。这种设计避免了配置项散落在代码各处，使得配置的管理、维护和查阅变得非常方便。
+该模块主要由以下几部分构成：
+ConfigVarBase: 一个抽象基类，定义了所有配置变量的通用接口，如获取名称、描述、类型名以及与字符串的双向转换（序列化/反序列化）。 ConfigVar&lt;T&gt;: 继承自ConfigVarBase的模板类。它是配置变量的具体实现，能够存储任意类型 T 的值。它还实现了一个回调机制，当配置值发生变化时，可以通知所有监听者。 TypeConverter: 一系列模板类及其偏特化，用于在各种C++类型（包括基本类型、STL容器如vector, list, map, set等）和字符串之间进行转换。该模块默认使用 boost::lexical_cast 进行基础类型转换，并为复杂容器类型提供了基于 yaml-cpp 的序列化和反序列化实现。对于自定义类型，只需完成对应的偏特化即可进行转换。 Config: 一个管理类，它包含一个静态的unordered_map用于存储所有的配置变量。它提供了全局的静态方法来创建、获取和加载配置项，是与本模块交互的主要入口。 本模块通过yaml-cpp库解析YAML文件，再将从.yml中解析出来的结构化数据更新到对应的ConfigVar变量中。
+主要特性类型安全: 每个配置项在定义时都强绑定一个类型，在获取时会进行动态类型检查，防止了类型不匹配导致的运行时错误。 集中式管理: 所有配置项都通过一个全局的Config管理器进行注册和访问，便于追踪和管理。 支持复杂数据结构: 内置了对 std::vector, std::list, std::set, std::unordered_set, std::map, std::unordered_map 等常用STL容器的序列化和反序列化支持。 基于YAML: 使用广泛流行的YAML格式作为配置文件，语法清晰，支持复杂数据结构。 动态更新与回调: 支持在运行时通过加载YAML文件来更新配置值。当某个配置值发生变化时，可以触发预先注册的回调函数，使应用程序能够动态地响应配置变化。 重要函数介绍Config类getDatas()
+1 2 3 4 5 6 7 8 9 using ConfigVarMap = std::unordered_map&lt;std::string, ConfigVarBase::ptr&gt;; /** * @brief 返回所有的配置项 */ static ConfigVarMap&amp; getDatas() { static ConfigVarMap s_datas; return s_datas; } 这里的数据存储的是基类指针ConfigVarBase::ptr，这是典型的多态设计。因为ConfigVar&lt;T&gt; 是模板类，如果用的是std::unordered_map&lt;std::string, ConfigVar&lt;T&gt;::ptr&gt;;则只能放一种类型的配置变量（比如 int、std::string）。]]></description>
+</item>
+<item>
+  <title>Velox_日志模块</title>
+  <link>http://localhost:1313/posts/1235a2f/</link>
+  <pubDate>Sun, 10 Aug 2025 20:28:25 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/1235a2f/</guid>
+  <description><![CDATA[概述日志模块通过封装 spdlog 库来实现，模块以 velox::log 命名空间组织，且提供了宏定义方便外部调用。该模块支持异步日志输出、多目标日志（控制台+文件）、配置文件定义（通过集成config模块实现）。
+这意味着整个日志系统的行为——包括有哪些日志记录器（Logger）、每个记录器的日志级别、输出格式以及输出目标（控制台、文件等）——都可以在 YAML 配置文件中定义。更进一步，当配置文件被重新加载时，日志系统能够动态地、无需重启应用就完成新增、删除或修改日志记录器的操作，实现了日志系统的热重载。
+此外，该模块默认会创建一个名为 default 的全局异步日志器，可同时输出到控制台和日志文件，方便快速使用。
+主要特性配置驱动：整个日志系统的结构和行为由 velox::config 模块中的 logs 配置项驱动，实现了代码与配置的分离 动态热重载：通过监听配置项 logs 的变更事件，可以动态地创建、更新或删除日志记录器，极大提升了灵活性 全异步日志：默认创建的所有日志记录器都是异步的，使用全局线程池处理 I/O 操作，最大限度地降低了对业务线程性能的影响 简洁的宏接口：提供了一系列 VELOX_... 宏，如 VELOX_INFO, VELOX_LOGGER_WARN，简化了日志调用，并与 spdlog 的使用方式保持一致 多目标输出：每个日志记录器可以配置多个输出目标（称为 Appender），例如可以同时向控制台和每日轮转的日志文件输出 精细化控制：可以为整个日志记录器及其下的每个 Appender 单独设置不同的日志级别和输出格式 重要函数介绍初始化函数1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 /** * @brief 对 spdlog 进行初始化, 并创建和设置配置参数 logs * @param[in] queue_size 用于异步 logger 的队列大小 * @param[in] n_threads 用于异步 logger 的线程数 * @return 成功返回 true */ bool initSpdlog(std::size_t queue_size, std::size_t n_threads) { try { /*------------- 配置默认的日志器 -------------*/ spdlog::init_thread_pool(queue_size, n_threads); // 标准控制台输出 auto stdout_sink = std::make_shared&lt;spdlog::sinks::stdout_color_sink_mt&gt;(); stdout_sink-&gt;set_level(spdlog::level::debug); // 日志文件输出, 0点0分创建新日志 auto log_path = getLogPath(&#34;default&#34;); auto file_sink = std::make_shared&lt;spdlog::sinks::daily_file_sink_mt&gt;(log_path.]]></description>
+</item>
+<item>
+  <title>Velox_线程池模块</title>
+  <link>http://localhost:1313/posts/e87181a/</link>
+  <pubDate>Sun, 10 Aug 2025 20:28:15 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/e87181a/</guid>
+  <description><![CDATA[概述在现代开发中，多线程可以提高程序的运行效率和响应速度，它已经成为提高应用程序性能、处理并发任务的重要手段。使用多线程需要注意线程同步、资源消耗等问题，当使用的线程数多了时，手动进行管理是十分困难的。为了解决这些问题，线程池作为一种有效的线程管理机制应运而生。
+线程池会预先创建一定数量的工作线程，我们只需将待执行任务提交到线程池，线程池会负责任务的分配与执行，从而简化线程管理、减少系统频繁创建与销毁线程的开销、提高资源利用率。其核心思想是避免频繁的创建和销毁线程，减少系统开销。
+主要特性完整的生命周期管理：线程池具有明确的运行状态，构成一个状态机，确保在任何时刻都处于可预期的状态。 支持暂停和恢复：在暂停状态下，线程池会继续接收新任务，但所有工作线程将暂停执行，直到线程池被恢复。 支持优雅关闭：析构函数会自动调用 shutdown函数，安全的销毁线程池，符合 RAII (Resource Acquisition Is Initialization) 原则。 支持调整工作线程数量：可以在运行时通过 increaseThreadCount 和 decreaseThreadCount 方法动态地增加或减少工作线程的数量，以适应不同的负载需求。 支持自动调整工作线程数量：引入核心线程数和最大线程数两个概念，使得线程池能在工作负载变化时自动调整线程数量。核心线程始终保留在池中，而最大线程数则限定线程池可动态扩展的上限。 支持配置文件：可以通过threadpool.yml配置文件修改线程池的相关参数（如核心线程数、最大线程数等），无需重复编译。 基础知识在正式介绍线程池模块的相关代码前，我们需要先了解一些必要的现代C++编程基础知识。
+std::atomicstd::atomic 是 C++11 引入的模板类，用于实现多线程环境下的原子操作，从而避免数据竞争。原子操作是指一个不可被中断的操作，要么完全执行，要么完全不执行，在执行过程中不会被其他线程的调度打断。std::atomic简介
+作用替代互斥锁：对于简单的计数器、标志位等共享状态，使用 std::atomic 比使用互斥锁（std::mutex）的开销更小，性能更高。锁通常会引起线程阻塞和上下文切换，而 「原子操作通常由特殊的 CPU 指令实现，属于无锁（Lock-Free）编程的范畴」。 用法1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 #include &lt;atomic&gt; #include &lt;iostream&gt; #include &lt;thread&gt; #include &lt;vector&gt; // 使用 std::atomic&lt;int&gt; 作为线程安全的计数器 std::atomic&lt;int&gt; counter(0); void increment() { for (int i = 0; i &lt; 10000; ++i) { // 原子地增加计数器，等价于 counter = counter + 1 // 这个操作是线程安全的 counter.]]></description>
+</item>
+</channel>
+</rss>

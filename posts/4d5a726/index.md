@@ -26,5 +26,5 @@ Host github.com
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: https://YouZhiZheng.github.io/posts/4d5a726/  
+> URL: http://localhost:1313/posts/4d5a726/  
 

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>CMake - 分类 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/categories/cmake/</link>
+    <link>http://localhost:1313/categories/cmake/</link>
     <description>CMake - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Tue, 24 Jun 2025 09:53:34 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/cmake/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Tue, 24 Jun 2025 09:53:34 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/cmake/" rel="self" type="application/rss+xml" /><item>
   <title>Cmake学习笔记</title>
-  <link>https://YouZhiZheng.github.io/posts/6c7e777/</link>
+  <link>http://localhost:1313/posts/6c7e777/</link>
   <pubDate>Tue, 24 Jun 2025 09:53:34 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/6c7e777/</guid>
+  <guid>http://localhost:1313/posts/6c7e777/</guid>
   <description><![CDATA[该笔记只是用于记录和梳理CMake中比较重要的知识，并不会写得很详细（比如不会写出使用project()命令后会创建哪些变量）。学完本笔记即可上手使用CMake，一些很细的知识可以在遇到所用的场景时自行查阅官方资料。
 基础框架最基本的CMake项目是由单个源代码文件构建可执行文件，对于这种简单的项目，只需要给 CMakeLists.txt 文件提供三个命令：
 1 2 3 4 5 6 7 8 9 cmake_minimum_required(VERSION x.xx) # 指定CMake最低版本 project( ProjectName # 项目名称 VERSION x.x.x # 项目版本 LANGUAGES CXX # 项目语言, CXX表示C++ ) add_executable(ExecutableName SourceCodePath) # 设置可执行文件的名称和源代码路径 例如：

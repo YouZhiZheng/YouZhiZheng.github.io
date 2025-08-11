@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -15,9 +15,9 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
 「第 $i$ 行」元素旋转到「第 $n−1−i$ 列」元素。 「第 $j$ 列」元素旋转到「第 $j$ 行」元素。 即 $(i, j)$ 要放置的位置为 $(j, n - 1 - i)$，只要我们提前使用一个临时变量$temp$来存储$matrix[j][n - 1 - i]$，即可完成$(i, j)$这个位置的旋转操作。那么$(j, n - 1 - i)$又旋转到哪个位置呢？继续应用规律，发现其旋转的位置为$(n - 1 - i, n - 1 - j)$，同样的，如果使用$temp$来存储$matrix[n - 1 - i][n - 1 - j]$，即可完成$(i, j)$和$(j, n - 1 - i)$这两个位置的旋转。按照前面的逻辑继续推理，我们可以发现：
 $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 - i, n - 1 - j) → (n - 1 - j, i)$ $(n - 1 - j, i) → (i, j)$ $A→B$表示位置A的元素顺时针旋转$90°$后的位置为B。观察上面的式子，发现这四项处于一个循环中，使用一个临时变量$temp$即可完成这四个元素的原地交换！">
   <meta itemprop="datePublished" content="2025-03-09T10:40:24+08:00">
-  <meta itemprop="dateModified" content="2025-03-09T14:28:31+08:00">
+  <meta itemprop="dateModified" content="2025-03-09T10:40:24+08:00">
   <meta itemprop="wordCount" content="266">
-  <meta itemprop="keywords" content="数组,LeetCodeHot100"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/fa20807/">
+  <meta itemprop="keywords" content="数组,LeetCodeHot100"><meta property="og:url" content="http://localhost:1313/posts/fa20807/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="48. 旋转图像">
   <meta property="og:description" content="题目思路这道题的难点主要在于不能使用辅助数组，空间复杂度必须为$O(1)$。通过观察示例，我们可以发现以下规律：
@@ -27,7 +27,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-03-09T10:40:24+08:00">
-    <meta property="article:modified_time" content="2025-03-09T14:28:31+08:00">
+    <meta property="article:modified_time" content="2025-03-09T10:40:24+08:00">
     <meta property="article:tag" content="数组">
     <meta property="article:tag" content="LeetCodeHot100">
 
@@ -39,7 +39,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/fa20807/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/0ee95a7/" /><link rel="next" href="https://YouZhiZheng.github.io/posts/77cc956/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/posts/fa20807/" /><link rel="prev" href="http://localhost:1313/posts/0ee95a7/" /><link rel="next" href="http://localhost:1313/posts/77cc956/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -49,11 +49,11 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
     "inLanguage": "en",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/fa20807\/"
+      "@id": "http:\/\/localhost:1313\/posts\/fa20807\/"
     },"genre": "posts","keywords": "数组, LeetCodeHot100","wordcount":  266 ,
-    "url": "https:\/\/YouZhiZheng.github.io\/posts\/fa20807\/","datePublished": "2025-03-09T10:40:24+08:00","dateModified": "2025-03-09T14:28:31+08:00","publisher": {
+    "url": "http:\/\/localhost:1313\/posts\/fa20807\/","datePublished": "2025-03-09T10:40:24+08:00","dateModified": "2025-03-09T10:40:24+08:00","publisher": {
       "@type": "Organization",
-      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
+      "name": "","logo": "http:\/\/localhost:1313\/favicon.ico"},"author": {
         "@type": "Person",
         "name": "zyz"
       },"description": ""
@@ -160,7 +160,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>48. 旋转图像</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-03-09 10:40:24"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="更新于 2025-03-09 14:28:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="266 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category" title="分类 - 算法"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法</a></span></div><div class="post-meta-line"><span title="发布于 2025-03-09 10:40:24"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-03-09">2025-03-09</time></span>&nbsp;<span title="266 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -297,7 +297,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-03-09 14:28:31">更新于 2025-03-09&nbsp;</span>
+        <span title="更新于 2025-03-09 10:40:24">更新于 2025-03-09&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"></div>
         <div class="post-info-share">
@@ -315,9 +315,7 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
   <div class="post-nav"><a href="/posts/0ee95a7/" class="post-nav-item" rel="prev" title="238. 除自身以外数组的乘积"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>238. 除自身以外数组的乘积</a>
       <a href="/posts/77cc956/" class="post-nav-item" rel="next" title="240. 搜索二维矩阵Ⅱ">240. 搜索二维矩阵Ⅱ<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
-<div id="comments"><div id="gitalk" class="comment"></div><noscript>
-        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
-      </noscript></div></article>
+</article>
 
   <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
       <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
@@ -331,9 +329,9 @@ $(i, j) → (j, n - 1 - i)$ $(j, n - 1 - i) → (n - 1 - i, n - 1 - j)$ $(n - 1 
               </a>
             </span></div></div>
   </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
-        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
     <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
   </noscript>
-</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2025-03-09T10:40:24+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"48. 旋转图像"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
 </html>

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Vscode插件 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/vscode%E6%8F%92%E4%BB%B6/</link>
+    <link>http://localhost:1313/tags/vscode%E6%8F%92%E4%BB%B6/</link>
     <description>Vscode插件 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 12 Aug 2024 10:30:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/vscode%E6%8F%92%E4%BB%B6/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 12 Aug 2024 10:30:17 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/vscode%E6%8F%92%E4%BB%B6/" rel="self" type="application/rss+xml" /><item>
   <title>VsCode推荐插件</title>
-  <link>https://YouZhiZheng.github.io/posts/c0ef113/</link>
+  <link>http://localhost:1313/posts/c0ef113/</link>
   <pubDate>Mon, 12 Aug 2024 10:30:17 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/c0ef113/</guid>
+  <guid>http://localhost:1313/posts/c0ef113/</guid>
   <description><![CDATA[Better C++ Syntax该插件主要作用是提供 C++ 语法高亮
 Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
 该插件常用快捷键为：

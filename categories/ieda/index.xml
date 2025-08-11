@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>IEDA - 分类 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/categories/ieda/</link>
+    <link>http://localhost:1313/categories/ieda/</link>
     <description>IEDA - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Fri, 02 Aug 2024 10:37:33 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/ieda/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Fri, 02 Aug 2024 10:37:33 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/ieda/" rel="self" type="application/rss+xml" /><item>
   <title>iEDA点工具运行前环境变量设置</title>
-  <link>https://YouZhiZheng.github.io/posts/3b24a9e/</link>
+  <link>http://localhost:1313/posts/3b24a9e/</link>
   <pubDate>Fri, 02 Aug 2024 10:37:33 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/3b24a9e/</guid>
+  <guid>http://localhost:1313/posts/3b24a9e/</guid>
   <description><![CDATA[脚本创建在单独运行点工具前必须配置对应的环境变量，在iEDA目录/iEDA/scripts/design/sky130_gcd下使用命令touch创建一个.sh脚本，内容如下:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 #!/bin/bash CURRENT_DIR=&#34;$(pwd)&#34; export CONFIG_DIR=&#34;$CURRENT_DIR/iEDA_config&#34; export RESULT_DIR=&#34;$CURRENT_DIR/result/my_test_result&#34; export TCL_SCRIPT_DIR=&#34;$CURRENT_DIR/script&#34; export NETLIST_FILE=&#34;$CURRENT_DIR/result/verilog/gcd.v&#34; export FOUNDRY_DIR=&#34;$CURRENT_DIR/../../foundry/sky130&#34; export SPEF_FILE=&#34;$CURRENT_DIR/../../foundry/sky130/spef/gcd.spef&#34; export SDC_FILE=&#34;$CURRENT_DIR/../../foundry/sky130/sdc/gcd.sdc&#34; export DESIGN_TOP=&#34;gcd&#34; export DIE_AREA=&#34;0.0 0.0 149.96 150.128&#34; export CORE_AREA=&#34;9.996 10.08 139.964 140.048&#34; echo &#34;CONFIG_DIR set to: $CONFIG_DIR&#34; echo &#34;RESULT_DIR set to: $RESULT_DIR&#34; echo &#34;TCL_SCRIPT_DIR set to: $TCL_SCRIPT_DIR&#34; echo &#34;NETLIST_FILE set to: $NETLIST_FILE&#34; echo &#34;FOUNDRY_DIR set to: $FOUNDRY_DIR&#34; echo &#34;SPEF_FILE set to: $SPEF_FILE&#34; echo &#34;SDC_FILE set to: $SDC_FILE&#34; echo &#34;DESIGN_TOP set to: $DESIGN_TOP&#34; echo &#34;DIE_AREA set to: $DIE_AREA&#34; echo &#34;CORE_AREA set to: $CORE_AREA&#34; 点工具运行运行点工具前，在当前窗口使用命令 source 脚本名.]]></description>
 </item>

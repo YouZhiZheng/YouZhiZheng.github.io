@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>滑动窗口 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <link>http://localhost:1313/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
     <description>滑动窗口 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 27 Feb 2025 19:04:09 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 27 Feb 2025 19:04:09 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="self" type="application/rss+xml" /><item>
   <title>239. 滑动窗口最大值</title>
-  <link>https://YouZhiZheng.github.io/posts/f524d2b/</link>
+  <link>http://localhost:1313/posts/f524d2b/</link>
   <pubDate>Thu, 27 Feb 2025 19:04:09 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/f524d2b/</guid>
+  <guid>http://localhost:1313/posts/f524d2b/</guid>
   <description><![CDATA[题目思路直接暴力法，发现超时，怎么进一步优化呢？每个窗口我们都要从头到尾扫描一遍来寻找最大值，这是耗时所在，因为是寻找最大值，直接想到一种非常适合的数据结构——大根堆，堆顶就是最大值。每往右移动一次，就将新的元素加入堆中，再判断堆顶元素是否在窗口内，如果不是就移除，直到在当前窗口的元素成为堆顶。因为将一个元素加入到堆中的时间复杂度为$O(log n)$，所以算法的时间复杂度为$O(n log n)$。
 能不能进一步优化呢？当然可以，在一个窗口中，假设两个元素的下标分别为$i, j$且$i &lt; j$，那么「只要$i$在窗口中，$j$也必定在窗口中」。若$nums[i] &lt; nums[j]$， 那么$nums[i]$必定不可能成为最大值，我们就可以不必存储类似$nums[i]$的值。所以，我们只需要用一个双端队列来存储「在当前窗口中可能在以后成为最大值的值的对应下标」。存储下标是因为我们后续要判断该值是否超过窗口范围。
 根据前面的分析可知，该队列中的元素是递增的（因为是从左往后扫描的），元素(下标)对应的值是递减的。每次移动窗口就只需要将新元素与队尾元素对应的值进行比较，如果队尾元素对应的值小于新加元素对应的值，则将其移除（因为其对应的值不可能成为最大值了），不断地进行此项操作，直到队列为空或者新元素对应的值小于队尾元素对应值。
@@ -19,10 +19,10 @@
 </item>
 <item>
   <title>3. 无重复字符的最长子串</title>
-  <link>https://YouZhiZheng.github.io/posts/2aaae8d/</link>
+  <link>http://localhost:1313/posts/2aaae8d/</link>
   <pubDate>Mon, 24 Feb 2025 11:02:49 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/2aaae8d/</guid>
+  <guid>http://localhost:1313/posts/2aaae8d/</guid>
   <description><![CDATA[<h2 id="题目httpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
   <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>链表 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/%E9%93%BE%E8%A1%A8/</link>
+    <link>http://localhost:1313/tags/%E9%93%BE%E8%A1%A8/</link>
     <description>链表 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 22 Jul 2024 21:19:02 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E9%93%BE%E8%A1%A8/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 22 Jul 2024 21:19:02 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E9%93%BE%E8%A1%A8/" rel="self" type="application/rss+xml" /><item>
   <title>86. 分隔链表</title>
-  <link>https://YouZhiZheng.github.io/posts/6fc9142/</link>
+  <link>http://localhost:1313/posts/6fc9142/</link>
   <pubDate>Mon, 22 Jul 2024 21:19:02 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/6fc9142/</guid>
+  <guid>http://localhost:1313/posts/6fc9142/</guid>
   <description><![CDATA[题目描述(力扣):
 思路: 创造两个指针，分别指向大于x的链表和小于x的链表，然后依次遍历初始链表的每个节点进行判断将其添加到对应的新链表中，最后将两个链接进行连接后返回。
 代码:

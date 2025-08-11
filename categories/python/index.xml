@@ -1,15 +1,23 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Python - 分类 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/categories/python/</link>
+    <link>http://localhost:1313/categories/python/</link>
     <description>Python - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 20 Nov 2024 21:35:53 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/python/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 24 Nov 2024 15:39:48 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/python/" rel="self" type="application/rss+xml" /><item>
+  <title>Numpy学习笔记</title>
+  <link>http://localhost:1313/posts/acd830e/</link>
+  <pubDate>Sun, 24 Nov 2024 15:39:48 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>http://localhost:1313/posts/acd830e/</guid>
+  <description><![CDATA[Numpy学习笔记]]></description>
+</item>
+<item>
   <title>Python学习笔记</title>
-  <link>https://YouZhiZheng.github.io/posts/92c957a/</link>
+  <link>http://localhost:1313/posts/92c957a/</link>
   <pubDate>Wed, 20 Nov 2024 21:35:53 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/92c957a/</guid>
+  <guid>http://localhost:1313/posts/92c957a/</guid>
   <description><![CDATA[环境搭建我是在WSL2下的Ubuntu进行Python开发的，所以本笔记的环境搭建仅适用于Liunx开发环境，Windows下搭建环境请自行Google。
 miniconda首先，先安装 miniconda，直接按照官方教程即可安装。
 不同的项目可能需要不同版本的库或包，而直接在系统中安装多个版本可能会导致冲突和不可预见的问题。为了解决这个问题，conda虚拟环境应运而生。

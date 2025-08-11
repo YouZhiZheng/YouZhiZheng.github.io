@@ -47,5 +47,5 @@ private:
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: https://YouZhiZheng.github.io/posts/b92556f/  
+> URL: http://localhost:1313/posts/b92556f/  
 

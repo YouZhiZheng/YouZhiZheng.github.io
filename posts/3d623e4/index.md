@@ -1657,5 +1657,5 @@ setw -g mode-keys vi                              # 设置 copy-mode 快捷键�
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: https://YouZhiZheng.github.io/posts/3d623e4/  
+> URL: http://localhost:1313/posts/3d623e4/  
 

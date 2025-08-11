@@ -55,5 +55,5 @@ public:
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: https://YouZhiZheng.github.io/posts/6fc9142/  
+> URL: http://localhost:1313/posts/6fc9142/  
 

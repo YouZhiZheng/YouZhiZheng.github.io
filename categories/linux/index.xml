@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Linux - 分类 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/categories/linux/</link>
+    <link>http://localhost:1313/categories/linux/</link>
     <description>Linux - 分类 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 15 Aug 2024 10:57:39 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/linux/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 15 Aug 2024 10:57:39 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/linux/" rel="self" type="application/rss+xml" /><item>
   <title>Linux学习笔记</title>
-  <link>https://YouZhiZheng.github.io/posts/3d623e4/</link>
+  <link>http://localhost:1313/posts/3d623e4/</link>
   <pubDate>Thu, 15 Aug 2024 10:57:39 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/3d623e4/</guid>
+  <guid>http://localhost:1313/posts/3d623e4/</guid>
   <description><![CDATA[软件安装与更新在Linux下，一般用包管理器来安装软件，它能自动化地完成软件的安装、更新、配置和移除功能，优雅而快速。
 软件包管理器的一个重要组成部分是软件仓库。软件仓库是收藏了互联网上可用软件包（应用程序）的图书馆，里面往往包含了数万个可供下载 和安装的可用软件包。
 有了软件仓库，我们不需要手动下载大量的软件包再通过包管理器安装。只需要知道软件在软件仓库中的名称，即可让包管理器从网络中抓取到相应的软件包到本地，自动进行安装。

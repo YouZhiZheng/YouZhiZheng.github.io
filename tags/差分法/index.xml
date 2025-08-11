@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>差分法 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/%E5%B7%AE%E5%88%86%E6%B3%95/</link>
+    <link>http://localhost:1313/tags/%E5%B7%AE%E5%88%86%E6%B3%95/</link>
     <description>差分法 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 12 Mar 2025 17:13:58 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%B7%AE%E5%88%86%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 12 Mar 2025 17:13:58 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%B7%AE%E5%88%86%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
   <title>出行计划</title>
-  <link>https://YouZhiZheng.github.io/posts/8d7c109/</link>
+  <link>http://localhost:1313/posts/8d7c109/</link>
   <pubDate>Wed, 12 Mar 2025 17:13:58 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/8d7c109/</guid>
+  <guid>http://localhost:1313/posts/8d7c109/</guid>
   <description><![CDATA[题目思路首先，搞一发暴力，对于每个查询的时刻，根据题目所给公式计算其核酸有效时间范围，判断计划出行时间是否在这个有效时间范围内。提交后发现果然超时，只能过7个样例。
 暴力法是拿每个查询的时间去依次处理每个出行计划，再判断每个计划是否可以出行。想了一下，对于暴力法没有什么大的优化点，那么能不能逆向一下处理流程呢？先处理每个出行计划，计算出每个出行计划最早和最迟做核酸的时刻，再处理每个查询的时刻。当然可以！我们可以先将每个出行计划都转化成一个时刻区间 $[start, end]$ ，
 $start$表示要满足该出行计划的最早做核酸的时刻。 $end$表示要满足该出行计划的最迟做核酸的时刻。 「只要开始做核酸的时刻$q$包含在该出行计划的时刻区间里，那么必定能满足该出行计划」。

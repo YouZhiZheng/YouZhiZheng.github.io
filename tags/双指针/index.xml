@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>双指针 - 标签 - zyz的技术博客</title>
-    <link>https://YouZhiZheng.github.io/tags/%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+    <link>http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/</link>
     <description>双指针 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="self" type="application/rss+xml" /><item>
   <title>42. 接雨水</title>
-  <link>https://YouZhiZheng.github.io/posts/473665c/</link>
+  <link>http://localhost:1313/posts/473665c/</link>
   <pubDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/473665c/</guid>
+  <guid>http://localhost:1313/posts/473665c/</guid>
   <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度( left_max[i] 从左往右计算， right_max[i] 从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
 上面的方法时间复杂度和空间复杂度均为$O(n)$。时间已经是最快了，那么空间上还能不能进行优化呢？上面的方法空间耗费主要来自于新建的两个存储数组。由于数组left_max是从左往右计算，数组right_max是从右往左计算，因此可以使用双指针和两个变量代替两个数组。
 对于左指针left来说，其左右两侧的最大高度分别为left_left_max和 left_right_max；同理右指针有right_left_max和 right_right_max。由于$right &gt; left$，故$right\_left\_max \ge left\_left\_max$ 且 $left\_right\_max \ge right\_right\_max$，这两个不等式画个图便可直接看出。
@@ -19,10 +19,10 @@
 </item>
 <item>
   <title>15. 三数之和</title>
-  <link>https://YouZhiZheng.github.io/posts/df574ae/</link>
+  <link>http://localhost:1313/posts/df574ae/</link>
   <pubDate>Sat, 22 Feb 2025 10:59:11 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/df574ae/</guid>
+  <guid>http://localhost:1313/posts/df574ae/</guid>
   <description><![CDATA[题目思路题目中要求找到所有 「不重复」且和为0的三元组，这个「不重复」的要求使得无法直接使用三重循环枚举所有的三元组找到答案。当然，可以直接用三重循环枚举每个答案，再使用哈希表进行去重(即先对得到的答案进行排序，比如从小到大，再转化成string后存放进unordered_set)，得到最终答案。这种做法时间复杂度和空间复杂度都很高，因此需要换一种思路来考虑这个问题。
 重复的答案形式为：$(a, b, c)、(a, c, b)、(b, a, c)$&hellip;&hellip; 假设$a \le b \le c$，如果能保证只有$(a, b, c)$这种形式的答案会被枚举，就能够直接去除掉重复的答案，而不必再使用哈希表来进行去重了。
 要实现这一点，就可以通过将数组中的元素从小达到进行排序，随后使用三重循环进行遍历，且 「每重循环相邻两次枚举的元素不能相同」，否则也会造成重复。例如：一个排完序后的数组为$[-1, 0, 1, 1, 2, 3]$，第一次枚举到的三元组为$(-1, 0, 1)$ ，如果第三重循环继续枚举下一个相邻元素，那么仍然为 $(-1, 0, 1)$，这就产生了重复，因此就需要将第三重的循环跳到下一个不相同的元素，即数组中的最后一个元素3，枚举三元组$(-1, 0, 3)$。
@@ -31,10 +31,10 @@
 </item>
 <item>
   <title>86. 分隔链表</title>
-  <link>https://YouZhiZheng.github.io/posts/6fc9142/</link>
+  <link>http://localhost:1313/posts/6fc9142/</link>
   <pubDate>Mon, 22 Jul 2024 21:19:02 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>https://YouZhiZheng.github.io/posts/6fc9142/</guid>
+  <guid>http://localhost:1313/posts/6fc9142/</guid>
   <description><![CDATA[题目描述(力扣):
 思路: 创造两个指针，分别指向大于x的链表和小于x的链表，然后依次遍历初始链表的每个节点进行判断将其添加到对应的新链表中，最后将两个链接进行连接后返回。
 代码:
