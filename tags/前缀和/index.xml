@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>前缀和 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
     <description>前缀和 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="self" type="application/rss+xml" /><item>
   <title>437. 路径总和III</title>
-  <link>http://localhost:1313/posts/8dee5a0/</link>
+  <link>https://YouZhiZheng.github.io/posts/8dee5a0/</link>
   <pubDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/8dee5a0/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/8dee5a0/</guid>
   <description><![CDATA[题目思路看到题目首先想到的是暴力法，让每一个点为起点，穷举该点向下延伸的所有路径，将符合要求的路径累加起来，就是以该点为起点满足要求的路径数，将每个点符合要求的路径数累加起来就是答案。
 暴力法的时间复杂度为$O(N^2)$，能不能进行优化呢？有的，兄弟。回顾暴力法，我们发现存在大量重复计算，比如说示例1中的 5→3 这一条路，以10为起点会计算一次，以5为起点又会计算一次。那么有什么方法可以让每条路只被计算一次呢？那就是 前缀和 ，既然以每个点为起点向下探索会存在大量重复计算，那么逆转一下思路，以每个点为终点向上探索。
 我们想要计算以当前节点为终点的任意路径的和，那么就需要借助第560题学习到的前缀和方法。用一个哈希表 $presum$ 来记录当前子路径中每种路径和的个数，当走到结点$node$时，我们只需要获得路径和为 $curr\_presum - targetSum$ 的路径数就可知道以$node$为终点，路径和为$targetSum$的路径数了。
@@ -18,19 +18,19 @@
 </item>
 <item>
   <title>53. 最大子数组和</title>
-  <link>http://localhost:1313/posts/3930252/</link>
+  <link>https://YouZhiZheng.github.io/posts/3930252/</link>
   <pubDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/3930252/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
   <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$（$i \le j$）来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 我们的目标是找到一个和最大的连续子数组，即： $$ max(preSum[j] - preSum[i - 1])，j \in [0, nums.size() - 1] $$ 我们只需计算出每一个$preSum[j] - preSum[i - 1]$的值，取其中最大值作为答案。但对$preSum[j]$来说我们需要让其减去每一个$preSum[i - 1]$吗？并不需要，因为我们需要的是差值的最大值，所以只需要用一个变量$preSumMin$来记录最小的$preSum[i - 1]$，然后只需计算每一个 $preSum[j] - preSumMin$，取其中的最大差值为答案即可。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int preSumMin = 0, preSum = 0, ans = -1e5; for (int i = 0; i &lt; nums.]]></description>
 </item>
 <item>
   <title>560. 和为 K 的子数组</title>
-  <link>http://localhost:1313/posts/847b681/</link>
+  <link>https://YouZhiZheng.github.io/posts/847b681/</link>
   <pubDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/847b681/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/847b681/</guid>
   <description><![CDATA[题目思路直接暴力法，遍历每一个子数组查看其和是否为k，发现会超时。暴力法的时间复杂度为$O(n^2)$，瓶颈在于对于每个 $i$，我们需要枚举所有以$nums[i]$作为结尾的子数组来判断其和是否等于k，这一步是否可以优化呢？当然是可以的，考虑到子数组的连续性特性，可以通过 前缀和 来优化。
 前缀和是指数组中从第一个元素到当前元素的和。假设 $pre[i]$ 为 $[0, &hellip;, i]$里所有数的和，那么 $pre[i]$ 就是前缀和。有了前缀和我们就可以用其来计算子数组的和, “子数组 [j, i] 的和为k” 就可以转化为以下等式： $$ pre[i] - pre[j - 1] = k $$ 通过变形就可以得到： $$ pre[i] - k = pre[j - 1] $$ 这说明，想要知道以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的 个数 时只要统计在位置$i$之前有多少个前缀和为 $pre[i] - k$的$pre[j]$ 。所以，考虑建立哈希表，以前缀和为key，该前缀和出现次数为value，从左往右边更新哈希表边计算答案，即可在$O(n)$时间内完成此题。
 需要注意的是，我们在构造哈希表时需要先插入键值对{0, 1} 且在遍历时必须先判断是否有符合条件的前缀和再往哈希表里记录当前前缀和。

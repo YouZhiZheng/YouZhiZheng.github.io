@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>字符串 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
     <description>字符串 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="self" type="application/rss+xml" /><item>
   <title>131. 分割回文串</title>
-  <link>http://localhost:1313/posts/04fa0b3/</link>
+  <link>https://YouZhiZheng.github.io/posts/04fa0b3/</link>
   <pubDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/04fa0b3/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/04fa0b3/</guid>
   <description><![CDATA[题目思路这道题挺简单的，但是一开始想复杂了，故在此记录一下。
 题目的意思就是将字符串$s$进行分割，且分割出来的每一个子串都必须时回文串。最简单有效的思路就是依次分割，先分割出第一个子串，在未分割的子串中再分割出第二个子串，&hellip;&hellip;，依次这样下去，直到不存在未分割的子串。而对于每个要分割出来的子串我们都需要遍历其全部形式。
 具体来说，设$s = &ldquo;abcde&rdquo;$，那么分割出来的第一个子串的形式有$a, ab, abc, abcd, abcde$，其对应的未分割子串依次为$bcde, cde, de, e, null$。所以，直接采用回溯法来做，直接看代码。
@@ -18,10 +18,10 @@ PS: 仔细思考会发现存在大量的字符串被反复判断是否是回文�
 </item>
 <item>
   <title>3. 无重复字符的最长子串</title>
-  <link>http://localhost:1313/posts/2aaae8d/</link>
+  <link>https://YouZhiZheng.github.io/posts/2aaae8d/</link>
   <pubDate>Mon, 24 Feb 2025 11:02:49 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/2aaae8d/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/2aaae8d/</guid>
   <description><![CDATA[<h2 id="题目httpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
   <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>

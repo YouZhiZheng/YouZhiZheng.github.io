@@ -642,5 +642,5 @@ install(FILES include/math.h
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: http://localhost:1313/posts/6c7e777/  
+> URL: https://YouZhiZheng.github.io/posts/6c7e777/  
 

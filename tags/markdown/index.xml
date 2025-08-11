@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Markdown - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/markdown/</link>
+    <link>https://YouZhiZheng.github.io/tags/markdown/</link>
     <description>Markdown - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/markdown/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/markdown/" rel="self" type="application/rss+xml" /><item>
   <title>Markdown常用语法</title>
-  <link>http://localhost:1313/posts/d43ba28/</link>
+  <link>https://YouZhiZheng.github.io/posts/d43ba28/</link>
   <pubDate>Sun, 21 Jul 2024 14:35:23 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/d43ba28/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/d43ba28/</guid>
   <description><![CDATA[代码行内代码格式：ˋ代码内容ˋ
 块内代码格式：
 1 2 3 ˋˋˋmarkdown Sample text here ... ˋˋˋ 标题格式：

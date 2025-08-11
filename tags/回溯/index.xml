@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>回溯 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E5%9B%9E%E6%BA%AF/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E5%9B%9E%E6%BA%AF/</link>
     <description>回溯 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%9B%9E%E6%BA%AF/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%9B%9E%E6%BA%AF/" rel="self" type="application/rss+xml" /><item>
   <title>131. 分割回文串</title>
-  <link>http://localhost:1313/posts/04fa0b3/</link>
+  <link>https://YouZhiZheng.github.io/posts/04fa0b3/</link>
   <pubDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/04fa0b3/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/04fa0b3/</guid>
   <description><![CDATA[题目思路这道题挺简单的，但是一开始想复杂了，故在此记录一下。
 题目的意思就是将字符串$s$进行分割，且分割出来的每一个子串都必须时回文串。最简单有效的思路就是依次分割，先分割出第一个子串，在未分割的子串中再分割出第二个子串，&hellip;&hellip;，依次这样下去，直到不存在未分割的子串。而对于每个要分割出来的子串我们都需要遍历其全部形式。
 具体来说，设$s = &ldquo;abcde&rdquo;$，那么分割出来的第一个子串的形式有$a, ab, abc, abcd, abcde$，其对应的未分割子串依次为$bcde, cde, de, e, null$。所以，直接采用回溯法来做，直接看代码。
@@ -18,10 +18,10 @@ PS: 仔细思考会发现存在大量的字符串被反复判断是否是回文�
 </item>
 <item>
   <title>46. 全排列</title>
-  <link>http://localhost:1313/posts/d9778bc/</link>
+  <link>https://YouZhiZheng.github.io/posts/d9778bc/</link>
   <pubDate>Tue, 15 Apr 2025 09:50:44 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/d9778bc/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/d9778bc/</guid>
   <description><![CDATA[题目思路做这道题首先要知道什么是回溯法。
 设数组大小为$n$，这个问题可以视为有$n$个排成一行的空格，依次为每个位置选择一个未被选的数来填充。那么可以直接想到一种穷举法，就是从左往右依次往空格中填入数字，全部空格填完就是一种答案。这里我们就可以使用回溯法来完成这一过程。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 class Solution { public: vector&lt;vector&lt;int&gt;&gt; ans; vector&lt;int&gt; output; // 存储当前的组合 void backtrace(vector&lt;int&gt;&amp; nums, vector&lt;bool&gt;&amp; used) { // 判断是否已经组合完毕 if (output.size() == nums.size()) { ans.emplace_back(output); return; } // 依次将每个元素放到当前位置 for (size_t i = 0; i &lt; nums.]]></description>

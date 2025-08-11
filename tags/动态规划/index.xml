@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>动态规划 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
     <description>动态规划 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="self" type="application/rss+xml" /><item>
   <title>131. 分割回文串</title>
-  <link>http://localhost:1313/posts/04fa0b3/</link>
+  <link>https://YouZhiZheng.github.io/posts/04fa0b3/</link>
   <pubDate>Sun, 20 Apr 2025 11:09:38 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/04fa0b3/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/04fa0b3/</guid>
   <description><![CDATA[题目思路这道题挺简单的，但是一开始想复杂了，故在此记录一下。
 题目的意思就是将字符串$s$进行分割，且分割出来的每一个子串都必须时回文串。最简单有效的思路就是依次分割，先分割出第一个子串，在未分割的子串中再分割出第二个子串，&hellip;&hellip;，依次这样下去，直到不存在未分割的子串。而对于每个要分割出来的子串我们都需要遍历其全部形式。
 具体来说，设$s = &ldquo;abcde&rdquo;$，那么分割出来的第一个子串的形式有$a, ab, abc, abcd, abcde$，其对应的未分割子串依次为$bcde, cde, de, e, null$。所以，直接采用回溯法来做，直接看代码。
@@ -18,19 +18,19 @@ PS: 仔细思考会发现存在大量的字符串被反复判断是否是回文�
 </item>
 <item>
   <title>53. 最大子数组和</title>
-  <link>http://localhost:1313/posts/3930252/</link>
+  <link>https://YouZhiZheng.github.io/posts/3930252/</link>
   <pubDate>Sat, 01 Mar 2025 10:14:12 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/3930252/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/3930252/</guid>
   <description><![CDATA[题目思路看到题目说寻找最大和的连续子数组，想到了 「560. 和为 K 的子数组」 中的思路 前缀和。对于任意一个区间$[i, j]$（$i \le j$）来说其和为： $$ sum[i, j] = preSum[j] - preSum[i - 1] $$ 我们的目标是找到一个和最大的连续子数组，即： $$ max(preSum[j] - preSum[i - 1])，j \in [0, nums.size() - 1] $$ 我们只需计算出每一个$preSum[j] - preSum[i - 1]$的值，取其中最大值作为答案。但对$preSum[j]$来说我们需要让其减去每一个$preSum[i - 1]$吗？并不需要，因为我们需要的是差值的最大值，所以只需要用一个变量$preSumMin$来记录最小的$preSum[i - 1]$，然后只需计算每一个 $preSum[j] - preSumMin$，取其中的最大差值为答案即可。
 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 class Solution { public: int maxSubArray(vector&lt;int&gt;&amp; nums) { int preSumMin = 0, preSum = 0, ans = -1e5; for (int i = 0; i &lt; nums.]]></description>
 </item>
 <item>
   <title>42. 接雨水</title>
-  <link>http://localhost:1313/posts/473665c/</link>
+  <link>https://YouZhiZheng.github.io/posts/473665c/</link>
   <pubDate>Sun, 23 Feb 2025 14:07:10 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/473665c/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/473665c/</guid>
   <description><![CDATA[题目思路接的雨水总量为每个柱子能够接的雨水之和，而每个柱子的接水量计算公式为： $$ 接水量=\min(左右两边最高柱子)−当前柱子的高度 $$ 那么直接新建两个数组 left_max 和 right_max 来存储每个柱子左右两侧的最大高度， left_max[i] 和 right_max[i] 分别表示柱子i左右两侧的最高柱子高度( left_max[i] 从左往右计算， right_max[i] 从右往左计算)，然后再通过遍历计算每个柱子的接水量累加起来即可。
 上面的方法时间复杂度和空间复杂度均为$O(n)$。时间已经是最快了，那么空间上还能不能进行优化呢？上面的方法空间耗费主要来自于新建的两个存储数组。由于数组left_max是从左往右计算，数组right_max是从右往左计算，因此可以使用双指针和两个变量代替两个数组。
 对于左指针left来说，其左右两侧的最大高度分别为left_left_max和 left_right_max；同理右指针有right_left_max和 right_right_max。由于$right &gt; left$，故$right\_left\_max \ge left\_left\_max$ 且 $left\_right\_max \ge right\_right\_max$，这两个不等式画个图便可直接看出。
@@ -40,10 +40,10 @@ PS: 仔细思考会发现存在大量的字符串被反复判断是否是回文�
 </item>
 <item>
   <title>322. 零钱兑换</title>
-  <link>http://localhost:1313/posts/bd6092d/</link>
+  <link>https://YouZhiZheng.github.io/posts/bd6092d/</link>
   <pubDate>Mon, 29 Jul 2024 21:01:40 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/bd6092d/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/bd6092d/</guid>
   <description><![CDATA[题目描述(力扣):
 什么是最优子结构
 最优子结构指的是，问题的最优解包含子问题的最优解。反过来说就是，可以通过子问题的最优解，推导出问题的最优解。要符合「最优子结构」，子问题间必须互相独立。

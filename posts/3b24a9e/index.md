@@ -45,5 +45,5 @@ echo &#34;CORE_AREA set to: $CORE_AREA&#34;
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: http://localhost:1313/posts/3b24a9e/  
+> URL: https://YouZhiZheng.github.io/posts/3b24a9e/  
 

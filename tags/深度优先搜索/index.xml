@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>深度优先搜索 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</link>
     <description>深度优先搜索 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" rel="self" type="application/rss+xml" /><item>
   <title>437. 路径总和III</title>
-  <link>http://localhost:1313/posts/8dee5a0/</link>
+  <link>https://YouZhiZheng.github.io/posts/8dee5a0/</link>
   <pubDate>Mon, 07 Apr 2025 09:44:17 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/8dee5a0/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/8dee5a0/</guid>
   <description><![CDATA[题目思路看到题目首先想到的是暴力法，让每一个点为起点，穷举该点向下延伸的所有路径，将符合要求的路径累加起来，就是以该点为起点满足要求的路径数，将每个点符合要求的路径数累加起来就是答案。
 暴力法的时间复杂度为$O(N^2)$，能不能进行优化呢？有的，兄弟。回顾暴力法，我们发现存在大量重复计算，比如说示例1中的 5→3 这一条路，以10为起点会计算一次，以5为起点又会计算一次。那么有什么方法可以让每条路只被计算一次呢？那就是 前缀和 ，既然以每个点为起点向下探索会存在大量重复计算，那么逆转一下思路，以每个点为终点向上探索。
 我们想要计算以当前节点为终点的任意路径的和，那么就需要借助第560题学习到的前缀和方法。用一个哈希表 $presum$ 来记录当前子路径中每种路径和的个数，当走到结点$node$时，我们只需要获得路径和为 $curr\_presum - targetSum$ 的路径数就可知道以$node$为终点，路径和为$targetSum$的路径数了。

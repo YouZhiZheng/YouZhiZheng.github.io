@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>哈希表 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
     <description>哈希表 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="self" type="application/rss+xml" /><item>
   <title>560. 和为 K 的子数组</title>
-  <link>http://localhost:1313/posts/847b681/</link>
+  <link>https://YouZhiZheng.github.io/posts/847b681/</link>
   <pubDate>Wed, 26 Feb 2025 10:57:50 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/847b681/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/847b681/</guid>
   <description><![CDATA[题目思路直接暴力法，遍历每一个子数组查看其和是否为k，发现会超时。暴力法的时间复杂度为$O(n^2)$，瓶颈在于对于每个 $i$，我们需要枚举所有以$nums[i]$作为结尾的子数组来判断其和是否等于k，这一步是否可以优化呢？当然是可以的，考虑到子数组的连续性特性，可以通过 前缀和 来优化。
 前缀和是指数组中从第一个元素到当前元素的和。假设 $pre[i]$ 为 $[0, &hellip;, i]$里所有数的和，那么 $pre[i]$ 就是前缀和。有了前缀和我们就可以用其来计算子数组的和, “子数组 [j, i] 的和为k” 就可以转化为以下等式： $$ pre[i] - pre[j - 1] = k $$ 通过变形就可以得到： $$ pre[i] - k = pre[j - 1] $$ 这说明，想要知道以 $nums[i]$ 结尾的和为 $k$ 的连续子数组的 个数 时只要统计在位置$i$之前有多少个前缀和为 $pre[i] - k$的$pre[j]$ 。所以，考虑建立哈希表，以前缀和为key，该前缀和出现次数为value，从左往右边更新哈希表边计算答案，即可在$O(n)$时间内完成此题。
 需要注意的是，我们在构造哈希表时需要先插入键值对{0, 1} 且在遍历时必须先判断是否有符合条件的前缀和再往哈希表里记录当前前缀和。
@@ -18,10 +18,10 @@
 </item>
 <item>
   <title>3. 无重复字符的最长子串</title>
-  <link>http://localhost:1313/posts/2aaae8d/</link>
+  <link>https://YouZhiZheng.github.io/posts/2aaae8d/</link>
   <pubDate>Mon, 24 Feb 2025 11:02:49 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/2aaae8d/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/2aaae8d/</guid>
   <description><![CDATA[<h2 id="题目httpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-element"><span><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&amp;envId=top-100-liked"target="_blank" rel="external nofollow noopener noreferrer">题目</a></span>
   <a href="#%e9%a2%98%e7%9b%aehttpsleetcodecnproblemslongest-substring-without-repeating-charactersdescriptionenvtypestudy-plan-v2envidtop-100-liked" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -107,10 +107,10 @@
 </item>
 <item>
   <title>1. 两数之和</title>
-  <link>http://localhost:1313/posts/7d4248c/</link>
+  <link>https://YouZhiZheng.github.io/posts/7d4248c/</link>
   <pubDate>Mon, 17 Feb 2025 19:39:01 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/7d4248c/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/7d4248c/</guid>
   <description><![CDATA[题目描述：
 思路时间复杂度为 $O(n^2)$ 的算法思路很简单，直接采用暴力法使用两层循环遍历每一种可能，判断是否存在答案。
 这里详细说明一下时间复杂度为 $O(n)$ 的算法，暴力法之所以慢是因为寻找 target - x 的时间复杂度过高。那有没有什么方法可以加速寻找元素 target - x 是否存在且存在时可以知道其索引呢？有的，那就是使用哈希表来做，以target - x 为key，以索引为value。这样，寻找target - x的时间复杂度就变为了 $O(1)$，极大地提高了效率。

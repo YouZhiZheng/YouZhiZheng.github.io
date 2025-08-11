@@ -119,5 +119,5 @@ int main()
 ---
 
 > 作者: [zyz](https://github.com/YouZhiZheng)  
-> URL: http://localhost:1313/posts/8d7c109/  
+> URL: https://YouZhiZheng.github.io/posts/8d7c109/  
 

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>二分查找 - 标签 - zyz的技术博客</title>
-    <link>http://localhost:1313/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</link>
+    <link>https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</link>
     <description>二分查找 - 标签 | zyz的技术博客</description>
     <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 28 Apr 2025 10:27:02 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Mon, 28 Apr 2025 10:27:02 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="self" type="application/rss+xml" /><item>
   <title>4. 寻找两个正序数组的中位数</title>
-  <link>http://localhost:1313/posts/6567d9a/</link>
+  <link>https://YouZhiZheng.github.io/posts/6567d9a/</link>
   <pubDate>Mon, 28 Apr 2025 10:27:02 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/6567d9a/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/6567d9a/</guid>
   <description><![CDATA[题目思路暴力法，先计算出中位数是第几个元素，然后使用双指针分别指向两个数组的开头元素，然后不断将指向较小元素的指针往后移，直到移到中位数即可，时间复杂度为$O(m + n)$，不符合题目要求。
 进一步思考中位数的作用是什么？中位数的作用就是:
 将一个集合划分为两个等长的子集，且其中一个子集的元素总是小于另一个子集的元素。
@@ -20,20 +20,20 @@
 </item>
 <item>
   <title>33. 搜索旋转排序数组</title>
-  <link>http://localhost:1313/posts/8c42677/</link>
+  <link>https://YouZhiZheng.github.io/posts/8c42677/</link>
   <pubDate>Fri, 25 Apr 2025 10:12:40 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/8c42677/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/8c42677/</guid>
   <description><![CDATA[题目思路最开始想的是先通过二分来找到最大值位置，确定$right$和$left$的值，再使用一次二分来进行查询。但仔细观察题目发现只需进行一次二分查找算法就可以解决问题了，因为 「该旋转后的数组从中间分开后，左右部分中必定有一个部分是有序的」。
 那么我们就可以借助这个有序数组来直接进行二分查找，采用下面的方式来更新$left$和$right$的值：
 左边部分有序 target在这个有序区间内，则可以直接抛弃右边部分。反之，抛弃左边部分。 右边部分有序 target在这个有序区间内，则可以直接抛弃左边部分。反之，抛弃右边部分。 代码1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 class Solution { public: int search(vector&lt;int&gt;&amp; nums, int target) { int mid, left = 0; int right = nums.]]></description>
 </item>
 <item>
   <title>240. 搜索二维矩阵Ⅱ</title>
-  <link>http://localhost:1313/posts/77cc956/</link>
+  <link>https://YouZhiZheng.github.io/posts/77cc956/</link>
   <pubDate>Mon, 10 Mar 2025 09:57:17 &#43;0800</pubDate>
   <author>zyz</author>
-  <guid>http://localhost:1313/posts/77cc956/</guid>
+  <guid>https://YouZhiZheng.github.io/posts/77cc956/</guid>
   <description><![CDATA[题目思路看到这题直接暴力法，但时间复杂度为$O(m*n)$，不够快。考虑到每一行的元素都是升序排列，那么可以在遍历每一行的元素时使用二分查找法，时间复杂度为$O(m * log_{}{n})$（当然也可以在遍历每一列时使用二分查找法）。
 二分查找法我们只用到了行有序或列有序这两个中的一个条件，能不能同时应用这两个条件来实现更快的算法呢？设「$num$为某一行的最后一个元素」，观察发现：
 如果$num$比$target$大，那么该元素所在列的后续元素都将比$target$大，所以可以直接抛弃掉这些元素。 如果$num$比$target$小，那么该元素所在行的前驱元素都将比$target$小，所以可以直接抛弃掉这些元素。 这意味着：我们可以一次性跳过当前搜索范围中的一整行或一整列，快速减少搜索空间！ 每次移动会排除一行或一列，最多移动$m+n$次，时间复杂度为 $O(m+n)$
