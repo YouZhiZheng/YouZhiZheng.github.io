@@ -24,7 +24,7 @@
       - **Name:** Format #1
       - **Output Format:** Formatted Citation
       - **Citation Style:** IEEE
-4. 新建一个名为 **import模板** 的文件夹 (这个名称自己随意起), 在下面创建一个名为 `zotero integration template` 的笔记，然后进行写入以下内容:
+4. 新建一个名为 **import模板** 的文件夹 (这个名称自己随意起), 在下面创建一个名为 `zotero integration template` 的笔记，然后写入以下内容:
 
     ```markdown
     **作者:** {{ authors }}
