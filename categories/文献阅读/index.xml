@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>文献阅读 - 分类 - zyz的技术博客</title>
+    <link>https://YouZhiZheng.github.io/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/</link>
+    <description>文献阅读 - 分类 | zyz的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
+      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 23 Nov 2025 19:53:32 &#43;0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/" rel="self" type="application/rss+xml" /><item>
+  <title>Zotero &#43; Obsidian 文献阅读与笔记工作流</title>
+  <link>https://YouZhiZheng.github.io/posts/ef03586/</link>
+  <pubDate>Sun, 23 Nov 2025 19:53:32 &#43;0800</pubDate>
+  <author>zyz</author>
+  <guid>https://YouZhiZheng.github.io/posts/ef03586/</guid>
+  <description><![CDATA[以前一直都是在 ReadPaper 上阅读文献，然后在 Obsidian 总结文献内容，翻译软件使用的是 沙拉查词插件 + Quicker。自从 Google 浏览器升级后，已经无法使用沙拉查词插件了 且 ReadPaper自带的翻译有次数限制（也不好用），故打算切换文献阅读软件为 Zotero（该软件有翻译插件，通过配置 API 可调用Gemini、GPT 来实现准确的翻译）。此外，Obsidian 中也有插件可以直接导出 Zotero 内的指定文献中的批注，从而能够在 Obsidian 中快速梳理文献内容并形成笔记（再也不用手动截图文献中的批注啦！）。
+Zotero配置配置步骤如下所示：
+在 Zotero官网 下载软件并进行安装 点击 编辑→设置→高级 修改数据库存储位置（这一步可选，默认是将数据放在 C 盘的） 打开 https://zotero-chinese.com/plugins/ 下载插件： Translate for Zotero、Better BibTeX for Zotero 打开 Google AI Studio ，申请 Gemini 密钥 (GPI或其他AI的申请地址自行Google) 点击 编辑→设置→翻译 下划到服务，选择你要使用的翻译服务并填入对应密钥 在 翻译 这一栏上划到通用，取消勾选 自动翻译选择 内容，这样设置后，只有按下 Ctrl+T 时才会翻译选中内容（这一步可选） Obsidian配置配置步骤如下所示：
+在 Obsidian 中下载第三方插件 Zotero Integration
+在插件配置中，对于 PDF Utility 一栏点击后面的 Download；Database 一栏选择 Zotero；Note Import Location 一栏选择你要存放导出内容的目录]]></description>
+</item>
+</channel>
+</rss>

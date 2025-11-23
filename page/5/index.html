@@ -12,8 +12,8 @@
 <meta name="author-link" content="https://github.com/YouZhiZheng">
 <meta name="description" content="" /><meta name="keywords" content='C&#43;&#43;, EDA, Python, Git, Linux' />
   <meta itemprop="name" content="zyz的技术博客">
-  <meta itemprop="datePublished" content="2025-08-10T20:29:39+08:00">
-  <meta itemprop="dateModified" content="2025-08-10T20:29:39+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
+  <meta itemprop="datePublished" content="2025-11-23T19:53:32+08:00">
+  <meta itemprop="dateModified" content="2025-11-23T19:53:32+08:00"><meta property="og:url" content="https://YouZhiZheng.github.io/">
   <meta property="og:site_name" content="zyz的技术博客">
   <meta property="og:title" content="zyz的技术博客">
   <meta property="og:locale" content="en">
@@ -137,6 +137,26 @@
     </a><a href="mailto:youzhizheng9@gmail.com" title="Email"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-regular fa-envelope fa-fw" aria-hidden="true"></i>
     </a><a href="/index.xml" title="RSS"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-solid fa-rss fa-fw" aria-hidden="true"></i>
     </a></div><h3 class="home-disclaimer">转载请注明出处</h3></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/3d623e4/">Linux学习笔记</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-15 10:57:39'>发布于 <time datetime="2024-08-15">2024-08-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="content">软件安装与更新在Linux下，一般用包管理器来安装软件，它能自动化地完成软件的安装、更新、配置和移除功能，优雅而快速。
+软件包管理器的一个重要组成部分是软件仓库。软件仓库是收藏了互联网上可用软件包（应用程序）的图书馆，里面往往包含了数万个可供下载 和安装的可用软件包。
+有了软件仓库，我们不需要手动下载大量的软件包再通过包管理器安装。只需要知道软件在软件仓库中的名称，即可让包管理器从网络中抓取到相应的软件包到本地，自动进行安装。
+但是与应用商店相比，使用包管理器安装需要预先知道所需软件在软件仓库中的对应包名，和应用商店相比无法进行模糊搜索（不过你也可以在包管理器官网上进行查找包名，再通过包管理器安装）。
+作者使用的是Ubuntu系统，Ubuntu下默认的包管理器为apt，所有后面的讲解以apt为例。
+使用包管理器系统安装搜索安装前，先在浏览器中搜索所需的软件，查找包名，再使用 apt search package_name 命令搜索软件仓库，查看对应的包名是否在软件仓库中(这步可跳过，只要知道要安装的软件包名即可)。
+安装找到要安装的软件的包名后，使用命令 apt install package_name 进行安装。
+PS： 如果提示当前用户无安装软件权限，则在命令前加上 sudo，即 sudo apt install package_name，输入此命令后会要求用户输入密码(输入的密码不会在终端显示)。
+官方软件源镜像通过 apt 安装的软件都来源于相对应的软件源，每个 Linux 发行版一般都带有官方的软件源，在官方的软件源中已经包含了丰富的软件，apt 的软件源列表在 /etc/apt/sources.list 下。
+Ubuntu 官方源位于国外，往往会有速度与延迟上的限制，可以通过修改官方源为其镜像实现更快的下载速度。镜像缓存了官方源中的软件列表，与官方源基本一致。
+修改官方源为镜像步骤
+本例以修改官方源为 USTC Mirror 为例。注意：在操作前请做好备份。
+一般情况下，/etc/apt/sources.list 下的官方源地址为 http://archive.ubuntu.com/ ，我们只需要将其替换为 http://mirrors.ustc.edu.cn 即可。
+如果你使用 Ubuntu 图形安装器安装，默认的源地址通常不是 http://archive.ubuntu.com/ ， 而是 http://&lt;country-code&gt;.archive.ubuntu.com/ubuntu/ ，如 http://cn.archive.ubuntu.com/ubuntu/，同样也将其替换为 http://mirrors.ustc.edu.cn 即可。
+可以使用如下命令：
+$ sudo sed -i 's|//.*archive.ubuntu.com|//mirrors.ustc.edu.cn|g' /etc/apt/sources.list
+当然也可以直接使用 vim、nano 等文本编辑器进行修改。</div><div class="post-footer">
+    <a href="/posts/3d623e4/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%AC%94%E8%AE%B0/' class="post-tag">笔记</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/c0ef113/">VsCode推荐插件</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-08-12 10:30:17'>发布于 <time datetime="2024-08-12">2024-08-12</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vscode/" class="post-category" title="分类 - VsCode"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> VsCode</a></span></div><div class="content">Better C++ Syntax该插件主要作用是提供 C++ 语法高亮
 Bookmarks该插件主要作用是允许用户在代码中添加书签，以便快速跳转到这些特定位置。这个插件对于需要在大型项目中导航和跟踪重要代码段的开发者来说非常有用。
@@ -200,19 +220,6 @@ Markdown All in One 和 Markdown Preview Enhanced这两个插件都是用于帮
 代码:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* partition(ListNode* head, int x) { ListNode *h1 = new ListNode(-1); //指向小于x的节点组成的链表的头节点 ListNode *h2 = new ListNode(-1); //指向大于x的节点组成的链表的头节点 ListNode *t1, *t2; //分别指向各自链表的尾结点 t1 = h1; t2 = h2; while(head !</div><div class="post-footer">
     <a href="/posts/6fc9142/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%8F%8C%E6%8C%87%E9%92%88/' class="post-tag">双指针</a><a href='/tags/%E9%93%BE%E8%A1%A8/' class="post-tag">链表</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/d43ba28/">Markdown常用语法</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span>&nbsp;<span class="post-publish" title='2024-07-21 14:35:23'>发布于 <time datetime="2024-07-21">2024-07-21</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/markdown/" class="post-category" title="分类 - Markdown"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Markdown</a></span></div><div class="content">代码行内代码格式：ˋ代码内容ˋ
-块内代码格式：
-1 2 3 ˋˋˋmarkdown Sample text here ... ˋˋˋ 标题格式：
-1 2 3 4 # 一级标题 ## 二级标题 ... ###### 六级标题 水平线格式：
-1 2 3 4 水平线有三种实现方式: ___:三个连续的下划线 ---:三个连续的破折号 ***:三个连续的星号 换行分行格式：两个空格 + 回车 或 使用&lt;br&gt;
-分段格式：两个回车
-强调粗体格式：**加粗的内容** 也可以选择需要加粗的内容后使用快捷键Ctrl + B
-斜体格式：*倾斜的内容* 或 _倾斜的内容_ 也可以选择需要加粗的内容后使用快捷键Ctrl + I
-删除线格式：~~倾斜的内容~~
-组合使用1 2 3 4 _**加粗和斜体**_ ~~**删除线和加粗**~~ ~~_删除线和斜体_~~ ~~_**加粗，斜体和删除线**_~~ 引用格式：&gt; + 空格 + 引用的内容</div><div class="post-footer">
-    <a href="/posts/d43ba28/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/markdown/' class="post-tag">Markdown</a></div></div>
 </article>
 <ul class="pagination"><li class="page-item">
           <span class="page-link">
