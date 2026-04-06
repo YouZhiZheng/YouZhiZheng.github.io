@@ -1,0 +1,11 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>AI编程 - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/ai%E7%BC%96%E7%A8%8B/</link><description>AI编程 - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 05 Apr 2026 21:28:49 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/ai%E7%BC%96%E7%A8%8B/" rel="self" type="application/rss+xml"/><item><title>Codex Best Practices</title><link>https://YouZhiZheng.github.io/posts/479270e/</link><pubDate>Sun, 05 Apr 2026 21:28:49 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/479270e/</guid><description>核心思想为：
+为每次任务提供正确的上下文 将复杂任务进行拆解 将持久的指导写入AGENTS.md 将重复工作转换为siklls 使用MCP与外部系统连接 自动化稳定的流程 Context and prompts
+一个好的prompt应该包括以下4点：
+Goal: 你想要修改或建立什么？ Context: 哪些文件、文件夹、文档、示例或错误对这项任务有帮助？推荐通过@这些文件来提供上下文。 Constraints: 本次任务应遵循哪些标准、架构、安全要求或惯例？ Done when: 本次任务完成的标准。比如测试通过、行为改变，或者某个漏洞被修复。 此外，注意选择合适的推理能力：
+低： 适用于范围明确且要求快速响应的任务 中和高： 适用于复杂的任务 超高： 适用于长时间、复杂、推理繁重的任务 Plan first for difficult tasks
+对于复杂、模糊的任务，应该在进行编码前先做plan
+可以采用以下方式来制作plan：
+使用计划模式： 输入 /plan 或按下 shift + tab 即可切换为 plan 模式。（这是最简单有效的方式，强力推荐） 让Codex主动询问： 让codex主动对任务不清楚，描述模糊的地方对你进行提问，把你模糊的想法变成具体的东西，然后才开始写代码 使用 PLANS.md： 对于特别特别复杂的任务，可以按照官方提供的模板编写 PLANS.md Make guidance reusable with AGENTS.md
+AGENTS.md 就是面向 agents 的 README，它可以让我们不用重复写相同的提示，让anget行为更稳定。Codex每次执行任务前会自动读取该文件，作为系统级指导。
+一个好的 AGENTS.md 应该包括以下内容：
+仓库结构和重要目录 构建、测试、运行命令 代码规范（使用什么标准，函数和变量命名规则等） 工作流程（如何提交PR，commit规范，review要求） 特殊注意事项 刚开始的 AGENTS.md 应该简洁准确，然后再慢慢将 agent 反复犯的错制作为规则添加进去。需要注意的是 AGENTS.</description></item></channel></rss>

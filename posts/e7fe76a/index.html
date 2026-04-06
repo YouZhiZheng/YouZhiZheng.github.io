@@ -1,314 +1,58 @@
-<!DOCTYPE html>
-<html itemscope itemtype="http://schema.org/WebPage" lang="en">
-  <head>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-    <meta name="robots" content="noodp" />
-    <title>芯片设计核心概念：建立时间与保持时间 - zyz的技术博客</title><meta name="author" content="zyz">
-<meta name="author-link" content="https://github.com/YouZhiZheng">
-<meta name="description" content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
+<!doctype html><html itemscope itemtype=http://schema.org/WebPage lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=2"><meta name=robots content="noodp"><title>芯片设计核心概念：建立时间与保持时间 - zyz的技术博客</title><meta name=author content="zyz">
+<meta name=author-link content="https://github.com/YouZhiZheng"><meta name=description content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
 📸 秒懂比喻：拍一张清晰的照片
 时钟有效沿 (Clock Edge)： 按下相机快门的那一瞬间。 建立时间 (Setup Time)： 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。 保持时间 (Hold Time)： 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。 亚稳态 (Metastability)： 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是模糊的（芯片不知道存的是0还是1）。
 理想情况Setup 违例Hold 违例$T_{seteup}$和$T_{hold}$如何确定？$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）物理器件本身的固有属性，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在时序库文件（.lib 文件，Liberty format） 中。
 具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张二维查找表（Look-up Table），保存在 .lib 文件中。EDA 工具在计算时，是去 .lib 里查表得出的。
 如何修复 Setup 违例？Setup 违例通常是因为数据跑得太慢，修复的核心思路：让数据跑得更快，或者给数据更多的时间。
 优化组合逻辑： 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。 缩短物理线长： 在布局阶段，通过算法将有数据交互的 Cell 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。 用更快的标准单元： 将路径上的逻辑门替换为阈值电压更低（Low-Vt，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（Upsize），以加快信号翻转速度。 降低时钟频率： 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。 如何修复 Hold 违例？Hold违例通常是因为数据跑得太快，核心思路：让数据跑得慢一点。
-插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有：" /><meta name="keywords" content='STA, Setup-Time, Hold-Time' />
-  <meta itemprop="name" content="芯片设计核心概念：建立时间与保持时间">
-  <meta itemprop="description" content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
+插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有："><meta name=keywords content='STA,Setup-Time,Hold-Time'><meta itemprop=name content="芯片设计核心概念：建立时间与保持时间"><meta itemprop=description content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
 📸 秒懂比喻：拍一张清晰的照片
 时钟有效沿 (Clock Edge)： 按下相机快门的那一瞬间。 建立时间 (Setup Time)： 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。 保持时间 (Hold Time)： 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。 亚稳态 (Metastability)： 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是模糊的（芯片不知道存的是0还是1）。
 理想情况Setup 违例Hold 违例$T_{seteup}$和$T_{hold}$如何确定？$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）物理器件本身的固有属性，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在时序库文件（.lib 文件，Liberty format） 中。
 具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张二维查找表（Look-up Table），保存在 .lib 文件中。EDA 工具在计算时，是去 .lib 里查表得出的。
 如何修复 Setup 违例？Setup 违例通常是因为数据跑得太慢，修复的核心思路：让数据跑得更快，或者给数据更多的时间。
 优化组合逻辑： 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。 缩短物理线长： 在布局阶段，通过算法将有数据交互的 Cell 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。 用更快的标准单元： 将路径上的逻辑门替换为阈值电压更低（Low-Vt，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（Upsize），以加快信号翻转速度。 降低时钟频率： 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。 如何修复 Hold 违例？Hold违例通常是因为数据跑得太快，核心思路：让数据跑得慢一点。
-插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有：">
-  <meta itemprop="datePublished" content="2026-04-04T16:41:39+08:00">
-  <meta itemprop="dateModified" content="2026-04-04T16:41:39+08:00">
-  <meta itemprop="wordCount" content="121">
-  <meta itemprop="keywords" content="STA,Setup-Time,Hold-Time"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/e7fe76a/">
-  <meta property="og:site_name" content="zyz的技术博客">
-  <meta property="og:title" content="芯片设计核心概念：建立时间与保持时间">
-  <meta property="og:description" content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
+插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有："><meta itemprop=datePublished content="2026-04-04T16:41:39+08:00"><meta itemprop=dateModified content="2026-04-04T16:41:39+08:00"><meta itemprop=wordCount content="121"><meta itemprop=keywords content="STA,Setup-Time,Hold-Time"><meta property="og:url" content="https://YouZhiZheng.github.io/posts/e7fe76a/"><meta property="og:site_name" content="zyz的技术博客"><meta property="og:title" content="芯片设计核心概念：建立时间与保持时间"><meta property="og:description" content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
 📸 秒懂比喻：拍一张清晰的照片
 时钟有效沿 (Clock Edge)： 按下相机快门的那一瞬间。 建立时间 (Setup Time)： 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。 保持时间 (Hold Time)： 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。 亚稳态 (Metastability)： 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是模糊的（芯片不知道存的是0还是1）。
 理想情况Setup 违例Hold 违例$T_{seteup}$和$T_{hold}$如何确定？$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）物理器件本身的固有属性，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在时序库文件（.lib 文件，Liberty format） 中。
 具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张二维查找表（Look-up Table），保存在 .lib 文件中。EDA 工具在计算时，是去 .lib 里查表得出的。
 如何修复 Setup 违例？Setup 违例通常是因为数据跑得太慢，修复的核心思路：让数据跑得更快，或者给数据更多的时间。
 优化组合逻辑： 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。 缩短物理线长： 在布局阶段，通过算法将有数据交互的 Cell 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。 用更快的标准单元： 将路径上的逻辑门替换为阈值电压更低（Low-Vt，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（Upsize），以加快信号翻转速度。 降低时钟频率： 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。 如何修复 Hold 违例？Hold违例通常是因为数据跑得太快，核心思路：让数据跑得慢一点。
-插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有：">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-04-04T16:41:39+08:00">
-    <meta property="article:modified_time" content="2026-04-04T16:41:39+08:00">
-    <meta property="article:tag" content="STA">
-    <meta property="article:tag" content="Setup-Time">
-    <meta property="article:tag" content="Hold-Time">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="芯片设计核心概念：建立时间与保持时间">
-  <meta name="twitter:description" content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
+插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有："><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-04-04T16:41:39+08:00"><meta property="article:modified_time" content="2026-04-04T16:41:39+08:00"><meta property="article:tag" content="STA"><meta property="article:tag" content="Setup-Time"><meta property="article:tag" content="Hold-Time"><meta name=twitter:card content="summary"><meta name=twitter:title content="芯片设计核心概念：建立时间与保持时间"><meta name=twitter:description content="在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
 📸 秒懂比喻：拍一张清晰的照片
 时钟有效沿 (Clock Edge)： 按下相机快门的那一瞬间。 建立时间 (Setup Time)： 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。 保持时间 (Hold Time)： 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。 亚稳态 (Metastability)： 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是模糊的（芯片不知道存的是0还是1）。
 理想情况Setup 违例Hold 违例$T_{seteup}$和$T_{hold}$如何确定？$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）物理器件本身的固有属性，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在时序库文件（.lib 文件，Liberty format） 中。
 具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张二维查找表（Look-up Table），保存在 .lib 文件中。EDA 工具在计算时，是去 .lib 里查表得出的。
 如何修复 Setup 违例？Setup 违例通常是因为数据跑得太慢，修复的核心思路：让数据跑得更快，或者给数据更多的时间。
 优化组合逻辑： 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。 缩短物理线长： 在布局阶段，通过算法将有数据交互的 Cell 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。 用更快的标准单元： 将路径上的逻辑门替换为阈值电压更低（Low-Vt，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（Upsize），以加快信号翻转速度。 降低时钟频率： 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。 如何修复 Hold 违例？Hold违例通常是因为数据跑得太快，核心思路：让数据跑得慢一点。
-插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有：">
-<meta name="application-name" content="FixIt">
-<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://YouZhiZheng.github.io/posts/e7fe76a/" /><link rel="prev" href="https://YouZhiZheng.github.io/posts/ef03586/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "BlogPosting",
-    "headline": "芯片设计核心概念：建立时间与保持时间",
-    "inLanguage": "en",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https:\/\/YouZhiZheng.github.io\/posts\/e7fe76a\/"
-    },"genre": "posts","keywords": "STA, Setup-Time, Hold-Time","wordcount":  121 ,
-    "url": "https:\/\/YouZhiZheng.github.io\/posts\/e7fe76a\/","datePublished": "2026-04-04T16:41:39+08:00","dateModified": "2026-04-04T16:41:39+08:00","publisher": {
-      "@type": "Organization",
-      "name": "","logo": "https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author": {
-        "@type": "Person",
-        "name": "zyz"
-      },"description": ""
-  }
-  </script></head>
-  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
-  <div class="header-wrapper">
-    <div class="header-title">
-      <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
-    <nav>
-      <ul class="menu"><li class="menu-item">
-              <a
-                class="menu-link"
-                href="/archives/"
-                
-                
-              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
-              <a
-                class="menu-link"
-                href="/categories/"
-                
-                
-              ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
-              <a
-                class="menu-link"
-                href="/tags/"
-                
-                
-              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
-            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
-            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
-              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
-            </a>
-            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
-              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
-            </a>
-            <span class="search-button search-loading" id="search-loading-desktop">
-              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-            </span>
-          </li><li class="menu-item theme-switch" title="切换主题">
-          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
-        </li></ul>
-    </nav>
-  </div>
-</header><header class="mobile animate__faster" id="header-mobile">
-  <div class="header-container">
-    <div class="header-wrapper">
-      <div class="header-title">
-        <a href="/" title="zyz的技术博客"><img loading="lazy" src="/favicon.ico" alt="zyz的技术博客" data-title="zyz的技术博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">Just Keep Learning</span></a><span class="header-subtitle"></span></div>
-      <div class="menu-toggle" id="menu-toggle-mobile">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-    <nav>
-      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
-            <div class="search mobile" id="search-mobile">
-              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
-              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
-                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
-              </a>
-              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
-                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
-              </a>
-              <span class="search-button search-loading" id="search-loading-mobile">
-                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-              </span>
-            </div>
-            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-              取消
-            </a>
-          </li><li
-              class="menu-item"
-            ><a
-                  class="menu-link"
-                  href="/archives/"
-                  
-                  
-                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li
-              class="menu-item"
-            ><a
-                  class="menu-link"
-                  href="/categories/"
-                  
-                  
-                ><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
-              class="menu-item"
-            ><a
-                  class="menu-link"
-                  href="/tags/"
-                  
-                  
-                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
-          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
-      </ul>
-    </nav>
-  </div>
-</header><div class="search-dropdown desktop">
-    <div id="search-dropdown-desktop"></div>
-  </div>
-  <div class="search-dropdown mobile">
-    <div id="search-dropdown-mobile"></div>
-  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
-
-  <article class="page single">
-    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>芯片设计核心概念：建立时间与保持时间</span>
-      </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/YouZhiZheng" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/profilePicture.png" alt="zyz" data-title="zyz" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;zyz</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/ic-design/" class="post-category" title="分类 - IC-Design"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> IC-Design</a></span></div><div class="post-meta-line"><span title="发布于 2026-04-04 16:41:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-04-04">2026-04-04</time></span>&nbsp;<span title="121 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
-    </div><div class="details toc" id="toc-static" data-kept="false">
-        <div class="details-summary toc-title">
-          <span>目录</span>
-          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
-        </div>
-        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#理想情况">理想情况</a></li>
-    <li><a href="#setup-违例">Setup 违例</a></li>
-    <li><a href="#hold-违例">Hold 违例</a></li>
-    <li><a href="#t_seteup和t_hold如何确定">$T_{seteup}$和$T_{hold}$如何确定？</a></li>
-    <li><a href="#如何修复-setup-违例">如何修复 Setup 违例？</a></li>
-    <li><a href="#如何修复-hold-违例">如何修复 Hold 违例？</a></li>
-    <li><a href="#global-placement-阶段为什么只关注-setup-违例">Global Placement 阶段为什么只关注 Setup 违例？</a></li>
-  </ul>
-</nav></div>
-      </div><div class="content" id="content"><p>在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的<strong>前后一段时间内</strong>保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生<strong>时序违例（Timing Violation）</strong>，导致输出出现亚稳态（未知的乱码）。</p>
-<blockquote>
-<p><strong>📸 秒懂比喻：拍一张清晰的照片</strong></p>
-<p><strong>时钟有效沿 (Clock Edge)：</strong> 按下相机快门的那一瞬间。
+插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有："><meta name=application-name content="FixIt"><meta name=apple-mobile-web-app-title content="FixIt"><meta name=theme-color data-light=#f8f8f8 data-dark=#252627 content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://YouZhiZheng.github.io/posts/e7fe76a/><link rel=prev href=https://YouZhiZheng.github.io/posts/ef03586/><link rel=next href=https://YouZhiZheng.github.io/posts/479270e/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=/lib/fontawesome-free/all.min.css as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload href=/lib/animate/animate.min.css as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"芯片设计核心概念：建立时间与保持时间","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/YouZhiZheng.github.io\/posts\/e7fe76a\/"},"genre":"posts","keywords":"STA, Setup-Time, Hold-Time","wordcount":121,"url":"https:\/\/YouZhiZheng.github.io\/posts\/e7fe76a\/","datePublished":"2026-04-04T16:41:39+08:00","dateModified":"2026-04-04T16:41:39+08:00","publisher":{"@type":"Organization","name":"","logo":"https:\/\/YouZhiZheng.github.io\/favicon.ico"},"author":{"@type":"Person","name":"zyz"},"description":""}</script></head><body data-header-desktop=sticky data-header-mobile=auto><script>(window.localStorage?.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("data-theme","dark")</script><div class=wrapper data-page-style=normal><header class="desktop animate__faster" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=zyz的技术博客><img loading=lazy src=/favicon.ico alt=zyz的技术博客 data-title=zyz的技术博客 width=26 height=26 class=logo style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'><span class=header-title-text>Just Keep Learning</span></a><span class=header-subtitle></span></div><nav><ul class=menu><li class=menu-item><a class=menu-link href=/archives/><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden=true></i> 归档</a></li><li class=menu-item><a class=menu-link href=/categories/><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden=true></i> 分类</a></li><li class=menu-item><a class=menu-link href=/tags/><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden=true></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id=search-desktop><input type=text placeholder=搜索文章标题或内容…… id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fa-solid fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fa-solid fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></li><li class="menu-item theme-switch" title=切换主题><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></li></ul></nav></div></header><header class="mobile animate__faster" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=zyz的技术博客><img loading=lazy src=/favicon.ico alt=zyz的技术博客 data-title=zyz的技术博客 width=26 height=26 class=logo style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'><span class=header-title-text>Just Keep Learning</span></a><span class=header-subtitle></span></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><nav><ul class=menu id=menu-mobile><li class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容…… id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fa-solid fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fa-solid fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></li><li class=menu-item><a class=menu-link href=/archives/><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden=true></i> 归档</a></li><li class=menu-item><a class=menu-link href=/categories/><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden=true></i> 分类</a></li><li class=menu-item><a class=menu-link href=/tags/><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden=true></i> 标签</a></li><li class="menu-item menu-system"><span class="menu-system-item theme-switch" title=切换主题><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></span></li></ul></nav></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=container><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label=合集></aside><article class="page single"><div class=header><h1 class="single-title animate__animated animate__flipInX"><span>芯片设计核心概念：建立时间与保持时间</span></h1></div><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/YouZhiZheng title=作者 target=_blank rel="external nofollow noopener noreferrer author" class=author><img loading=lazy src=/profilePicture.png alt=zyz data-title=zyz width=20 height=20 class=avatar style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'>&nbsp;zyz</a></span><span class=post-included-in>&nbsp;收录于 <a href=/categories/ic-design/ class=post-category title="分类 - IC-Design"><i class="fa-regular fa-folder fa-fw" aria-hidden=true></i> IC-Design</a></span></div><div class=post-meta-line><span title="发布于 2026-04-04 16:41:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden=true></i><time datetime=2026-04-04>2026-04-04</time></span>&nbsp;<span title="121 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden=true></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden=true></i>预计阅读 1 分钟</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept=false><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fa-solid fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#理想情况>理想情况</a></li><li><a href=#setup-违例>Setup 违例</a></li><li><a href=#hold-违例>Hold 违例</a></li><li><a href=#t_seteup和t_hold如何确定>$T_{seteup}$和$T_{hold}$如何确定？</a></li><li><a href=#如何修复-setup-违例>如何修复 Setup 违例？</a></li><li><a href=#如何修复-hold-违例>如何修复 Hold 违例？</a></li><li><a href=#global-placement-阶段为什么只关注-setup-违例>Global Placement 阶段为什么只关注 Setup 违例？</a></li></ul></nav></div></div><div class=content id=content><p>在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的<strong>前后一段时间内</strong>保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生<strong>时序违例（Timing Violation）</strong>，导致输出出现亚稳态（未知的乱码）。</p><blockquote><p><strong>📸 秒懂比喻：拍一张清晰的照片</strong></p><p><strong>时钟有效沿 (Clock Edge)：</strong> 按下相机快门的那一瞬间。
 <strong>建立时间 (Setup Time)：</strong> 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。
 <strong>保持时间 (Hold Time)：</strong> 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。
-<strong>亚稳态 (Metastability)：</strong> 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是<strong>模糊的</strong>（芯片不知道存的是0还是1）。</p>
-</blockquote>
-<h2 id="理想情况" class="heading-element"><span>理想情况</span>
-  <a href="#%e7%90%86%e6%83%b3%e6%83%85%e5%86%b5" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p><a class="lightgallery" href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=small" data-sub-html="<h2>图1</h2>"><img loading="lazy" src="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png" alt="图1" srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=large 2x" data-title="图1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
-<h2 id="setup-违例" class="heading-element"><span>Setup 违例</span>
-  <a href="#setup-%e8%bf%9d%e4%be%8b" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p><a class="lightgallery" href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=small" data-sub-html="<h2>图2</h2>"><img loading="lazy" src="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png" alt="图2" srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=large 2x" data-title="图2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
-<h2 id="hold-违例" class="heading-element"><span>Hold 违例</span>
-  <a href="#hold-%e8%bf%9d%e4%be%8b" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p><a class="lightgallery" href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=small" data-sub-html="<h2>图3</h2>"><img loading="lazy" src="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png" alt="图3" srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=large 2x" data-title="图3" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
-<h2 id="t_seteup和t_hold如何确定" class="heading-element"><span>$T_{seteup}$和$T_{hold}$如何确定？</span>
-  <a href="#t_seteup%e5%92%8ct_hold%e5%a6%82%e4%bd%95%e7%a1%ae%e5%ae%9a" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p>$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）<strong>物理器件本身的固有属性</strong>，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在<strong>时序库文件（<code>.lib</code> 文件，Liberty format）</strong> 中。</p>
-<p>具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张<strong>二维查找表（Look-up Table）</strong>，保存在 <code>.lib</code> 文件中。EDA 工具在计算时，是去 <code>.lib</code> 里查表得出的。</p>
-<h2 id="如何修复-setup-违例" class="heading-element"><span>如何修复 Setup 违例？</span>
-  <a href="#%e5%a6%82%e4%bd%95%e4%bf%ae%e5%a4%8d-setup-%e8%bf%9d%e4%be%8b" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p><code>Setup</code> 违例通常是因为<strong>数据跑得太慢</strong>，修复的核心思路：让数据跑得更快，或者给数据更多的时间。</p>
-<ol>
-<li><strong>优化组合逻辑：</strong> 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。</li>
-<li><strong>缩短物理线长：</strong> 在布局阶段，通过算法将有数据交互的 <code>Cell</code> 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。</li>
-<li><strong>用更快的标准单元：</strong> 将路径上的逻辑门替换为阈值电压更低（<code>Low-Vt</code>，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（<code>Upsize</code>），以加快信号翻转速度。</li>
-<li><strong>降低时钟频率：</strong> 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。</li>
-</ol>
-<h2 id="如何修复-hold-违例" class="heading-element"><span>如何修复 Hold 违例？</span>
-  <a href="#%e5%a6%82%e4%bd%95%e4%bf%ae%e5%a4%8d-hold-%e8%bf%9d%e4%be%8b" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p><code>Hold</code>违例通常是因为<strong>数据跑得太快</strong>，核心思路：让数据跑得慢一点。</p>
-<ol>
-<li><strong>插入缓冲器或延迟单元：</strong> 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 <code>Buffer</code> 或 <code>Delay Cell</code>，强行增加物理延迟，让数据晚一点冲到终点。</li>
-<li><strong>更换更慢的标准单元：</strong> 将路径上的单元替换为高阈值电压（<code>High-Vt</code>，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（<code>Downsize</code>）。该方法还能优化芯片功耗和面积。</li>
-</ol>
-<h2 id="global-placement-阶段为什么只关注-setup-违例" class="heading-element"><span>Global Placement 阶段为什么只关注 Setup 违例？</span>
-  <a href="#global-placement-%e9%98%b6%e6%ae%b5%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%aa%e5%85%b3%e6%b3%a8-setup-%e8%bf%9d%e4%be%8b" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h2><p>在<code>GP</code>阶段，EDA 工具通常会忽略或关闭 <code>Hold</code> 修复功能，全力以赴解决 <code>Setup</code> 问题。原因主要有：</p>
-<ol>
-<li><strong>“时钟树”还不存在：</strong> Hold 违例对<strong>Clock Skew</strong>极其敏感。它发生的原因是数据跑得太快，赶在下一个时钟沿到来前冲刷了旧数据。在 GP 阶段，时钟树还不存在，只能假设时钟是<strong>理想的</strong>，基于“虚假的 0 Skew”假设去修 Hold 毫无意义。等真实的 CTS 做完，引入了真实的 Skew 后，之前强行修好的 Hold 可能再次违例，甚至变成画蛇添足。</li>
-<li><strong>GP阶段可以缩短物理线长</strong>：修复 Setup 的根本方法是在物理空间上把相关 Cell <strong>拉近</strong>，这是 <code>GP</code> 的本职工作！如果在 GP 阶段不拉近它们，后续阶段很难凭空缩短物理距离，<code>Setup</code> 就修不掉了。</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
-</div>
-</div></div><div class="post-footer" id="post-footer">
-  <div class="post-info">
-    <div class="post-info-line">
-      <div class="post-info-mod">
-        <span title="更新于 2026-04-04 16:41:39">更新于 2026-04-04&nbsp;</span>
-      </div></div><div class="post-info-line">
-        <div class="post-info-md"></div>
-        <div class="post-info-share">
-          <span></span>
-        </div>
-      </div></div>
-
-  <div class="post-info-more">
-    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/sta/" class="post-tag" title="标签 - STA">STA</a><a href="/tags/setup-time/" class="post-tag" title="标签 - Setup-Time">Setup-Time</a><a href="/tags/hold-time/" class="post-tag" title="标签 - Hold-Time">Hold-Time</a></section>
-    <section>
-      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
-    </section>
-  </div>
-
-  <div class="post-nav"><a href="/posts/ef03586/" class="post-nav-item" rel="prev" title="Zotero &#43; Obsidian 文献阅读与笔记工作流"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Zotero &#43; Obsidian 文献阅读与笔记工作流</a></div>
-</div>
-<div id="comments"><div id="gitalk" class="comment"></div><noscript>
-        Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk" rel="external nofollow noopener noreferrer">Gitalk</a>.
-      </noscript></div></article>
-
-  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
-      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
-    <div class="footer-container"><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.8"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
-        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
-            <span itemprop="copyrightYear">2024 - 2026</span><span class="author" itemprop="copyrightHolder">
-              <a href="https://github.com/YouZhiZheng"target="_blank" rel="external nofollow noopener noreferrer">zyz</a></span>
-            <span class="license footer-divider">
-              <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
-                CC BY-NC 4.0
-              </a>
-            </span></div></div>
-  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
-        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
-    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
-  </noscript>
-</div><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"gitalk":{"admin":["YouZhiZheng"],"clientID":"Ov23livVaozXEe7YADcG","clientSecret":"6ae375086f323067720e32edf43469d6491964ed","id":"2026-04-04T16:41:39+08:00","owner":"YouZhiZheng","repo":"MyBlogComment","title":"芯片设计核心概念：建立时间与保持时间"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"siteTime":"2024-07-01T09:00:00+08:00","version":"v0.3.8"};</script><script src="/js/theme.min.js" defer></script></body>
-</html>
+<strong>亚稳态 (Metastability)：</strong> 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是<strong>模糊的</strong>（芯片不知道存的是0还是1）。</p></blockquote><h2 id=理想情况 class=heading-element><span>理想情况</span>
+<a href=#%e7%90%86%e6%83%b3%e6%83%85%e5%86%b5 class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p><a class=lightgallery href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=small" data-sub-html="<h2>图1</h2>"><img loading=lazy src=/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png alt=图1 srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_1.png?size=large 2x" data-title=图1 style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'></a></p><h2 id=setup-违例 class=heading-element><span>Setup 违例</span>
+<a href=#setup-%e8%bf%9d%e4%be%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p><a class=lightgallery href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=small" data-sub-html="<h2>图2</h2>"><img loading=lazy src=/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png alt=图2 srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_2.png?size=large 2x" data-title=图2 style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'></a></p><h2 id=hold-违例 class=heading-element><span>Hold 违例</span>
+<a href=#hold-%e8%bf%9d%e4%be%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p><a class=lightgallery href="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=large" data-thumbnail="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=small" data-sub-html="<h2>图3</h2>"><img loading=lazy src=/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png alt=图3 srcset="/PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=small, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=medium 1.5x, /PostsImgs/IC-Design-Concepts/SetupAndHoldTime/setuphold_3.png?size=large 2x" data-title=图3 style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'></a></p><h2 id=t_seteup和t_hold如何确定 class=heading-element><span>$T_{seteup}$和$T_{hold}$如何确定？</span>
+<a href=#t_seteup%e5%92%8ct_hold%e5%a6%82%e4%bd%95%e7%a1%ae%e5%ae%9a class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p>$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）<strong>物理器件本身的固有属性</strong>，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在<strong>时序库文件（<code>.lib</code> 文件，Liberty format）</strong> 中。</p><p>具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张<strong>二维查找表（Look-up Table）</strong>，保存在 <code>.lib</code> 文件中。EDA 工具在计算时，是去 <code>.lib</code> 里查表得出的。</p><h2 id=如何修复-setup-违例 class=heading-element><span>如何修复 Setup 违例？</span>
+<a href=#%e5%a6%82%e4%bd%95%e4%bf%ae%e5%a4%8d-setup-%e8%bf%9d%e4%be%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p><code>Setup</code> 违例通常是因为<strong>数据跑得太慢</strong>，修复的核心思路：让数据跑得更快，或者给数据更多的时间。</p><ol><li><strong>优化组合逻辑：</strong> 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。</li><li><strong>缩短物理线长：</strong> 在布局阶段，通过算法将有数据交互的 <code>Cell</code> 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。</li><li><strong>用更快的标准单元：</strong> 将路径上的逻辑门替换为阈值电压更低（<code>Low-Vt</code>，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（<code>Upsize</code>），以加快信号翻转速度。</li><li><strong>降低时钟频率：</strong> 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。</li></ol><h2 id=如何修复-hold-违例 class=heading-element><span>如何修复 Hold 违例？</span>
+<a href=#%e5%a6%82%e4%bd%95%e4%bf%ae%e5%a4%8d-hold-%e8%bf%9d%e4%be%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p><code>Hold</code>违例通常是因为<strong>数据跑得太快</strong>，核心思路：让数据跑得慢一点。</p><ol><li><strong>插入缓冲器或延迟单元：</strong> 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 <code>Buffer</code> 或 <code>Delay Cell</code>，强行增加物理延迟，让数据晚一点冲到终点。</li><li><strong>更换更慢的标准单元：</strong> 将路径上的单元替换为高阈值电压（<code>High-Vt</code>，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（<code>Downsize</code>）。该方法还能优化芯片功耗和面积。</li></ol><h2 id=global-placement-阶段为什么只关注-setup-违例 class=heading-element><span>Global Placement 阶段为什么只关注 Setup 违例？</span>
+<a href=#global-placement-%e9%98%b6%e6%ae%b5%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%aa%e5%85%b3%e6%b3%a8-setup-%e8%bf%9d%e4%be%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p>在<code>GP</code>阶段，EDA 工具通常会忽略或关闭 <code>Hold</code> 修复功能，全力以赴解决 <code>Setup</code> 问题。原因主要有：</p><ol><li><strong>“时钟树”还不存在：</strong> Hold 违例对<strong>Clock Skew</strong>极其敏感。它发生的原因是数据跑得太快，赶在下一个时钟沿到来前冲刷了旧数据。在 GP 阶段，时钟树还不存在，只能假设时钟是<strong>理想的</strong>，基于“虚假的 0 Skew”假设去修 Hold 毫无意义。等真实的 CTS 做完，引入了真实的 Skew 后，之前强行修好的 Hold 可能再次违例，甚至变成画蛇添足。</li><li><strong>GP阶段可以缩短物理线长</strong>：修复 Setup 的根本方法是在物理空间上把相关 Cell <strong>拉近</strong>，这是 <code>GP</code> 的本职工作！如果在 GP 阶段不拉近它们，后续阶段很难凭空缩短物理距离，<code>Setup</code> 就修不掉了。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span title="更新于 2026-04-04 16:41:39">更新于 2026-04-04&nbsp;</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fa-solid fa-tags fa-fw me-1" aria-hidden=true></i><a href=/tags/sta/ class=post-tag title="标签 - STA">STA</a><a href=/tags/setup-time/ class=post-tag title="标签 - Setup-Time">Setup-Time</a><a href=/tags/hold-time/ class=post-tag title="标签 - Hold-Time">Hold-Time</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/ef03586/ class=post-nav-item rel=prev title="Zotero + Obsidian 文献阅读与笔记工作流"><i class="fa-solid fa-angle-left fa-fw" aria-hidden=true></i>Zotero + Obsidian 文献阅读与笔记工作流</a>
+<a href=/posts/479270e/ class=post-nav-item rel=next title="Codex Best Practices">Codex Best Practices<i class="fa-solid fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=gitalk class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://github.com/gitalk/gitalk rel="external nofollow noopener noreferrer">Gitalk</a>.</noscript></div></article><aside class=toc id=toc-auto aria-label=目录><h2 class=toc-title>目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden=true></i></h2><div class=toc-content id=toc-content-auto></div></aside></main><footer class=footer><div class=footer-container><div class="footer-line statistics"><span class=site-time title=网站运行中……><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden=true></i><span class="ms-1 d-none">站点已运行:</span><span class="run-times ms-1">网站运行中……</span></span></div><div class="footer-line powered">由 <a href=https://gohugo.io/ target=_blank rel="external nofollow noopener noreferrer" title="Hugo 0.128.2"><img class=hugo-icon src=/images/hugo.min.svg alt="Hugo logo"> Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/hugo-fixit/FixIt target=_blank rel=external title="FixIt v0.3.8"><img class=fixit-icon src=/images/fixit.min.svg alt="FixIt logo"> FixIt</a></div><div class="footer-line copyright" itemscope itemtype=http://schema.org/CreativeWork><i class="fa-regular fa-copyright fa-fw" aria-hidden=true></i>
+<span itemprop=copyrightYear>2024 - 2026</span><span class=author itemprop=copyrightHolder>
+<a href=https://github.com/YouZhiZheng target=_blank rel="external nofollow noopener noreferrer">zyz</a></span>
+<span class="license footer-divider"><a href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank rel="noopener noreferrer">CC BY-NC 4.0</a></span></div></div></footer></div><div class=widgets><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role=button aria-label=回到顶部><i class="fa-solid fa-arrow-up fa-fw" aria-hidden=true></i><span class=variant-numeric>0%</span></div><div class="fixed-button view-comments d-none" role=button aria-label=查看评论><i class="fa-solid fa-comment fa-fw" aria-hidden=true></i></div></div><div id=mask></div><div class=reading-progress-bar style=left:0;top:0></div><noscript><div class=noscript-warning>该网站在启用 JavaScript 的情况下效果最佳。</div></noscript></div><link rel=stylesheet href=/lib/gitalk/gitalk.min.css><link rel=stylesheet href=/lib/lightgallery/css/lightgallery-bundle.min.css><link rel=preload href=/lib/katex/katex.min.css as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=/lib/katex/katex.min.css></noscript><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.css><script src=/lib/gitalk/gitalk.min.js></script><script src=/lib/autocomplete/autocomplete.min.js defer></script><script src=/lib/fuse/fuse.min.js defer></script><script src=/lib/lightgallery/lightgallery.min.js defer></script><script src=/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js defer></script><script src=/lib/lightgallery/plugins/zoom/lg-zoom.min.js defer></script><script src=/lib/katex/katex.min.js defer></script><script src=/lib/katex/auto-render.min.js defer></script><script src=/lib/katex/mhchem.min.js defer></script><script src=/lib/cookieconsent/cookieconsent.min.js defer></script><script>window.config={code:{copyTitle:"复制到剪贴板",editLockTitle:"锁定可编辑代码块",editUnLockTitle:"解锁可编辑代码块",editable:!0,maxShownLines:10},comment:{enable:!0,expired:!1,gitalk:{admin:["YouZhiZheng"],clientID:"Ov23livVaozXEe7YADcG",clientSecret:"6ae375086f323067720e32edf43469d6491964ed",id:"2026-04-04T16:41:39+08:00",owner:"YouZhiZheng",repo:"MyBlogComment",title:"芯片设计核心概念：建立时间与保持时间"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验。"},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!1,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:30,threshold:.3,type:"fuse",useExtendedSearch:!1},siteTime:"2024-07-01T09:00:00+08:00",version:"v0.3.8"}</script><script src=/js/theme.min.js defer></script></body></html>
