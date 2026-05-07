@@ -1,4 +1,12 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>zyz的技术博客</title><link>https://YouZhiZheng.github.io/</link><description>zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sun, 05 Apr 2026 21:28:49 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Codex Best Practices</title><link>https://YouZhiZheng.github.io/posts/479270e/</link><pubDate>Sun, 05 Apr 2026 21:28:49 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/479270e/</guid><description>核心思想为：
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>zyz的技术博客</title><link>https://YouZhiZheng.github.io/</link><description>zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 06 May 2026 17:49:56 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>芯片设计文件格式：LEF 与 DEF</title><link>https://YouZhiZheng.github.io/posts/f5d8167/</link><pubDate>Wed, 06 May 2026 17:49:56 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/f5d8167/</guid><description><![CDATA[LEF文件LEF是库交换格式 （Library Exchange Format）的缩写，该文件由foundry提供，是P&amp;R所必须的库文件。
+目前，LEF文件主要分为两种:
+工艺LEF: 描述“制造工艺规则”，便于EDA工具做GR/DR/DRC检查等。 单元LEF: 描述“cell 的几何形状和引脚” LEF的具体信息可以查看此链接.
+DEF文件DEF最早是布图规划是生成的，作为输入文件相继输入布局布线后完善，最终将转为GDS版图进行物理验证，通过后将进行流片。
+其用来描述一个芯片设计在某个物理实现阶段中的版图信息，简单来说：
+.def 文件描述的是：这个 design 里面有哪些 instance、pin、net，以及它们在版图中的位置、方向、布线、floorplan 等物理信息。
+标准.def文件由以下部分组成。
+标题声明1 2 3 4 5 6 VERSION 5.8 ; DIVIDERCHAR &#34;/&#34; ; BUSBITCHARS &#34;[]&#34; ; DESIGN BM64 ; UNITS DISTANCE MICRONS 1000 ; DIEAREA ( 0 0 ) ( 346182 346182 ) ; 该部分需要重点关注的:
+VERSION: 表示语法版本, EDA工具根据这个版本去理解语法规则 UNITS DISTANCE MICRONS: 表示 DEF 中的距离单位采用 database unit，简称 DBU, 在该示例中 1 micron = 1000 DBU DIEAREA: 表示芯片边界, 该实例中左下角为(0, 0), 右上角为(346182 DBU, 346182 DBU); 换算成micron为(346.]]></description></item><item><title>Codex Best Practices</title><link>https://YouZhiZheng.github.io/posts/479270e/</link><pubDate>Sun, 05 Apr 2026 21:28:49 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/479270e/</guid><description>核心思想为：
 为每次任务提供正确的上下文 将复杂任务进行拆解 将持久的指导写入AGENTS.md 将重复工作转换为siklls 使用MCP与外部系统连接 自动化稳定的流程 Context and prompts
 一个好的prompt应该包括以下4点：
 Goal: 你想要修改或建立什么？ Context: 哪些文件、文件夹、文档、示例或错误对这项任务有帮助？推荐通过@这些文件来提供上下文。 Constraints: 本次任务应遵循哪些标准、架构、安全要求或惯例？ Done when: 本次任务完成的标准。比如测试通过、行为改变，或者某个漏洞被修复。 此外，注意选择合适的推理能力：
@@ -55,9 +63,4 @@ cmake_minimum_required(): 该命令是CMakeLists.txt中第一条执行的命令�
 所以，对于这道题来说，我们需要分别在两个数组中找到一条分割线，使得这两条分割线左边的元素个数等于右边的元素个数，且左边集合的最大值小于等于右边集合的最小值。
 切割好后，如果两数组长度和为偶数，那么中位数为： $$ median = \frac{max(left\_part) + min(right\_part)}{2} $$
 长度和为奇数（为了便于处理，我们将中位数划分给左边部分。当然也可以划分给右边部分），那么中位数为： $$ median = max(left\_part) $$
-确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i + j = m - i + n - j &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = m - i + n - j + 1 &amp; \text{当 } m+n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i + j = \frac{m + n}{2} &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = \frac{m + n + 1}{2} &amp; \text{当 } m+n \text{ 为奇数} \end{cases} $$]]></description></item><item><title>33. 搜索旋转排序数组</title><link>https://YouZhiZheng.github.io/posts/8c42677/</link><pubDate>Fri, 25 Apr 2025 10:12:40 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/8c42677/</guid><description>题目
-思路
-最开始想的是先通过二分来找到最大值位置，确定$right$和$left$的值，再使用一次二分来进行查询。但仔细观察题目发现只需进行一次二分查找算法就可以解决问题了，因为 「该旋转后的数组从中间分开后，左右部分中必定有一个部分是有序的」。
-那么我们就可以借助这个有序数组来直接进行二分查找，采用下面的方式来更新$left$和$right$的值：
-左边部分有序 target在这个有序区间内，则可以直接抛弃右边部分。反之，抛弃左边部分。 右边部分有序 target在这个有序区间内，则可以直接抛弃左边部分。反之，抛弃右边部分。 代码
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 class Solution { public: int search(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { int mid, left = 0; int right = nums.</description></item></channel></rss>
+确定好怎么计算中位数后，我们只需要考虑怎么去寻找这两条切割线了。首先，设数组A的分割线位置为$i$，数组B的分割线位置为$j$（即数组A中下标为$[0, i)$的元素属于其左部分，$[i, lenA)$属于其右部分，数组B同理），根据上面的分析可知： $$ \begin{cases} i + j = m - i + n - j &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = m - i + n - j + 1 &amp; \text{当 } m+n \text{ 为奇数} \end{cases} \Rightarrow \begin{cases} i + j = \frac{m + n}{2} &amp; \text{当 } m+n \text{ 为偶数} \\ i + j = \frac{m + n + 1}{2} &amp; \text{当 } m+n \text{ 为奇数} \end{cases} $$]]></description></item></channel></rss>

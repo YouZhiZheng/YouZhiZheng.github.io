@@ -1,0 +1,9 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>DEF - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/def/</link><description>DEF - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Wed, 06 May 2026 17:49:56 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/def/" rel="self" type="application/rss+xml"/><item><title>芯片设计文件格式：LEF 与 DEF</title><link>https://YouZhiZheng.github.io/posts/f5d8167/</link><pubDate>Wed, 06 May 2026 17:49:56 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/f5d8167/</guid><description><![CDATA[LEF文件LEF是库交换格式 （Library Exchange Format）的缩写，该文件由foundry提供，是P&amp;R所必须的库文件。
+目前，LEF文件主要分为两种:
+工艺LEF: 描述“制造工艺规则”，便于EDA工具做GR/DR/DRC检查等。 单元LEF: 描述“cell 的几何形状和引脚” LEF的具体信息可以查看此链接.
+DEF文件DEF最早是布图规划是生成的，作为输入文件相继输入布局布线后完善，最终将转为GDS版图进行物理验证，通过后将进行流片。
+其用来描述一个芯片设计在某个物理实现阶段中的版图信息，简单来说：
+.def 文件描述的是：这个 design 里面有哪些 instance、pin、net，以及它们在版图中的位置、方向、布线、floorplan 等物理信息。
+标准.def文件由以下部分组成。
+标题声明1 2 3 4 5 6 VERSION 5.8 ; DIVIDERCHAR &#34;/&#34; ; BUSBITCHARS &#34;[]&#34; ; DESIGN BM64 ; UNITS DISTANCE MICRONS 1000 ; DIEAREA ( 0 0 ) ( 346182 346182 ) ; 该部分需要重点关注的:
+VERSION: 表示语法版本, EDA工具根据这个版本去理解语法规则 UNITS DISTANCE MICRONS: 表示 DEF 中的距离单位采用 database unit，简称 DBU, 在该示例中 1 micron = 1000 DBU DIEAREA: 表示芯片边界, 该实例中左下角为(0, 0), 右上角为(346182 DBU, 346182 DBU); 换算成micron为(346.]]></description></item></channel></rss>
