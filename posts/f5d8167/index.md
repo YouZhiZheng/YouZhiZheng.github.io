@@ -56,6 +56,7 @@ ROW ROW_171 core7 2000 240800 N DO 1710 BY 1 STEP 200 0
 &gt;`ROW`的本质就是一串紧挨着排列的`site`。
 
 通过ROW的方向都是**交替出现**，让相邻 row 的电源轨能够共享或对齐，例如 `VDD/VSS rail` 在上下相邻行之间匹配。具体哪种朝向合法，仍然取决于 `LEF` 中 `site` 和 `cell macro` 的 `symmetry` 定义。
+
 ![图1](/PostsImgs/IC-Design-Concepts/LefAndDef/std_file_1.png)
 
 ### TRACKS声明
@@ -74,6 +75,7 @@ TRACKS X 0 DO 1730 STEP 200 LAYER MET1 ;
 - **LAYER MET1**: 表明该组tracks属于MET1层(一个芯片有多层物理金属层)
 
 下面是上面这个声明的可视化图:
+
 ![图2](/PostsImgs/IC-Design-Concepts/LefAndDef/std_file_2.png)
 
 ### GCELLGRID声明
@@ -113,6 +115,7 @@ END VIAS
 - **CUTSPACING 110 110**: 表明via cut在x和y上的间距分别为 110, 110
 - **ENCLOSURE 5 55 5 55**: 表明上下金属层对 cut 的“包围距离”, 从左到右值对应的分别是MET4(下层)距离最外围的via cut在x和y方向上的距离分别为5, 55; MET5(上层)距离最外围的via cut在x和y方向上的距离分别为5, 55
 - **ROWCOL 5 5**: 表明这个 via 不是单个孔，而是一个 **5 × 5 的 via 阵列**(即5行5列)
+
 ![图3](/PostsImgs/IC-Design-Concepts/LefAndDef/std_file_3.png)
 
 ### COMPONENTS声明

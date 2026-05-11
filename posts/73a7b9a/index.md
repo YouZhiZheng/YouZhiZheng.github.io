@@ -13,7 +13,9 @@
 
 ## 基础概念
 tmux中有三个核心概念：`Session, Window, Pane`, 可以查下面的示意图来理解这3个概念.
+
 ![图1](/PostsImgs/dev-tools/terminal/tmux_1.png)
+
 可以发现在tmux中执行任何操作都需要先按下&lt;kbd&gt;Ctrl&lt;/kbd&gt; &#43; &lt;kbd&gt;b&lt;/kbd&gt;, 因为这是tmux默认的前缀功能键后续简称为`preFix`(该功能键可以进行修改), 其作用就是激活tmux的命令模式, 让用户可以通过接下来的命令操作tmux的`Session, Window, Pane`.
 
 ## 常用命令
