@@ -1,50 +1,15 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-  <channel>
-    <title>EDA - 分类 - zyz的技术博客</title>
-    <link>http://localhost:1313/categories/eda/</link>
-    <description>EDA - 分类 | zyz的技术博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor>
-      <webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 26 Sep 2024 15:09:34 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/eda/" rel="self" type="application/rss+xml" /><item>
-  <title>静态时序分析简介</title>
-  <link>http://localhost:1313/posts/8df30e8/</link>
-  <pubDate>Thu, 26 Sep 2024 15:09:34 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>http://localhost:1313/posts/8df30e8/</guid>
-  <description><![CDATA[]]></description>
-</item>
-<item>
-  <title>布线简介</title>
-  <link>http://localhost:1313/posts/9cb0f75/</link>
-  <pubDate>Thu, 26 Sep 2024 15:09:25 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>http://localhost:1313/posts/9cb0f75/</guid>
-  <description><![CDATA[]]></description>
-</item>
-<item>
-  <title>时钟树简介</title>
-  <link>http://localhost:1313/posts/493200/</link>
-  <pubDate>Thu, 26 Sep 2024 15:09:12 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>http://localhost:1313/posts/493200/</guid>
-  <description><![CDATA[CTS的主要作用平衡时钟信号： CTS的主要目标就是让时钟信号能够 「同时」 到达所有时钟端点（如触发器或寄存器），减少时钟偏差（Clock Skew）。时钟偏差是由于时钟信号在不同路径上的传播延迟不一致所引起的，这会导致时序错误。 减少时钟延迟： 通过对时钟网络的优化，减少时钟源到各个端点的总延迟（Clock Latency），从而提高电路的运行速度。 保证时序收敛： 通过综合电路中不同部分的时序要求，确保设计在给定的时钟周期内能够正确工作。 功耗优化： 由于时钟网络通常是整个电路中活动率最高的部分，通过优化时钟树可以显著降低功耗。 CTS的设计约束CTS的约束有很多，这里只说一些比较重要的。
-时钟偏差： 这是CTS优化的关键约束之一。时钟偏差会导致触发器之间的时序失配，可能引起数据传输错误。CTS的目标是将时钟偏差控制在允许范围内（通常为极小的纳秒量级）。 时钟延迟： 时钟延迟是指从时钟源到达时钟端点的时间。CTS必须在时钟延迟和时钟偏差之间进行平衡，确保时钟网络具有较小的延迟且偏差最小化。 功耗： 时钟网络通常是芯片中功耗最高的部分之一，尤其是在高频设计中。CTS必须考虑功耗的约束，在减少功耗的同时，保持时序的完整性。 保持/建立时间： 时钟信号必须满足各触发器的建立时间（Setup Time）和保持时间（Hold Time）约束，确保数据能够正确地在触发器之间传递。 时钟网络设计典型的时钟拓扑结构分配时钟信号最经济的方式是树形拓扑，理想的树形拓扑为 H树 和 X树，其结构如下图所示。无论是H树还是X树，其四个角到中心点的距离都相等，通过自顶而下的方式递归地重复构建H（X）结构来实现从时钟源到叶节点的相等路径长度。这两种拓扑结构还能够以 对称 的方式插入时钟缓冲器。
-树形结构适用于那些时钟负载在整个芯片上均匀分布的规则布局，能够在这种情况下均衡路径并减小时钟偏差。但不适用于那些不规则的布局，比如接收端位置不规则分布或存在变化的负载电容，这种情况在基于单元（cell-based）的设计中很常见。且缺乏冗余性（redundancy），在工艺参数变化或者操作条件不同的情况下，时钟路径上的信号延迟可能会受到较大的影响。
-时钟网络建模和分析]]></description>
-</item>
-<item>
-  <title>布局简介</title>
-  <link>http://localhost:1313/posts/4c4fcf0/</link>
-  <pubDate>Thu, 26 Sep 2024 15:08:48 &#43;0800</pubDate>
-  <author>zyz</author>
-  <guid>http://localhost:1313/posts/4c4fcf0/</guid>
-  <description><![CDATA[布局基础布局目标布局的目标就是为了确定所有电路元件在版图中的 「合法位置」 且 最小化线网总线长/时序/功耗。
-合法位置： 电路元件（单元） 所在的位置必须是合法的，即在布局区域内、对齐Row/Site、单元之间没有重叠。 单元： 形状通常是矩形。单元类型有宏单元、标准单元（时序单元、逻辑单元）等。 单元之间互连的线网或形成的路径会影响线长、时序、功耗等。为了实现最小化的目标，我们在布局时就需要通过评估单元之间的连线长度来评估当前布局的质量，并提供调整布局的依据。 布局通常采用半周长线长（Half-Perimeter Wirelength，HPWL）来评估芯片上元件之间的连线长度。HPWL指的是包括对应单元的最小矩形的一半周长。
-布局步骤一步到位求解大规模布局问题是NP难的，因此布局一般划分为三个阶段：「全局布局、合法化、详细布局」，每个阶段完成不同的任务。
-全局布局： 该阶段的目标是将单元扩散至合适位置，最小化线网总线长且满足网格密度约束，允许单元发生重叠。
-合法化： 该阶段就是将单元对齐Row/Site，并消除单元之间的重叠（尽可能的保留全局布局的结果，使总移动量最小）。
-详细布局： 该阶段通过局部操作（交换两个单元）或移动一个行中的几个单元来进行指标（线长、时序、可布线性）的局部优化。
-现在合法化和详细布局都是合在一起进行的。
-研究内容可布线性布局时序驱动布局参考资料https://www.bilibili.com/video/BV1Yx4y147oP/?spm_id_from=333.999.0.0&vd_source=db6d06160a4c6ef1c3194042b1b9bbe2 https://ieda.oscc.cc/train/eda/chip-circuit/Part_3-chip_flow/3_3_palcement.html 《超大规模集成电路物理设计》 《数字集成电路物理设计》 ]]></description>
-</item>
-</channel>
-</rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>EDA - 分类 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/categories/eda/</link><description>EDA - 分类 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 04 Jun 2026 17:12:24 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/categories/eda/" rel="self" type="application/rss+xml"/><item><title>理解前向传播与反向传播：可微 EDA 论文阅读基础</title><link>https://YouZhiZheng.github.io/posts/7ffd858/</link><pubDate>Thu, 04 Jun 2026 17:12:24 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/7ffd858/</guid><description>核心概念：流水线
+不要把复杂的函数看作一个整体公式，而是要把它们拆解成由 “加、减、乘、除” 构成的计算图流水线。
+前向传播：算函数结果
+本质：将当前变量的具体值带入计算图，从左向右，一步步计算并保存所有的中间变量，直到得出最终的函数结果。 意义：评估当前的状态。 后向传播：算移动方向
+本质：利用微积分的链式法则，从右向左，将最终结果产生的“梯度”，一层层按比例分配回最初的输入变量上。 意义：计算出每一个变量对最终结果的影响力（偏导数）。 具体示例
+以 $f(x, y) = x^2 + xy + x + y$ 为例，其对应的计算图为： 假设我们的目标是最小化 $f(x, y)$，各变量初始值分别为：
+$x$: 2.00 $y$: 3.00 $\eta$: 0.05 $\eta$ 为学习率，决定每一步应该迈多大。
+梯度只是告诉了我们移动方向，其本身不一定是一个合适的移动距离，例如某个地方梯度很大，如果直接按照梯度大小更新，可能一步跨得太远；某个地方梯度很小，又可能几乎不动，这就会导致震荡，所以我们需要学习率来缩放梯度。
+一个合适的学习率有助于快速且稳定的靠近最优解。现在通常是“先人为给一个初始学习率，再让优化器（Adam, AdamW等）自动调整”。
+前向传播
+从左到右依次传播，得到最终的函数结果： 反向传播
+从右到左依次传播，一层层按比例分配回最初的输入变量上，计算出每个变量对最终结果的影响力： 详细推导过程为： 根据梯度公式：$\nabla f(x, y)=\left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$，计算出当前点的梯度为：$\nabla f(2, 3)=(8.00, 3.00)$，根据偏导数的定义，可知该梯度表示在当前点上：
+沿 $x$ 正方向，函数值每单位大约增加 $8.00$ 沿 $y$ 正方向，函数值每单位大约增加 $3.00$ 根据方向导数的定义可知，沿着梯度方向$(8.00, 3.00)$移动可以使得函数增长最快！
+更新变量值
+移动步长 = 学习率 $\times$ 梯度，那么在当前点的移动步长$Curr_{step} = 0.</description></item></channel></rss>
