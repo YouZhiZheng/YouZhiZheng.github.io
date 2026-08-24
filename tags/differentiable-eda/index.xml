@@ -1,15 +1,1 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Differentiable-EDA - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/differentiable-eda/</link><description>Differentiable-EDA - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 04 Jun 2026 17:12:24 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/differentiable-eda/" rel="self" type="application/rss+xml"/><item><title>理解前向传播与反向传播：可微 EDA 论文阅读基础</title><link>https://YouZhiZheng.github.io/posts/7ffd858/</link><pubDate>Thu, 04 Jun 2026 17:12:24 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/7ffd858/</guid><description>核心概念：流水线
-不要把复杂的函数看作一个整体公式，而是要把它们拆解成由 “加、减、乘、除” 构成的计算图流水线。
-前向传播：算函数结果
-本质：将当前变量的具体值带入计算图，从左向右，一步步计算并保存所有的中间变量，直到得出最终的函数结果。 意义：评估当前的状态。 后向传播：算移动方向
-本质：利用微积分的链式法则，从右向左，将最终结果产生的“梯度”，一层层按比例分配回最初的输入变量上。 意义：计算出每一个变量对最终结果的影响力（偏导数）。 具体示例
-以 $f(x, y) = x^2 + xy + x + y$ 为例，其对应的计算图为： 假设我们的目标是最小化 $f(x, y)$，各变量初始值分别为：
-$x$: 2.00 $y$: 3.00 $\eta$: 0.05 $\eta$ 为学习率，决定每一步应该迈多大。
-梯度只是告诉了我们移动方向，其本身不一定是一个合适的移动距离，例如某个地方梯度很大，如果直接按照梯度大小更新，可能一步跨得太远；某个地方梯度很小，又可能几乎不动，这就会导致震荡，所以我们需要学习率来缩放梯度。
-一个合适的学习率有助于快速且稳定的靠近最优解。现在通常是“先人为给一个初始学习率，再让优化器（Adam, AdamW等）自动调整”。
-前向传播
-从左到右依次传播，得到最终的函数结果： 反向传播
-从右到左依次传播，一层层按比例分配回最初的输入变量上，计算出每个变量对最终结果的影响力： 详细推导过程为： 根据梯度公式：$\nabla f(x, y)=\left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$，计算出当前点的梯度为：$\nabla f(2, 3)=(8.00, 3.00)$，根据偏导数的定义，可知该梯度表示在当前点上：
-沿 $x$ 正方向，函数值每单位大约增加 $8.00$ 沿 $y$ 正方向，函数值每单位大约增加 $3.00$ 根据方向导数的定义可知，沿着梯度方向$(8.00, 3.00)$移动可以使得函数增长最快！
-更新变量值
-移动步长 = 学习率 $\times$ 梯度，那么在当前点的移动步长$Curr_{step} = 0.</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Differentiable-EDA - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/differentiable-eda/</link><description>Differentiable-EDA - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Thu, 04 Jun 2026 17:12:24 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/differentiable-eda/" rel="self" type="application/rss+xml"/><item><title>理解前向传播与反向传播：可微 EDA 论文阅读基础</title><link>https://YouZhiZheng.github.io/posts/7ffd858/</link><pubDate>Thu, 04 Jun 2026 17:12:24 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/7ffd858/</guid><description>核心概念：流水线 不要把复杂的函数看作一个整体公式，而是要把它们拆解成由 “加、减、乘、除” 构成的计算图流水线。 前向传播：算函数结果 本质：将当前</description></item></channel></rss>

@@ -1,15 +1,1 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>STA - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/sta/</link><description>STA - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sat, 04 Apr 2026 16:41:39 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/sta/" rel="self" type="application/rss+xml"/><item><title>芯片设计核心概念：建立时间与保持时间</title><link>https://YouZhiZheng.github.io/posts/e7fe76a/</link><pubDate>Sat, 04 Apr 2026 16:41:39 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/e7fe76a/</guid><description>在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样窗口”。如果不遵守这个规则，就会发生时序违例（Timing Violation），导致输出出现亚稳态（未知的乱码）。
-📸 秒懂比喻：拍一张清晰的照片
-时钟有效沿 (Clock Edge)： 按下相机快门的那一瞬间。 建立时间 (Setup Time)： 摄影师喊“1,2,3”之前，你必须提前摆好姿势并保持不动的时间（提前准备好）。 保持时间 (Hold Time)： 按下快门之后，“咔嚓”声结束前，你还必须继续保持不动的时间（不能马上跑开）。 亚稳态 (Metastability)： 如果你在按快门前没站稳，或者刚按完快门你就动了，拍出来的照片就是模糊的（芯片不知道存的是0还是1）。
-理想情况
-Setup 违例
-Hold 违例
-$T_{seteup}$和$T_{hold}$如何确定？
-$T_{seteup}$和$T_{hold}$是触发器（Flip-Flop）物理器件本身的固有属性，它们的大小是由代工厂（Foundry，比如台积电 TSMC、中芯国际 SMIC）决定的，记录在时序库文件（.lib 文件，Liberty format） 中。
-具体来说，Foundry 会对这些标准单元进行大量的 SPICE 仿真，把不同输入转换时间（Transition/Slew）和输出负载下的 $T_{setup}$ 和 $T_{hold}$ 值制成一张张二维查找表（Look-up Table），保存在 .lib 文件中。EDA 工具在计算时，是去 .lib 里查表得出的。
-如何修复 Setup 违例？
-Setup 违例通常是因为数据跑得太慢，修复的核心思路：让数据跑得更快，或者给数据更多的时间。
-优化组合逻辑： 这是前端设计中最治本的方法。减少两个触发器之间的逻辑门级数，或者在长路径中间插入新的寄存器，把一条长路切分成两段短路。 缩短物理线长： 在布局阶段，通过算法将有数据交互的 Cell 摆放得更近，能最显著地降低延迟。这是最根本的物理修复手段。 用更快的标准单元： 将路径上的逻辑门替换为阈值电压更低（Low-Vt，速度快但漏电大）的单元，或者换用尺寸更大、驱动能力更强的单元（Upsize），以加快信号翻转速度。 降低时钟频率： 如果所有手段用尽依然无法满足，最后的妥协方案就是降频（增大时钟周期）。 如何修复 Hold 违例？
-Hold违例通常是因为数据跑得太快，核心思路：让数据跑得慢一点。
-插入缓冲器或延迟单元： 这是最常用、最有效的方法。在数据跑得太快的路径上人为串联几个 Buffer 或 Delay Cell，强行增加物理延迟，让数据晚一点冲到终点。 更换更慢的标准单元： 将路径上的单元替换为高阈值电压（High-Vt，速度慢但极省电）的单元，或者换用尺寸较小、驱动能力较弱的单元（Downsize）。该方法还能优化芯片功耗和面积。 Global Placement 阶段为什么只关注 Setup 违例？
-在GP阶段，EDA 工具通常会忽略或关闭 Hold 修复功能，全力以赴解决 Setup 问题。原因主要有：</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>STA - 标签 - zyz的技术博客</title><link>https://YouZhiZheng.github.io/tags/sta/</link><description>STA - 标签 | zyz的技术博客</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>youzhizheng9@gmail.com (zyz)</managingEditor><webMaster>youzhizheng9@gmail.com (zyz)</webMaster><lastBuildDate>Sat, 04 Apr 2026 16:41:39 +0800</lastBuildDate><atom:link href="https://YouZhiZheng.github.io/tags/sta/" rel="self" type="application/rss+xml"/><item><title>芯片设计核心概念：建立时间与保持时间</title><link>https://YouZhiZheng.github.io/posts/e7fe76a/</link><pubDate>Sat, 04 Apr 2026 16:41:39 +0800</pubDate><author>zyz</author><guid>https://YouZhiZheng.github.io/posts/e7fe76a/</guid><description>在数字电路（特别是触发器 Flip-Flop）中，为了准确采样数据，输入信号必须在时钟采样沿的前后一段时间内保持绝对稳定。 这段时间构成了“采样</description></item></channel></rss>
