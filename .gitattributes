@@ -1,0 +1,4 @@
+# Keep generated assets byte-for-byte identical to Hugo's fingerprint input.
+# Otherwise Git's Windows line-ending conversion invalidates SRI hashes.
+*.css -text
+*.js -text
